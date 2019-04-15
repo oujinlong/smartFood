@@ -1,0 +1,1 @@
+<view class="login_container" bind:__l="__l"><text class="title" style="margin-top:20px;">Pavilion KL</text><image class="logo" style="margin-top:40rpx;" src="/static/logo.png"></image><view data-event-opts="{{[['tap',[['loginClickHandle',['$event']]]]]}}" class="login_btn" style="margin-top:80rpx;" bindtap="__e">Login</view></view>

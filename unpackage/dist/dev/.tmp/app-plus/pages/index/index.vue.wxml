@@ -1,1 +1,0 @@
-<template name="220a2223"><view class="_view 220a2223 content"><image class="_image 220a2223 logo" src="{{image}}"></image><view class="_view 220a2223"><text class="_text 220a2223 title">{{title}}</text></view></view></template>

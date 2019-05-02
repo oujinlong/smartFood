@@ -108,7 +108,7 @@
   .more_container {
     width: 100vw;
     height: 100vh;
-    background-color: #efeff4;
+    background-color: #F4F4F4;
   },
   .invite_login {
     display: flex;

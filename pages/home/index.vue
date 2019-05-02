@@ -2,7 +2,7 @@
 	<view class="home-container">
 		<!-- picture -->
 		<uni-swiper-dot :info="info" :current="current" field="content">
-			<swiper class="swiper-box" :autoplay="autoplay" @change="change">
+			<swiper class="swiper-box" autoplay="true" @change="change">
 				<swiper-item v-for="(item ,index) in info" :key="index">
 					<view class="swiper-item">
 						<image :src="item.url" mode="aspectFill"></image>
@@ -14,27 +14,39 @@
 		<!-- function -->
 		<view class="uni-flex uni-row function-content" style="flex-wrap: wrap;">
 			<view class="text function-item">
-				<view class="item-content">
+				<view class="item-content uni-flex uni-row">
+					<view style="flex: 1">
+						<view class="item-title">Reservation</view>
+						<view class="item-detail">Table Reservation</view>
+					</view>
 					<image src="../../static/img/reservation.png" class="function-icon"></image>
-					<view>Table Reservation</view>
 				</view>
 			</view>
 			<view class="text function-item">
-				<view class="item-content">
+				<view class="item-content uni-flex uni-row">
+					<view style="flex: 1">
+						<view class="item-title">Scan</view>
+						<view class="item-detail">Scan QRcode</view>
+					</view>
 					<image src="../../static/img/qrcode.png" class="function-icon"></image>
-					<view>Scan QRcode</view>
 				</view>
 			</view>
 			<view class="text function-item">
-				<view class="item-content">
+				<view class="item-content uni-flex uni-row">
+					<view style="flex: 1">
+						<view class="item-title">Menu</view>
+						<view class="item-detail">Order Menu</view>
+					</view>
 					<image src="../../static/img/orderList.png" class="function-icon"></image>
-					<view>Order Menu</view>
 				</view>
 			</view>
 			<view class="text function-item">
-				<view class="item-content">
+				<view class="item-content uni-flex uni-row">
+					<view style="flex: 1">
+						<view class="item-title">Payment</view>
+						<view class="item-detail">Payment</view>
+					</view>
 					<image src="../../static/img/payment.png" class="function-icon"></image>
-					<view>Payment</view>
 				</view>
 			</view>
 		</view>
@@ -82,7 +94,14 @@
 		</view>
 
 		<!-- menu -->
-		<view>aaa</view>
+		<view style="margin-top: 20upx;">
+			<wuc-tab :tab-list="tabList" :tabCur.sync="TabCur" tab-class="text-center bg-white" select-class="text-blue" @change="tabChange">
+			</wuc-tab>
+			<view class="bg-white padding text-black" style="margin-top: 10upx;">
+				<order-menu></order-menu>
+			{{tabList[TabCur].name}}
+			</view>
+		</view>
 	</view>
 </template>
 
@@ -92,11 +111,17 @@
 		uniList,
 		uniListItem
 	} from '@dcloudio/uni-ui'
+	import {
+		WucTab
+	} from "@/components/wuc-tab/wuc-tab.vue";
+	import OrderMenu from './child/orderMenu.vue'
 	export default {
 		components: {
 			uniSwiperDot,
 			uniList,
-			uniListItem
+			uniListItem,
+			WucTab,
+			OrderMenu
 		},
 		data() {
 			return {
@@ -114,19 +139,34 @@
 					},
 				],
 				current: 0,
-				autoplay: true
+				tabList: [{
+						name: "Order Memus"
+					},
+					{
+						name: "Comments"
+					}
+				],
+				TabCur: 0
 			}
 		},
 		mounted() {},
 		methods: {
 			change(e) {
 				this.current = e.detail.current;
+			},
+			tabChange(index) {
+				this.TabCur = index;
 			}
 		}
 	}
 </script>
 
 <style lang="scss">
+	@import "~@/styles/main.scss";
+	@import "~@/styles/base.scss";
+	@import "~@/styles/icon.scss";
+	@import "~@/styles/animation.scss";
+
 	.home-container {
 		background-color: #F4F4F4;
 
@@ -166,23 +206,34 @@
 		}
 
 		.function-content {
-			text-align: center;
 			padding: 20upx 0upx 0upx;
 
 			.function-item {
 				width: 50%;
 
 				.item-content {
+					background-color: white;
 					border-radius: 10upx;
-					background-color: #fff;
 					margin: 0upx 15upx 20upx;
-					padding: 20upx 15upx 15upx;
+					padding: 20upx;
+
+					.item-title {
+						margin-bottom: 20upx;
+						line-height: 28upx;
+					}
+
+					.item-detail {
+						font-size: 25upx;
+						line-height: 25upx;
+						color: #80838F;
+					}
 				}
 			}
 
 			.function-icon {
-				width: 60upx;
-				height: 60upx;
+				width: 50upx;
+				height: 50upx;
+				margin-top: 11upx;
 			}
 		}
 	}

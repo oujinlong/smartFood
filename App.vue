@@ -21,8 +21,11 @@
 	}
 </script>
 
-<style>
+<style lang="scss">
 	@import './common/uni.css';
-
+	@import "~@/styles/main.scss";
+	@import "~@/styles/base.scss";
+	@import "~@/styles/icon.scss";
+	@import "~@/styles/animation.scss";
 	/*每个页面公共css */
 </style>

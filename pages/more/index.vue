@@ -74,11 +74,28 @@
   methods: {
     getUserInfoHandle(e) {
       console.log(e)
+      let _this = this
       let userInfo = e.mp.detail.rawData
       if (userInfo){
         //用户按了允许授权按钮
-        userInfo = JSON.parse(userInfo)
-        this.$store.commit('setUserInfo', userInfo)
+        uni.login({
+          provider: 'weixin',
+          success: function (loginRes) {
+            const code = loginRes.code
+             userInfo = JSON.parse(userInfo)
+             const url = 'http://bluecoffee.s1.natapp.cc/user/wx6d8cc793be64b899/login?code=' + code
+             console.log(url)
+            _this.$store.commit('setUserInfo', userInfo)
+            uni.request({
+            	url,
+              method: 'GET'
+            }).then (serverLoginRes => {
+              console.log('serverLoginRes')
+              console.log(serverLoginRes)
+            })
+          }
+        })
+       
       } else {
         //用户按了拒绝按钮
         console.log('用户按了拒绝按钮')

@@ -83,7 +83,7 @@
           success: function (loginRes) {
             const code = loginRes.code
              userInfo = JSON.parse(userInfo)
-             const url = 'http://bluecoffee.s1.natapp.cc/user/wx6d8cc793be64b899/login?code=' + code
+             const url = 'http://bluecoffee.s1.natapp.cc/entry/wxapp/user/wx6d8cc793be64b899/login?code=' + code
              console.log(url)
             _this.$store.commit('setUserInfo', userInfo)
             uni.request({
@@ -92,6 +92,8 @@
             }).then (serverLoginRes => {
               console.log('serverLoginRes')
               console.log(serverLoginRes)
+              userInfo.openId = serverLoginRes[1].data.data.openid
+              console.log(userInfo)
             })
           }
         })

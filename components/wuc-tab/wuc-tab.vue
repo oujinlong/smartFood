@@ -249,4 +249,7 @@
 	.lines-green {
 		color: #39b54a;
 	}
+	.text-red {
+		color: #ce2029;
+	}
 </style>

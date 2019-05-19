@@ -1,54 +1,84 @@
 {
 	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
-    {
-      "path": "pages/home/index",
-      "style": {
-        "navigationBarTitleText": "Pavilion KL"
-      }
-    },
-    {
-      "path": "pages/order/index",
-      "style": {
-        "navigationBarTitleText": "Order"
-      }
-    },
-    {
-        "path":"pages/more/index",
-        "style":{
-            "navigationBarTitleText":"More"
-        }
-    },
-    {
-    	"path": "pages/login/index",
-    	"style": {
-    		"navigationBarTitleText": "Login"
-    	}
-    }
+		{
+			"path": "pages/home/index",
+			"style": {
+				"navigationBarTitleText": "Pavilion KL"
+			}
+		},
+		{
+			"path": "pages/order/index",
+			"style": {
+				"navigationBarTitleText": "Order"
+			}
+		},
+		{
+			"path": "pages/more/index",
+			"style": {
+				"navigationBarTitleText": "More"
+			}
+		},
+		{
+			"path": "pages/login/index",
+			"style": {
+				"navigationBarTitleText": "Login"
+			}
+		},
+		{
+			"path": "pages/home/store/index",
+			"style": {
+				"navigationBarTitleText": "Store"
+			}
+		},
+		{
+			"path": "pages/home/store/searchStore",
+			"style": {
+				"navigationBarTitleText": "Search Store"
+			}
+		},
+		{
+			"path": "pages/home/child/tableReservation",
+			"style": {
+				"navigationBarTitleText": "Reservation"
+			}
+		},
+		{
+			"path": "pages/home/child/reservationDetail",
+			"style": {
+				"navigationBarTitleText": "Reservation Details"
+			}
+		},
+		{
+			"path": "pages/home/child/orderMenu",
+			"style": {
+				"navigationBarTitleText": "Order Menu"
+			}
+		}
 	],
-  "tabBar": {
-      "color": "#4a4a4a",
-      "selectedColor": "#EF7F1A",
-      "backgroundColor": "#ffffff",
-      "list": [
-      {
-          "pagePath": "pages/home/index",
-          "text": "Home",
-          "iconPath": "static/img/tab_home.png",
-          "selectedIconPath": "static/img/tab_home_s.png"
-      }, 
-      {
-          "pagePath": "pages/order/index",
-          "text": "Order",
-          "iconPath": "static/img/tab_order.png",
-          "selectedIconPath": "static/img/tab_order_s.png"
-      },
-      {
-          "pagePath": "pages/more/index",
-          "text": "More",
-          "iconPath": "static/img/tab_more.png",
-          "selectedIconPath": "static/img/tab_more_s.png"
-      }]
-  },
+	"tabBar": {
+		"color": "#4a4a4a",
+		"selectedColor": "#EF7F1A",
+		"backgroundColor": "#ffffff",
+		"list": [{
+				"pagePath": "pages/home/index",
+				"text": "Home",
+				"iconPath": "static/img/tab_home.png",
+				"selectedIconPath": "static/img/tab_home_s.png"
+			},
+			{
+				"pagePath": "pages/order/index",
+				"text": "Order",
+				"iconPath": "static/img/tab_order.png",
+				"selectedIconPath": "static/img/tab_order_s.png"
+			},
+			{
+				"pagePath": "pages/more/index",
+				"text": "More",
+				"iconPath": "static/img/tab_more.png",
+				"selectedIconPath": "static/img/tab_more_s.png"
+			}
+		]
+	},
 	"globalStyle": {
 		"navigationBarTextStyle": "white",
 		"navigationBarTitleText": "uni-app",

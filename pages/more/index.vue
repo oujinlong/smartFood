@@ -84,7 +84,6 @@
             const code = loginRes.code
              userInfo = JSON.parse(userInfo)
              const url = 'http://bluecoffee.s1.natapp.cc/entry/wxapp/user/wx6d8cc793be64b899/login?code=' + code
-             console.log(url)
             _this.$store.commit('setUserInfo', userInfo)
             uni.request({
             	url,
@@ -92,8 +91,22 @@
             }).then (serverLoginRes => {
               console.log('serverLoginRes')
               console.log(serverLoginRes)
-              userInfo.openId = serverLoginRes[1].data.data.openid
-              console.log(userInfo)
+              let openid = serverLoginRes[1].data.data.openid
+              userInfo.openId = openid
+              let img = userInfo.avatarUrl
+              let name = userInfo.nickName
+              uni.request({
+              	url: 'http://bluecoffee.s1.natapp.cc/entry/wxapp/user/wx6d8cc793be64b899/session',
+                method: 'POST',
+                data: {
+                        "img": "http://xxx.png",
+                        "name": "JeepV2019",
+                        "openid": "xxx",
+                      }
+              }).then(sessionRes => {
+                console.log('session res: ')
+                console.log(sessionRes)
+              })
             })
           }
         })

@@ -89,9 +89,17 @@
 						console.error('error:', error);
 					});
 			},
-			tabChange() {}
+			tabChange() {},
+      autoLogin () {
+        uni.login({
+        	success: (res) => {
+        		console.log('login res: ', res)
+        	}
+        })
+      }
 		},
 		mounted() {
+      this.autoLogin()
 			this.queryStoreList()
 		},
 		computed: {

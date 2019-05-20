@@ -82,7 +82,7 @@ export default {
 				});
 		},
 		cancelReservation() {
-			uni.navigateTo({
+			uni.reLaunch({
 				url: '/pages/home/store/index?storeId=' + 3
 			});
 			// const param = {
@@ -93,7 +93,7 @@ export default {
 			// data: param
 			// 	})
 			// 	.then(res => {
-			// 		uni.navigateTo({
+			// 		uni.reLaunch({
 			// 			url: '/pages/home/store/index?storeId=' + 3
 			// 		});
 			// 	})
@@ -107,7 +107,7 @@ export default {
 		contactStorePhone() {
 			wx.makePhoneCall({
 				phoneNumber: this.reservationInfo.tel
-			})
+			});
 		}
 	},
 	mounted() {

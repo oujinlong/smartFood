@@ -236,9 +236,4 @@
 		overflow: hidden;
 	}
 
-	.no_data_container {
-		justify-content: center;
-		align-items: center;
-		height: 100%;
-	}
 </style>

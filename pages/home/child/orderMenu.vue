@@ -25,7 +25,7 @@
 			</view>
 		</view>
 		<!-- 功能切换 -->
-		<wuc-tab :tab-list="tabList" textFlex :tabCur.sync="TabCur" tab-class="text-center bg-white nav" select-class="text-red" @change="tabChange"></wuc-tab>
+		<wuc-tab :tab-list="tabList" :tabCur.sync="TabCur" @change="tabChange"></wuc-tab>
 	</view>
 </template>
 

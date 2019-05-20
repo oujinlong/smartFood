@@ -247,7 +247,7 @@ export default {
 				}
 			}
 		},
-				confirmClick() {
+		confirmClick() {
 			const param = {
 				isYue: this.payItems[this.currentPayIndex].value, //余额支付=1，直接支付=2
 				jcNum: this.peopleNumber, //就餐人数
@@ -279,7 +279,7 @@ export default {
 					});
 					console.error('error:', error);
 				});
-		},
+		}
 	},
 	mounted() {
 		this.queryTableType();

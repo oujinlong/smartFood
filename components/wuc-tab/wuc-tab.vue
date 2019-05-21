@@ -39,7 +39,7 @@
 			tabClass: {
 				type: String,
 				default () {
-					return "";
+					return "text-center bg-white nav";
 				}
 			},
 			tabStyle: {
@@ -51,13 +51,13 @@
 			textFlex: {
 				type: Boolean,
 				default () {
-					return false;
+					return true;
 				}
 			},
 			selectClass: {
 				type: String,
 				default () {
-					return "text-green";
+					return "text-red";
 				}
 			}
 		},
@@ -248,5 +248,8 @@
 	.line-green,
 	.lines-green {
 		color: #39b54a;
+	}
+	.text-red {
+		color: #ce2029;
 	}
 </style>

@@ -5,32 +5,15 @@
 
 		<view class="order-content bg-white padding-xs text-black">
 			<scroll-view class="search-list" scroll-y @scrolltolower="loadMore()">
-				<view class="reservation-detail" v-for="(item,index) in reservationList" :key="index">
-					<view class="order-name border-bottom">
-						Order：{{item.orderNum}}
-						<view class="status-name" style="float:right">Reserved</view>
-					</view>
-					<view class="order-content-main border-bottom uni-flex uni-row">
-						<view style="display: flex; justify-content: center;align-items: center;">
-							<image src="../../static/logo.png" style="width: 150upx;height: 150upx;border-radius: 50%;"></image>
-						</view>
-						<view class="uni-flex uni-column" style="padding-left: 20upx;">
-							<view class="title-name">Michelangelo’s Restaurant & Bar</view>
-							<view class="title-text">Arrival time：2019-04-12 12:00</view>
-							<view class="title-text">Count of meals：1</view>
-						</view>
-					</view>
-					<view class="order-action uni-flex uni-row">
-						<view class="text" style="line-height: 65upx;flex: 1;">Table type：Table for 10</view>
-						<view class="text delete-icon">Delete</view>
-						<view class="text delete-icon detail-icon">Detail</view>
-					</view>
-				</view>
+				<!-- 预定页面 -->
+				<reservation-order-detail v-if="TabCur === 0" :reservationList="reservationList"></reservation-order-detail>
+				<!-- 订单页面（自取，店内） -->
+				<order-detail v-else :orderList="orderList" :orderType="TabCur"></order-detail>
 				<!-- 无数据状态 -->
-<!-- 				<view class="no_data_container uni-flex uni-column">
+				<view class="no_data_container uni-flex uni-column" v-if="reservationList.length == 0 && orderList.length == 0">
 					<image src="../../static/img/no-data.png" style="width: 300upx;height: 300upx"></image>
 					<view style="justify-content:center;font-size: 40rpx;margin-top: 20rpx ">No data</view>
-				</view> -->
+				</view>
 			</scroll-view>
 		</view>
 	</view>
@@ -39,32 +22,68 @@
 <script>
 import { mapGetters } from 'vuex';
 import WucTab from '@/components/wuc-tab/wuc-tab.vue';
+import reservationOrderDetail from './child/reservationOrderDetail.vue';
+import orderDetail from './child/orderDetail.vue';
+
 export default {
 	name: '',
 	data() {
 		return {
-			tabList: [{ name: 'Reservation' }, { name: 'Dined-In' }, { name: 'Self-taking' }],
+			tabList: [{ name: 'Reservation' }, { name: 'Self-taking' }, { name: 'Dined-In' }],
 			TabCur: 0,
 			currPage: 1,
 			pageSize: 5,
 			totalPage: 0,
-			reservationList: []
+			reservationList: [],
+			orderList: []
 		};
 	},
 	props: {},
 	methods: {
 		tabChange(index) {
 			this.TabCur = index;
+			this.currPage = 1;
+			this.queryOrder();
+			console.log(this.TabCur)
 		},
 		loadMore() {
-			console.log(1111)
-		},
-		queryOrder() {
-			if(this.TabCur === 0) {
-				this.queryReservationList()
+			if (this.currPage < this.totalPage) {
+				console.log(1111);
+				this.currPage++;
+				this.queryOrder(this.currPage);
 			}
 		},
+		queryOrder() {
+			if (this.TabCur === 0) {
+				this.queryReservationList();
+			} else {
+				this.queryOrderList();
+			}
+		},
+		queryOrderList() {
+			//订单列表查询（1-自取Self-taking，2-店内Dined-In）
+			const param = {
+				curpage: this.currPage,
+				pageSize: this.pageSize,
+				userId: 40,
+				type: this.TabCur
+			};
+			this.$request
+				.get('/entry/wxapp/myorder', {
+					data: param
+				})
+				.then(res => {
+					this.totalPage = res.page.totalPage;
+					if (this.currPage === 1) {
+						this.orderList = res.page.list;
+					} else {
+						//多页数据
+						this.orderList = [...this.orderList, ...res.page.list];
+					}
+				});
+		},
 		queryReservationList() {
+			//预定单列表查询
 			const param = {
 				curpage: this.currPage,
 				pageSize: this.pageSize,
@@ -75,17 +94,26 @@ export default {
 					data: param
 				})
 				.then(res => {
-					this.reservationList = res.page.list;
+					this.totalPage = res.page.totalPage;
+					if (this.currPage === 1) {
+						this.reservationList = res.page.list;
+					} else {
+						this.reservationList = [...this.reservationList, ...res.page.list];
+					}
 				});
 		}
 	},
 	mounted() {
-		this.queryOrder()
+		this.queryOrder();
 	},
 	computed: {
 		...mapGetters({})
 	},
-	components: { WucTab }
+	components: {
+		WucTab,
+		reservationOrderDetail,
+		orderDetail
+	}
 };
 </script>
 
@@ -95,49 +123,6 @@ export default {
 		margin-top: 10upx;
 		.search-list {
 			height: calc(100vh - 100upx);
-			.reservation-detail {
-				box-shadow: 0 0 10px 0 rgba(105, 126, 255, 0.15);
-				border: 1px solid #dddee1;
-				border-radius: 10upx;
-				padding: 10upx 20upx;
-				margin-bottom: 20upx;
-				.order-name {
-					.status-name {
-						color: #0097ff;
-					}
-				}
-				.order-content-main {
-					padding: 20upx 0;
-				}
-				.order-action {
-					padding: 20upx 0 10upx;
-					.delete-icon {
-						float: right;
-						color: #ff4040;
-						border: 1upx solid #ff4040;
-						border-radius: 25upx;
-						font-size: 24upx;
-						padding: 10rpx 0;
-						width: 120rpx;
-						text-align: center;
-					}
-					.detail-icon {
-						color: #0097ff;
-						border: 1upx solid #0097ff;
-						margin-left:20rpx;
-					}
-				}
-			}
-			.border-bottom {
-				border-bottom: 1rpx solid #eeeeee;
-			}
-			.title-name {
-				font-size: 30upx;
-				text-align: left;
-			}
-			.title-text {
-				color: #b0b0b0;
-			}
 		}
 	}
 }

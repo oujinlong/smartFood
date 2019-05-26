@@ -36,10 +36,12 @@ Vue.config.productionTip = false
 
 Vue.prototype.$store = store
 
-App.mpType = 'app'
+Vue.prototype.$appId = 'wx6d8cc793be64b899'
 
+App.mpType = 'app'
 const app = new Vue({
 	store,
+  
 	...App
 })
 app.$mount()

@@ -33,12 +33,18 @@
 				</scroll-view>
 			</view>
 		</view>
+    
+    <!-- 登录 -->
+      <deng-lu v-if="openId.length === 0">
+        
+      </deng-lu>
 	</view>
 </template>
 
 <script>
 import { ChooseCade } from '../../components/choose-Cade/choose-Cade.vue';
 import { mapGetters } from 'vuex';
+import  DengLu from '../../components/ah-denglu/denglu.vue'
 export default {
 	name: '',
 	data() {
@@ -71,7 +77,17 @@ export default {
 			categoriesParam: []
 		};
 	},
+  
 	props: {},
+  onLoad() {
+    
+  },
+  mounted () {
+    console.log('openId', this.openId)
+    if (openId === undefined || openId.length === 0) {
+      
+    }
+  },
 	methods: {
 		loadMore() {
 			if (this.currentPageNo < this.totalPage) {
@@ -258,10 +274,13 @@ export default {
       this.getConfig();
      },
     computed: {
-    	...mapGetters({})
+    	...mapGetters({
+        openId: 'openId'
+      })
     },
     components: {
-      ChooseCade
+      ChooseCade,
+      DengLu
 	},
 	filters: {},
 };

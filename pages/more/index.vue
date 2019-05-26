@@ -48,6 +48,11 @@
           <uni-list-item title="Help Center" thumb="/static/img/help_center.png" @click="helpHandle"></uni-list-item>
       </uni-list>
       
+     <!-- <form @submit="senMessage" report-submit="true">
+          <button form-type='submit'>
+              发送模版消息
+          </button>
+      </form> -->
     </view>
   </view>
 </template>
@@ -72,8 +77,28 @@
     console.log(this.userInfo)
   },
   methods: {
+    senMessage (event) {
+      const formId = event.detail.formId
+      console.log(this.userInfo)
+      const params = {
+        appId: 'wx6d8cc793be64b899',
+        formId,
+        'openId': 'oxMyZ5d4FRzX2_w2MLqmGzAe8fF8',
+        'merchantName': '大数据产业基地',
+        'orderId':'123',
+        'orderPrice': '100',
+        'orderTime"': '2019 05-24 23:00',
+        'orderType': 'success',
+        'payMethod': 'wechat'  
+      }
+      console.log(JSON.stringify(params))
+//       this.$request.post('/entry/wxapp/notification/wx6d8cc793be64b899/orderMsg', {
+//         data: params
+//       }).then(res => {
+//         console.log('res', res)
+//       })
+    },
     getUserInfoHandle(e) {
-      console.log(e)
       let _this = this
       let userInfo = e.mp.detail.rawData
       if (userInfo){
@@ -83,12 +108,9 @@
           success: function (loginRes) {
             const code = loginRes.code
              userInfo = JSON.parse(userInfo)
-             const url = 'http://bluecoffee.s1.natapp.cc/entry/wxapp/user/wx6d8cc793be64b899/login?code=' + code
             _this.$store.commit('setUserInfo', userInfo)
-            uni.request({
-            	url,
-              method: 'GET'
-            }).then (serverLoginRes => {
+            _this.$request.get('/entry/wxapp/user/wx6d8cc793be64b899/login?code=' + code,{})
+            .then (serverLoginRes => {
               console.log('serverLoginRes')
               console.log(serverLoginRes)
               let openid = serverLoginRes[1].data.data.openid

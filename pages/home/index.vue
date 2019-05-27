@@ -82,12 +82,6 @@ export default {
   onLoad() {
     
   },
-  mounted () {
-    console.log('openId', this.openId)
-    if (openId === undefined || openId.length === 0) {
-      
-    }
-  },
 	methods: {
 		loadMore() {
 			if (this.currentPageNo < this.totalPage) {

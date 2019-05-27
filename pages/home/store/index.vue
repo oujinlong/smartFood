@@ -283,8 +283,9 @@ export default {
 			});
 		},
 		goOrderMenu() {
+       console.log('storeId:' , this.storeId)
 			uni.navigateTo({
-				url: '/pages/home/child/orderMenu?storeId=' + this.storeId
+				url: '../child/menu/orderMenu?storeId=' + this.storeId
 			});
 		}
 	}

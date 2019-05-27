@@ -49,7 +49,7 @@
 			}
 		},
 		{
-			"path": "pages/home/child/orderMenu",
+			"path": "pages/home/child/menu/orderMenu",
 			"style": {
 				"navigationBarTitleText": "Order Menu"
 			}

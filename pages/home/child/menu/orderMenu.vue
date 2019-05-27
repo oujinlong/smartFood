@@ -184,16 +184,14 @@ export default {
 				})
 				.then(res => {
 					this.storeInfo = res.store;
-					uni.setNavigationBarTitle({
-						title: this.storeInfo.name
-					});
+					
 				})
 				.catch(error => {
 					console.error('error:', error);
 				});
 		},
     queryFoods () {
-      this.$request.get('/entry/wxapp/dishes?dishesType=1&storeId=' + this.storeId).then(res => {
+      this.$request.get('/entry/wxapp/dishes?dishesType=2&storeId=' + this.storeId).then(res => {
         console.log('food res', res)
         this.goods = res.dishes.filter((item) => {
           return item.goods.length > 0

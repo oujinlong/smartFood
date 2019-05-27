@@ -7,7 +7,8 @@ const store = new Vuex.Store({
     state: {
         hasLogin: false,
         userInfo: undefined,
-        openId: uni.getStorageSync('openId')
+        openId: uni.getStorageSync('openId'),
+        dinedInInfo: undefined
     },
     mutations: {
         setUserInfo (state, userInfo) {
@@ -15,7 +16,10 @@ const store = new Vuex.Store({
         },
         setOpenId (state, openId) {
             state.openId = openId
-        } 
+        },
+        setDinedInInfo (state, info) {
+            state.dinedInInfo = info
+        }
     },
     getters: {
         userInfo (state) {
@@ -26,6 +30,9 @@ const store = new Vuex.Store({
         },
         openId (state) {
           return state.openId
+        },
+        dinedInInfo (state) {
+            return state.dinedInInfo
         }
     }
 })

@@ -53,7 +53,13 @@
 			"style": {
 				"navigationBarTitleText": "Order Menu"
 			}
-		}
+		},
+    {
+    	"path": "pages/home/dined/index",
+    	"style": {
+    		"navigationBarTitleText": "Dined-In"
+    	}
+    }
 	],
 	"tabBar": {
 		"color": "#4a4a4a",

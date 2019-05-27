@@ -132,8 +132,8 @@
 			},
       nextClickHandle () {
         if (this.getAllCount === 0) return
-        uni.showToast({
-        	title: 'next'
+        uni.navigateTo({
+        	url: '/pages/home/dined/index'
         })
       }
 

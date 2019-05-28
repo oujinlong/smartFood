@@ -18,11 +18,11 @@
 			<view class="order-action uni-flex uni-row">
 				<view class="text" style="line-height: 65upx;flex: 1;">Table type：{{ item.tableTypeName }}</view>
 				<view>
-					<view class="text default-color color-red" v-if="item.ydcode !== '' && item.state === 4">Apply for refund</view>
-					<view class="text color-blue" style="margin-left: 20upx;" :class="{ 'default-color': item.state === 4 }">{{ item.state | buttonFilter1 }}</view>
-					<view class="text default-color" :class="{ 'color-red': item.state === 1 || item.state === 2 || item.state === 5 || item.state === 6 }">
-						{{ item.state | buttonFilter2 }}
-					</view>
+					<!-- "state":  1,待审核，2已审核,3已拒绝,4取消-->
+					<view class="text color-blue" v-if="[1, 2, 5].indexOf(item.state) !== -1" @click="queryOrderDetail(item.id)">Detail</view>
+					<view class="text color-red" v-if="item.ydcode !== '' && item.state === 4">Apply for refund</view>
+					<view class="text color-red" v-if="[2, 4, 6, 7].indexOf(item.state) !== -1" @click="deleteOrder">Delete</view>
+					<view class="text color-red" v-if="item.state == 1" @click="cancelOrder">Cancel</view>
 				</view>
 			</view>
 		</view>
@@ -44,7 +44,13 @@ export default {
 			}
 		}
 	},
-	methods: {},
+	methods: {
+		queryOrderDetail(ydOrderId) {
+			uni.navigateTo({
+				url: '/pages/home/child/reservationDetail?ydOrderId=' + ydOrderId
+			});
+		}
+	},
 	mounted() {},
 	computed: {
 		...mapGetters({})
@@ -63,40 +69,6 @@ export default {
 				return 'Refund successful';
 			} else if (state === 7) {
 				return 'Refund failed';
-			} else {
-				return '--';
-			}
-		},
-		buttonFilter1(state) {
-			if (state === 1) {
-				return 'Detail';
-			} else if (state === 2) {
-				return 'Detail';
-			} else if (state === 4) {
-				return 'Cancelled';
-			} else if (state === 5) {
-				return 'Detail';
-			} else if (state === 6) {
-				return 'Refunded';
-			} else if (state === 7) {
-				return 'Rejected';
-			} else {
-				return '--';
-			}
-		},
-		buttonFilter2(state) {
-			if (state === 1) {
-				return 'Cancel';
-			} else if (state === 2) {
-				return 'Delete';
-			} else if (state === 4) {
-				return 'Delete';
-			} else if (state === 5) {
-				return 'Pending review';
-			} else if (state === 6) {
-				return 'Refund failed';
-			} else if (state === 7) {
-				return 'Rejected';
 			} else {
 				return '--';
 			}
@@ -132,15 +104,6 @@ export default {
 	}
 	.order-action {
 		padding: 20upx 0 10upx;
-		.default-color {
-			float: right;
-			color: #999;
-			border: 1upx solid #999;
-			border-radius: 25upx;
-			font-size: 24upx;
-			padding: 10upx 20upx;
-			text-align: center;
-		}
 		.color-blue {
 			float: right;
 			border-radius: 25upx;
@@ -149,6 +112,7 @@ export default {
 			text-align: center;
 			color: #0097ff;
 			border: 1upx solid #0097ff;
+			margin-left: 20upx;
 		}
 		.color-red {
 			float: right;
@@ -158,19 +122,6 @@ export default {
 			text-align: center;
 			color: #ff4040;
 			border: 1upx solid #ff4040;
-		}
-		.delete-icon {
-			float: right;
-			color: #ff4040;
-			border: 1upx solid #ff4040;
-			border-radius: 25upx;
-			font-size: 24upx;
-			padding: 10upx 20upx;
-			text-align: center;
-		}
-		.detail-icon {
-			color: #0097ff;
-			border: 1upx solid #0097ff;
 			margin-left: 20upx;
 		}
 	}

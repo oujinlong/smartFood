@@ -7,8 +7,11 @@
 			<scroll-view class="search-list" scroll-y @scrolltolower="loadMore()">
 				<!-- 预定页面 -->
 				<reservation-order-detail v-if="TabCur === 0" :reservationList="reservationList"></reservation-order-detail>
-				<!-- 订单页面（自取，店内） -->
-				<order-detail v-else :orderList="orderList" :orderType="TabCur"></order-detail>
+				<!-- 自取页面 -->
+				<self-taking-order v-else-if="TabCur === 1" :selfTakingOrderList="orderList"></self-taking-order>
+				<!-- 店内点单 -->
+				<order-detail v-else-if="TabCur === 2" :orderList="orderList"></order-detail>
+
 				<!-- 无数据状态 -->
 				<view class="no_data_container uni-flex uni-column" v-if="reservationList.length == 0 && orderList.length == 0">
 					<image src="../../static/img/no-data.png" style="width: 300upx;height: 300upx"></image>
@@ -24,7 +27,7 @@ import { mapGetters } from 'vuex';
 import WucTab from '@/components/wuc-tab/wuc-tab.vue';
 import reservationOrderDetail from './child/reservationOrderDetail.vue';
 import orderDetail from './child/orderDetail.vue';
-
+import selfTakingOrder from './child/selfTakingOrder.vue';
 export default {
 	name: '',
 	data() {
@@ -44,7 +47,7 @@ export default {
 			this.TabCur = index;
 			this.currPage = 1;
 			this.queryOrder();
-			console.log(this.TabCur)
+			console.log(this.TabCur);
 		},
 		loadMore() {
 			if (this.currPage < this.totalPage) {
@@ -112,7 +115,8 @@ export default {
 	components: {
 		WucTab,
 		reservationOrderDetail,
-		orderDetail
+		orderDetail,
+		selfTakingOrder
 	}
 };
 </script>

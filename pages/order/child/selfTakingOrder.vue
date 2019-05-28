@@ -1,9 +1,9 @@
 <template>
 	<view>
-		<view class="order-detail" v-for="(item, index) in orderList" :key="index">
+		<view class="order-detail" v-for="(item, index) in selfTakingOrderList" :key="index">
 			<view class="order-name border-bottom">
 				Order：{{ item.orderNum }}
-				<view class="status-name" :class="'color-' + item.dnState" style="float:right">{{ item.dnState | stateFilter }}</view>
+				<view class="status-name" :class="'color-' + item.state" style="float:right">{{ item.state | stateFilter }}</view>
 			</view>
 			<view class="order-content-main border-bottom uni-flex uni-row">
 				<view style="display: flex; justify-content: center;align-items: center;">
@@ -17,11 +17,16 @@
 			<view class="order-action uni-flex uni-row">
 				<view class="text" style="line-height: 65upx;flex: 1;">Total: ${{ item.money }}</view>
 				<view>
-					<!-- dnState：店内订单状态1,待支付，2已完成,3关闭订单 -->
-					<view class="text color-gray" v-if="item.dnState == 1" @click="CancelOrder">Cancel</view>
-					<view class="text color-blue" v-if="item.dnState == 1" @click="payOrder">Pay Now</view>
-					<view class="text color-blue" v-if="[2, 4].indexOf(item.dnState) !== -1" @click="anotherOrder">Another order</view>
-					<view class="text color-blue" v-if="item.dnState == 2" @click="commentOrder">Comment</view>
+					<!-- state：状态 1.待付款 2.等待接单 3.等待送达  4.完成 -->
+					<view class="text color-gray" v-if="item.state == 1" @click="cancelOrder">Cancel</view>
+					<view class="text color-blue" v-if="item.state == 1" @click="payOrder">Pay Now</view>
+					<view class="text color-red" v-if="(item.state == 2 && item.isYue == 2) || (item.state == 3 && item.isYue == 2)">Apply for refund</view>
+					<view class="text color-blue" v-if="item.state == 2" @click="remindOrder">Remind</view>
+					<view class="text color-gray" v-if="item.state == 3" @click="remindingOrder">Remming</view>
+					<view class="text color-blue" v-if="item.state == 3" @click="comfirmOrder">Confirm</view>
+					<view class="text color-blue" v-if="item.state == 4" @click="commentOrder">Comment</view>
+					<view class="text color-blue" v-if="['4', '6'].indexOf(item.state) !== -1" @click="anotherOrder">Another order</view>
+					<view class="text color-red" v-if="['4', '5', '6', '8', '9'].indexOf(item.state) !== -1" @click="deleteOrder">Delete</view>
 				</view>
 			</view>
 		</view>
@@ -36,7 +41,7 @@ export default {
 		return {};
 	},
 	props: {
-		orderList: {
+		selfTakingOrderList: {
 			type: Array,
 			default() {
 				return [];
@@ -50,14 +55,24 @@ export default {
 	},
 	filters: {
 		stateFilter(state) {
-			if (state === 1) {
+			if (state === '1') {
 				return 'Pending payment';
-			} else if (state === 2) {
-				return 'Finish';
-			} else if (state === 3) {
+			} else if (state === '2') {
+				return 'Order pending';
+			} else if (state === '3') {
+				return 'In delivery';
+			} else if (state === '4') {
+				return 'Finished';
+			} else if (state === '5') {
 				return 'Cancelled';
-			} else if (state === 4) {
-				return 'Finish';
+			} else if (state === '6') {
+				return 'Finished';
+			} else if (state === '7') {
+				return 'Pedding refund';
+			} else if (state === '8') {
+				return 'Refund successful';
+			} else if (state === '9') {
+				return 'Refund failed';
 			} else {
 				return '--';
 			}
@@ -77,12 +92,14 @@ export default {
 	.order-name {
 		.status-name {
 			color: #0097ff;
-			&.color-2,
-			&.color-4 {
-				color: #fd553a;
-			}
-			&.color-3 {
+			&.color-4,
+			&.color-6,
+			&.color-5,
+			&.color-7 {
 				color: #999;
+			}
+			&.color-9 {
+				color: #ff4040;
 			}
 		}
 	}

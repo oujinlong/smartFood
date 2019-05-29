@@ -81,15 +81,9 @@
                 uni.setStorageSync('openId', openid)
                 let img = userInfo.avatarUrl
                 let name = userInfo.nickName
-                uni.request({
-                	url: '/entry/wxapp/user/wx6d8cc793be64b899/session',
-                  method: 'POST',
-                  data: {
-                          img,
-                          name,
-                          openid
-                        }
-                }).then(sessionRes => {
+                const data = {img,name,openid}
+                console.log(JSON.stringify(data))
+                that.$request.post('/entry/wxapp/user/'+ that.$appId + '/session', {data}).then(sessionRes => {
                   console.log('session res: ')
                   console.log(sessionRes)
                   that.bannerShow = false;

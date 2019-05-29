@@ -55,9 +55,15 @@
 			}
 		},
     {
-    	"path": "pages/home/dined/index",
+    	"path": "pages/home/selfTaking/index",
     	"style": {
-    		"navigationBarTitleText": "Dined-In"
+    		"navigationBarTitleText": "Self-Taking"
+    	}
+    },
+    {
+    	"path": "pages/home/coupons/index",
+    	"style": {
+    		"navigationBarTitleText": "Coupons"
     	}
     }
 	],

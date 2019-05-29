@@ -132,9 +132,7 @@
 			},
       nextClickHandle () {
         if (this.getAllCount === 0) return
-        uni.navigateTo({
-        	url: '/pages/home/dined/index'
-        })
+        this.$emit('next', this.getList)
       }
 
 		},

@@ -66,7 +66,7 @@
 				</view>
 			</view>
 		</scroll-view>
-		<shop-cart :goods="goods" @add="addCart" @dec="decreaseCart" @delAll="delAll"></shop-cart>
+		<shop-cart :goods="goods" @add="addCart" @dec="decreaseCart" @delAll="delAll" @next='nextHandle'></shop-cart>
 	</view>
     </view>
 	</view>
@@ -111,9 +111,7 @@ export default {
 			getList() {
 				let result = [];
 				this.goods.forEach((good) => {
-
-					good.foods.forEach((food) => {
-
+					good.goods.forEach((food) => {
 						if (food.count) {
 							result.push(food)
 						}
@@ -131,8 +129,7 @@ export default {
 
 				for (let i = 0; i < this.goods.length; i++) {
 					count = 0;
-					this.goods[i].foods.forEach((food) => {
-
+					this.goods[i].goods.forEach((food) => {
 						// console.log('food',food);
 						if (food.count >= 0) {
 							count += food.count
@@ -183,11 +180,10 @@ export default {
 					data: param
 				})
 				.then(res => {
-					this.storeInfo = res.store;
-					
+					this.storeInfo = res.store				
 				})
 				.catch(error => {
-					console.error('error:', error);
+					console.error('error:', error)
 				});
 		},
     queryFoods () {
@@ -285,15 +281,24 @@ export default {
 						}
 					})
 				})
-			}
+			},
+      nextHandle (items) {
+        const goodsInfo = items
+        const storeInfo = this.storeInfo
+        const selfTakingInfo = {
+          storeInfo,
+          goodsInfo
+        }
+        this.$store.commit('setSelfTakingInfo', selfTakingInfo)
+        uni.navigateTo({
+        	url: '/pages/home/selfTaking/index'
+        })
+      }
 	},
 	mounted() {
 		this.queryStoreInfo();
 		this.queryReduction();
     this.queryFoods();
-	},
-	computed: {
-		...mapGetters({})
 	}
 };
 </script>

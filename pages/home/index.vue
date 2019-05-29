@@ -33,18 +33,16 @@
 				</scroll-view>
 			</view>
 		</view>
-    
-    <!-- 登录 -->
-      <deng-lu v-if="openId.length === 0">
-        
-      </deng-lu>
+
+		<!-- 登录 -->
+		<deng-lu v-if="openId.length === 0"></deng-lu>
 	</view>
 </template>
 
 <script>
 import { ChooseCade } from '../../components/choose-Cade/choose-Cade.vue';
 import { mapGetters } from 'vuex';
-import  DengLu from '../../components/ah-denglu/denglu.vue'
+import DengLu from '../../components/ah-denglu/denglu.vue';
 export default {
 	name: '',
 	data() {
@@ -77,11 +75,9 @@ export default {
 			categoriesParam: []
 		};
 	},
-  
+
 	props: {},
-  onLoad() {
-    
-  },
+	onLoad() {},
 	methods: {
 		loadMore() {
 			if (this.currentPageNo < this.totalPage) {
@@ -253,30 +249,29 @@ export default {
 					console.error(error);
 				});
 		},
-      tabChange() {},
-      autoLogin () {
-        uni.login({
-          success: (res) => {
-            console.log('login res: ', res)
-          }
-        })
-      }
-    },
-     mounted() {
-       this.autoLogin()
-       this.queryStoreList()
-      this.getConfig();
-     },
-    computed: {
-    	...mapGetters({
-        openId: 'openId'
-      })
-    },
-    components: {
-      ChooseCade,
-      DengLu
+		tabChange() {},
+		autoLogin() {
+			uni.login({
+				success: res => {
+					console.log('login res: ', res);
+				}
+			});
+		}
 	},
-	filters: {},
+	mounted() {
+		this.autoLogin();
+		this.getConfig();
+	},
+	computed: {
+		...mapGetters({
+			openId: 'openId'
+		})
+	},
+	components: {
+		ChooseCade,
+		DengLu
+	},
+	filters: {}
 };
 </script>
 

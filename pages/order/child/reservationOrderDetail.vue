@@ -18,11 +18,11 @@
 			<view class="order-action uni-flex uni-row">
 				<view class="text" style="line-height: 65upx;flex: 1;">Table type：{{ item.tableTypeName }}</view>
 				<view>
-					<!-- "state":  1,待审核，2已审核,3已拒绝,4取消-->
-					<view class="text color-blue" v-if="[1, 2, 5].indexOf(item.state) !== -1" @click="queryOrderDetail(item.id)">Detail</view>
-					<view class="text color-red" v-if="item.ydcode !== '' && item.state === 4">Apply for refund</view>
-					<view class="text color-red" v-if="[2, 4, 6, 7].indexOf(item.state) !== -1" @click="deleteOrder">Delete</view>
-					<view class="text color-red" v-if="item.state == 1" @click="cancelOrder">Cancel</view>
+					<!-- "state": 1待审核,2已审核,3已拒绝（不会出现3状态）,4取消 5商家审核 6 商家已退款 7 商家已拒绝退款-->
+					<view class="color-blue" v-if="[1, 2, 5].indexOf(item.state) !== -1" @click="queryOrderDetail(item.id)">Detail</view>
+					<view class="color-red" v-if="item.ydcode !== '' && item.state === 4" @click="refundClick">Apply for refund</view>
+					<view class="color-red" v-if="[2, 4, 6, 7].indexOf(item.state) !== -1" @click="deleteOrder">Delete</view>
+					<view class="color-red" v-if="item.state == 1" @click="cancelOrder">Cancel</view>
 				</view>
 			</view>
 		</view>

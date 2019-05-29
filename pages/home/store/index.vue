@@ -4,7 +4,7 @@
 		<uni-swiper-dot :info="info" :current="current" field="content">
 			<swiper class="swiper-box" autoplay="true" @change="change">
 				<swiper-item v-for="(item, index) in info" :key="index">
-					<view class="swiper-item"><image :src="item.url" mode="aspectFill"></image></view>
+					<view class="swiper-item"><image :src="item.logo" mode="aspectFill"></image></view>
 				</swiper-item>
 			</swiper>
 		</uni-swiper-dot>
@@ -121,20 +121,7 @@ export default {
 	},
 	data() {
 		return {
-			info: [
-				{
-					url: 'https://img-cdn-qiniu.dcloud.net.cn/uniapp/images/shuijiao.jpg',
-					content: '内容 A'
-				},
-				{
-					url: 'https://img-cdn-qiniu.dcloud.net.cn/uniapp/images/muwu.jpg',
-					content: '内容 B'
-				},
-				{
-					url: 'https://img-cdn-qiniu.dcloud.net.cn/uniapp/images/cbd.jpg',
-					content: '内容 C'
-				}
-			],
+			info: [],
 			current: 0,
 			storeId: '',
 			storeInfo: {},
@@ -267,7 +254,9 @@ export default {
 		queryAd() {
 			this.$request
 				.get('/entry/wxapp/ad2')
-				.then(res => {})
+				.then(res => {
+					this.info = res.adList;
+				})
 				.catch(error => {
 					console.error('error:', error);
 				});
@@ -283,7 +272,7 @@ export default {
 			});
 		},
 		goOrderMenu() {
-       console.log('storeId:' , this.storeId)
+			console.log('storeId:', this.storeId);
 			uni.navigateTo({
 				url: '../child/menu/orderMenu?storeId=' + this.storeId
 			});

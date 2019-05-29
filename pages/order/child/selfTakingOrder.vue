@@ -17,16 +17,16 @@
 			<view class="order-action uni-flex uni-row">
 				<view class="text" style="line-height: 65upx;flex: 1;">Total: ${{ item.money }}</view>
 				<view>
-					<!-- state：状态 1.待付款 2.等待接单 3.等待送达  4.完成 -->
-					<view class="text color-gray" v-if="item.state == 1" @click="cancelOrder">Cancel</view>
-					<view class="text color-blue" v-if="item.state == 1" @click="payOrder">Pay Now</view>
-					<view class="text color-red" v-if="(item.state == 2 && item.isYue == 2) || (item.state == 3 && item.isYue == 2)">Apply for refund</view>
-					<view class="text color-blue" v-if="item.state == 2" @click="remindOrder">Remind</view>
-					<view class="text color-gray" v-if="item.state == 3" @click="remindingOrder">Remming</view>
-					<view class="text color-blue" v-if="item.state == 3" @click="comfirmOrder">Confirm</view>
-					<view class="text color-blue" v-if="item.state == 4" @click="commentOrder">Comment</view>
-					<view class="text color-blue" v-if="['4', '6'].indexOf(item.state) !== -1" @click="anotherOrder">Another order</view>
-					<view class="text color-red" v-if="['4', '5', '6', '8', '9'].indexOf(item.state) !== -1" @click="deleteOrder">Delete</view>
+					<!-- state 1.待付款 2.等待接单 3.等待送达  4.完成  5.取消订单 6.完成评价 7.待退款 8.退款成功 9.退款失败-->
+					<view class="color-gray" v-if="item.state == 1" @click="cancelOrder">Cancel</view>
+					<view class="color-blue" v-if="item.state == 1" @click="payOrder">Pay Now</view>
+					<view class="color-red" v-if="(item.state == 2 && item.isYue == 2) || (item.state == 3 && item.isYue == 2)">Apply for refund</view>
+					<view class="color-blue" v-if="item.state == 2" @click="remindOrder">Remind</view>
+					<view class="color-gray" v-if="item.state == 3" @click="remindingOrder">Remming</view>
+					<view class="color-blue" v-if="item.state == 3" @click="comfirmOrder">Confirm</view>
+					<view class="color-blue" v-if="item.state == 4" @click="commentOrder">Comment</view>
+					<view class="color-blue" v-if="['4', '6'].indexOf(item.state) !== -1" @click="anotherOrder">Another order</view>
+					<view class="color-red" v-if="['4', '5', '6', '8', '9'].indexOf(item.state) !== -1" @click="deleteOrder">Delete</view>
 				</view>
 			</view>
 		</view>

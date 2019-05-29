@@ -247,7 +247,6 @@ export default {
 					// console.log('c++', JSON.stringify(item))
 
 				} else {
-					console.log('add')
 					this.goods.forEach((good) => {
 						good.goods.forEach((food) => {
 							if (item.name === food.name)

@@ -6,16 +6,14 @@
 				<view class="status-name" :class="'color-' + item.dnState" style="float:right">{{ item.dnState | stateFilter }}</view>
 			</view>
 			<view class="order-content-main border-bottom uni-flex uni-row">
-				<view style="display: flex; justify-content: center;align-items: center;">
-					<image :src="item.logo" style="width: 100upx;height: 100upx;border-radius: 50%;"></image>
-				</view>
+				<view style="display: flex; justify-content: center;align-items: center;"><image :src="item.logo" style="width: 100upx;height: 100upx;border-radius: 50%;"></image></view>
 				<view class="uni-flex uni-column" style="padding-left: 20upx;">
 					<view class="title-name">{{ item.name }}</view>
 					<view class="title-text">{{ item.goods[0].name }}.etc Total: {{ item.goods.length }}</view>
 				</view>
 			</view>
 			<view class="order-action uni-flex uni-row">
-				<view class="text" style="line-height: 65upx;flex: 1;">Total: ${{ item.money }}</view>
+				<view class="text" style="line-height: 65upx;flex: 1;">Total: {{CURRENCY_SYMBOL}} {{ item.money }}</view>
 				<view>
 					<!-- dnState：店内订单状态1,待支付，2已完成,3关闭订单 -->
 					<view class="text color-gray" v-if="item.dnState == 1" @click="CancelOrder">Cancel</view>
@@ -30,10 +28,14 @@
 
 <script>
 import { mapGetters } from 'vuex';
+import CONFIG from '@/utils/config.js';
+
 export default {
 	name: '',
 	data() {
-		return {};
+		return {
+			CURRENCY_SYMBOL: CONFIG.common.CURRENCY_SYMBOL
+		};
 	},
 	props: {
 		orderList: {

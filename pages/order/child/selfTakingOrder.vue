@@ -6,16 +6,14 @@
 				<view class="status-name" :class="'color-' + item.state" style="float:right">{{ item.state | stateFilter }}</view>
 			</view>
 			<view class="order-content-main border-bottom uni-flex uni-row">
-				<view style="display: flex; justify-content: center;align-items: center;">
-					<image :src="item.logo" style="width: 100upx;height: 100upx;border-radius: 50%;"></image>
-				</view>
+				<view style="display: flex; justify-content: center;align-items: center;"><image :src="item.logo" style="width: 100upx;height: 100upx;border-radius: 50%;"></image></view>
 				<view class="uni-flex uni-column" style="padding-left: 20upx;">
 					<view class="title-name">{{ item.name }}</view>
 					<view class="title-text">{{ item.goods[0].name }}.etc Total: {{ item.goods.length }}</view>
 				</view>
 			</view>
 			<view class="order-action uni-flex uni-row">
-				<view class="text" style="line-height: 65upx;flex: 1;">Total: ${{ item.money }}</view>
+				<view class="text" style="line-height: 65upx;flex: 1;">Total: {{CURRENCY_SYMBOL}} {{ item.money }}</view>
 				<view>
 					<!-- state 1.待付款 2.等待接单 3.等待送达  4.完成  5.取消订单 6.完成评价 7.待退款 8.退款成功 9.退款失败-->
 					<view class="color-gray" v-if="item.state == 1" @click="cancelOrder">Cancel</view>
@@ -35,10 +33,14 @@
 
 <script>
 import { mapGetters } from 'vuex';
+import CONFIG from '@/utils/config.js';
+
 export default {
 	name: '',
 	data() {
-		return {};
+		return {
+			CURRENCY_SYMBOL: CONFIG.common.CURRENCY_SYMBOL
+		};
 	},
 	props: {
 		selfTakingOrderList: {

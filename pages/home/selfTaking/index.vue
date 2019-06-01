@@ -103,6 +103,7 @@
   require('../../../tools/DateTool.js')
   import { mapGetters } from 'vuex'
   import { uniIcon } from '@dcloudio/uni-ui';
+  import CONFIG from '@/utils/config.js';
   
   export default {
     components: {
@@ -309,4 +310,3 @@
     background-color: $theme-color;
     text-align: center;
   }
-</style>

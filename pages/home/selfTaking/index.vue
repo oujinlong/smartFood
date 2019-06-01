@@ -36,7 +36,7 @@
       
       <view class="uni-flex uni-column bg_white" style="margin-top: 40upx;">
         <!-- 优惠券 coupons-->
-        <view class="uni-flex uni-row justify-between" style="padding: 20upx; min-width: 200upx;" @click='chooseCouponsClickHandle'>
+        <view class="uni-flex uni-row justify-between bottom_border" style="padding: 20upx; min-width: 200upx;" @click='chooseCouponsClickHandle'>
            <label>Coupons</label>
            <label v-if='coupon'>$ -{{coupon.preferential}}</label>
            <view v-else>
@@ -45,13 +45,13 @@
         </view>
         
         <!-- 满减 -->
-        <view v-if='reduce' class="uni-flex uni-row justify-between" style="padding: 20upx; min-width: 200upx;">
+        <view v-if='reduce' class="uni-flex uni-row justify-between bottom_border" style="padding: 20upx; min-width: 200upx;">
            <label>Online payment discount</label>
            <label>$ -{{reduce.reduction}}</label>
         </view>
            
         <!-- 新用户立减 -->
-         <view v-if='storeInfo.xyhOpen === 1 && isNewUser' class="uni-flex uni-row justify-between" style="padding: 20upx; min-width: 200upx;">
+         <view v-if='storeInfo.xyhOpen === 1 && isNewUser' class="uni-flex uni-row justify-between bottom_border" style="padding: 20upx; min-width: 200upx;">
            <label>New user discount</label>
            <label>$ -{{storeInfo.xyhMoney}}</label>
         </view>
@@ -63,10 +63,39 @@
         </view>
       </view>
       
+      <!-- 小计 -->
       <view  class="uni-flex uni-row justify-end align-center bg_white" style="padding: 20upx; min-width: 200upx;margin-top: 40upx;">
          <label style="height: 36upx; line-height: 36upx;font-size: 32upx;">Total:</label>
          <label style="font-size: 36upx; font-weight: 800;margin-left: 30upx;">${{totalAll}}</label>
       </view>
+      
+      <!-- 备注 -->
+      <view style="font-size: 30upx; font-weight: 600;padding: 10upx 10upx 10upx 24upx;">
+        Remark
+      </view>
+      <view class="uni-flex uni-row align-center bg_white">
+        <input placeholder="remark" v-model="remark"  style="margin: 10upx 10upx 10upx 24upx;height: 40upx;"/>
+      </view>
+      
+      <!-- bottom bar -->
+      <view class="bottom_bar uni-flex uni-row justify-between align-center">
+        <view>
+          <label style="color: #ffffff;font-size: 36upx; margin-left: 48upx;">
+            ${{totalAll}}   
+          </label>
+          <label style="margin-left: 30upx; color: #ffffff;font-size: 38upx;">
+            |
+          </label>
+          <label style="color: #ffffff;font-size: 30upx;margin-left: 30upx;">
+            Discount $ -{{totalDiscount}}
+          </label>
+        </view>
+        
+        <view class="pay_now_btn uni-flex uni-row justify-center align-center">
+          Pay Now
+        </view>
+      </view>
+      
   </view>
 </template>
 
@@ -146,7 +175,8 @@
         reduce: undefined,
         isNewUser: false,
         taxEnable: false,
-        taxRate: 0
+        taxRate: 0,
+        remark: ''
       }
     },
     onLoad() {
@@ -239,7 +269,6 @@
 <style lang="scss" type="text/scss" scoped>
   .container {
     display: flex;
-    flex: 1;
     flex-direction: column;
   }
   
@@ -260,5 +289,24 @@
     margin: 10upx 10upx 10upx 24upx;
     font-weight: 800;
     font-size: 34upx
+  }
+  .bottom_border {
+    border-bottom: lightgray 0.6upx solid;
+  }
+  .bottom_bar {
+    background-color: #47464a;
+    height: 90upx;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%
+  }
+  .pay_now_btn {
+    color: #ffffff;
+    font-size: 32upx;
+    width: 300upx;
+    height: 90upx;
+    background-color: $theme-color;
+    text-align: center;
   }
 </style>

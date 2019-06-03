@@ -12,9 +12,16 @@
 								<image :src="item.logo" style="width: 150upx;height: 150upx;border-radius: 50%;"></image>
 							</view>
 							<view class="uni-flex uni-column" style="padding-left: 20upx;">
-								<view class="title-name">{{ item.name || '--' }}</view>
-								<view class="title-text">Restaurant Category: {{ item.categoryDesc }}</view>
-								<view class="title-text">Floor,Direction: {{ item.floorDesc }},{{ item.directionDesc }}</view>
+								<view class="title-name">{{ item.name || '-' }}</view>
+								<view class="uni-flex uni-row">
+									<view class="title-time" style="margin-right: 20upx;">Open Hours:</view>
+									<view style="flex: 1;">
+										<view class="title-time">Weekday {{item.weekday || '-'}}</view>
+										<view class="title-time">Weekend {{item.weekend || '-' }}</view>
+									</view>
+								</view>
+								<view class="title-text">Restaurant Category: {{ item.categoryDesc || '-' }}</view>
+								<view class="title-text">Floor,Direction: {{ item.floorDesc || '-' }},{{ item.directionDesc || '-' }}</view>
 							</view>
 						</view>
 					</view>
@@ -226,7 +233,7 @@ export default {
 	line-height: 32upx;
 }
 
-.title-address {
+.title-time {
 	font-size: 22upx;
 	color: #80838f;
 	display: -webkit-box;

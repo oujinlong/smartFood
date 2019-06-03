@@ -18,8 +18,14 @@
 									<image :src="item.logo" style="width: 150upx;height: 150upx;border-radius: 50%;"></image>
 								</view>
 								<view class="uni-flex uni-column" style="padding-left: 20upx;">
-									<view class="title-name">{{ item.name || '--' }}</view>
-									<view class="title-address">Open Hours:{{ item.time || '--' }}-{{ item.time2 || '--' }} {{ item.time3 || '--' }}-{{ item.time4 || '--' }}</view>
+									<view class="title-name">{{ item.name || '-' }}</view>
+									<view class="uni-flex uni-row">
+										<view class="title-time" style="margin-right: 20upx;">Open Hours:</view>
+										<view style="flex: 1;">
+											<view class="title-time">Weekday {{item.weekday || '-'}}</view>
+											<view class="title-time">Weekend {{item.weekend || '-' }}</view>
+										</view>
+									</view>
 									<view class="title-text">Restaurant Category: {{ item.categoryDesc }}</view>
 									<view class="title-text">Floor,Direction: {{ item.floorDesc }},{{ item.directionDesc }}</view>
 								</view>
@@ -308,9 +314,9 @@ export default {
 
 	.title-name {
 		font-size: 30upx;
-		height: 30upx;
+		line-height: 30upx;
 		text-align: left;
-		padding-bottom: 20upx;
+		margin-bottom: 5upx;
 	}
 
 	.title-text {
@@ -319,13 +325,9 @@ export default {
 		line-height: 32upx;
 	}
 
-	.title-address {
+	.title-time {
 		font-size: 22upx;
 		color: #80838f;
-		display: -webkit-box;
-		-webkit-box-orient: vertical;
-		-webkit-line-clamp: 1;
-		overflow: hidden;
 	}
 
 	.no_data_container {

@@ -54,15 +54,15 @@
 				<view>
 					<view class="uni-flex uni-row">
 						<view class="price-name">The minimum consumption</view>
-						<view class="price-value">{{ tableArray[tableIndex].zdCost }}</view>
+						<view class="price-value">{{ CURRENCY_SYMBOL }} {{ tableArray[tableIndex].zdCost || '0' }}</view>
 					</view>
 					<view class="uni-flex uni-row">
 						<view class="price-name">Advance payment</view>
-						<view class="price-value">{{ tableArray[tableIndex].fwCost }}</view>
+						<view class="price-value">{{ CURRENCY_SYMBOL }} {{ tableArray[tableIndex].fwCost || '0' }}</view>
 					</view>
 					<view class="uni-flex uni-row">
 						<view class="price-name">The service fee</view>
-						<view class="price-value">{{ tableArray[tableIndex].ydCost }}</view>
+						<view class="price-value">{{ CURRENCY_SYMBOL }} {{ tableArray[tableIndex].ydCost || '0' }}</view>
 					</view>
 				</view>
 
@@ -107,7 +107,7 @@
 					<view class="uni-list-cell-pd" style="text-align:center;border-top:1upx solid #DDDEE1;margin-top:2upx;">You selected {{ payItems[currentPayIndex].name }}</view>
 				</view>
 				<view class="confirm-button" :class="{ 'blue-button': payItems[currentPayIndex].name === 'Balance' }" @click="confirmClick">
-					Confirm payment ${{ tableArray[tableIndex].ydCost }}
+					Confirm payment ${{ tableArray[tableIndex].ydCost || '0' }}
 				</view>
 			</view>
 		</uni-popup>
@@ -143,6 +143,8 @@ function formatTime() {
 }
 import { mapGetters } from 'vuex';
 import { uniIcon, uniPopup } from '@dcloudio/uni-ui';
+import CONFIG from '@/utils/config.js';
+
 export default {
 	name: '',
 	onLoad(e) {
@@ -180,7 +182,8 @@ export default {
 					value: 1
 				}
 			],
-			currentPayIndex: 0
+			currentPayIndex: 0,
+			CURRENCY_SYMBOL: CONFIG.common.CURRENCY_SYMBOL
 		};
 	},
 	props: {},
@@ -235,7 +238,6 @@ export default {
 				});
 		},
 		formSubmit(e) {
-			console.log('form发生了submit事件，携带数据为：' + JSON.stringify(e.detail.value));
 			this.isShowDialog = true;
 		},
 		radioChange(evt) {
@@ -258,7 +260,7 @@ export default {
 				storeId: this.storeId, //店铺id
 				tableTypeId: this.tableArray[this.tableIndex].id, //桌位类型
 				tableTypeName: this.tableArray[this.tableIndex].name, //桌位类型名称
-				userId: 1, //用户ID
+				userId: 40, //用户ID
 				xzDate: this.date, //预定日期
 				ydCode: '', //预定编码（不需要填写，可为空）
 				yjddDate: this.arrivalTime, //预定到店时间
@@ -269,11 +271,13 @@ export default {
 					data: param
 				})
 				.then(res => {
+					this.isShowDialog = false;
 					// uni.navigateTo({
 					// 	url: '/pages/home/child/reservationDetail?ydOrderId=' + res.ydOrderId
 					// });
 				})
 				.catch(error => {
+					this.isShowDialog = false;
 					uni.navigateTo({
 						url: '/pages/home/child/reservationDetail?ydOrderId=23'
 					});

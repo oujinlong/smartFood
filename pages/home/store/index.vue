@@ -60,8 +60,8 @@
 								<image :src="storeInfo.logo" style="width: 150upx;height: 150upx;border-radius: 50%;"></image>
 							</view>
 							<view class="uni-flex uni-column" style="padding-left: 20upx;">
-								<view class="title-name">{{ storeInfo.name || '--' }}</view>
-								<view class="uni-flex uni-row title-text">Announcement: {{ storeInfo.announcement || '--' }}</view>
+								<view class="title-name">{{ storeInfo.name || '-' }}</view>
+								<view class="uni-flex uni-row title-text">Announcement: {{ storeInfo.announcement || '-' }}</view>
 							</view>
 						</view>
 					</view>
@@ -70,32 +70,35 @@
 			<view class="uni-list-cell uni-list-cell-pd">
 				<view class="uni-flex uni-row">
 					<view class="title-content" style="margin-right: 20upx;">Open Hours</view>
-					<view class="title-content">{{ storeInfo.time || '--' }}-{{ storeInfo.time2 || '--' }} {{ storeInfo.time3 || '--' }}-{{ storeInfo.time4 || '--' }}</view>
+					<view class="title-content">
+						<view class="title-time">Weekday {{storeInfo.weekday || '-'}}</view>
+						<view class="title-time">Weekend {{storeInfo.weekend || '-' }}</view>
+					</view>
 				</view>
 			</view>
 			<view class="uni-list-cell uni-list-cell-pd">
 				<view class="uni-flex uni-row" style="width: 100%;">
 					<view class="title-content" style="margin-right: 20upx;">Restaurant Category</view>
-					<view class="title-content" style="flex: 1;">{{ storeInfo.categoryDesc }}</view>
+					<view class="title-content" style="flex: 1;">{{ storeInfo.categoryDesc || '-'}}</view>
 				</view>
 			</view>
 			<view class="uni-list-cell uni-list-cell-pd">
 				<view class="uni-flex uni-row" style="width: 100%;">
 					<view class="title-content" style="margin-right: 20upx;">Floor,Direction</view>
-					<view class="title-content" style="flex: 1;">{{ storeInfo.floorDesc }},{{ storeInfo.directionDesc }}</view>
+					<view class="title-content" style="flex: 1;">{{ storeInfo.floorDesc || '-'}},{{ storeInfo.directionDesc || '-'}}</view>
 				</view>
 			</view>
 			<view class="uni-list-cell uni-list-cell-pd">
 				<view class="uni-flex uni-row" style="width: 100%;">
 					<view class="title-content" style="margin-right: 20upx;">Telephone</view>
-					<view class="title-content" style="flex: 1;">{{ storeInfo.tel }}</view>
+					<view class="title-content" style="flex: 1;">{{ storeInfo.tel || '-'}}</view>
 					<uni-icon size="20" type="arrowright" color="#80838F" class="arrow-right-icon" @click="clickTel()"></uni-icon>
 				</view>
 			</view>
 			<view class="uni-list-cell uni-list-cell-pd">
 				<view class="uni-flex uni-row" style="width: 100%;">
 					<view class="title-content" style="margin-right: 20upx;">Address</view>
-					<view class="title-content" style="flex: 1;">{{ storeInfo.address }}</view>
+					<view class="title-content" style="flex: 1;">{{ storeInfo.address || '-'}}</view>
 					<uni-icon size="20" type="arrowright" color="#80838F" class="arrow-right-icon"></uni-icon>
 				</view>
 			</view>

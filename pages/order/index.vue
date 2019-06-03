@@ -6,11 +6,11 @@
 		<view class="order-content bg-white padding-xs text-black">
 			<scroll-view class="search-list" scroll-y @scrolltolower="loadMore()">
 				<!-- 预定页面 -->
-				<reservation-order-detail v-if="TabCur === 0" :reservationList="reservationList"></reservation-order-detail>
+				<reservation-order-detail v-if="TabCur === 0" :reservationList="reservationList" @refreshOrder="queryOrder"></reservation-order-detail>
 				<!-- 自取页面 -->
-				<self-taking-order v-else-if="TabCur === 1" :selfTakingOrderList="orderList"></self-taking-order>
+				<self-taking-order v-else-if="TabCur === 1" :selfTakingOrderList="orderList" @refreshOrder="queryOrder"></self-taking-order>
 				<!-- 店内点单 -->
-				<order-detail v-else-if="TabCur === 2" :orderList="orderList"></order-detail>
+				<order-detail v-else-if="TabCur === 2" :orderList="orderList" @refreshOrder="queryOrder"></order-detail>
 
 				<!-- 无数据状态 -->
 				<view class="no_data_container uni-flex uni-column" v-if="reservationList.length == 0 && orderList.length == 0">
@@ -51,12 +51,15 @@ export default {
 		},
 		loadMore() {
 			if (this.currPage < this.totalPage) {
-				console.log(1111);
 				this.currPage++;
-				this.queryOrder(this.currPage);
+				this.queryOrder();
 			}
 		},
-		queryOrder() {
+		queryOrder(value) {
+			if(value) {
+				console.log('teststttttttt')
+				this.currPage = 1;
+			}
 			if (this.TabCur === 0) {
 				this.queryReservationList();
 			} else {
@@ -83,6 +86,9 @@ export default {
 						//多页数据
 						this.orderList = [...this.orderList, ...res.page.list];
 					}
+				})
+				.catch(error => {
+					console.error('error:', error);
 				});
 		},
 		queryReservationList() {
@@ -103,6 +109,9 @@ export default {
 					} else {
 						this.reservationList = [...this.reservationList, ...res.page.list];
 					}
+				})
+				.catch(error => {
+					console.error('error:', error);
 				});
 		}
 	},

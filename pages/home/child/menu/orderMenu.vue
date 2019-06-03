@@ -172,7 +172,7 @@ export default {
 		},
 		queryStoreInfo() {
 			const param = {
-				userId: 1,
+				userId: 40,
 				storeId: this.storeId
 			};
 			this.$request

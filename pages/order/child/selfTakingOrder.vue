@@ -13,18 +13,18 @@
 				</view>
 			</view>
 			<view class="order-action uni-flex uni-row">
-				<view class="text" style="line-height: 65upx;flex: 1;">Total: {{CURRENCY_SYMBOL}} {{ item.money }}</view>
+				<view class="text" style="line-height: 65upx;flex: 1;">Total: {{ CURRENCY_SYMBOL }} {{ item.money }}</view>
 				<view>
 					<!-- state 1.待付款 2.等待接单 3.等待送达  4.完成  5.取消订单 6.完成评价 7.待退款 8.退款成功 9.退款失败-->
-					<view class="color-gray" v-if="item.state == 1" @click="cancelOrder">Cancel</view>
-					<view class="color-blue" v-if="item.state == 1" @click="payOrder">Pay Now</view>
-					<view class="color-red" v-if="(item.state == 2 && item.isYue == 2) || (item.state == 3 && item.isYue == 2)">Apply for refund</view>
-					<view class="color-blue" v-if="item.state == 2" @click="remindOrder">Remind</view>
-					<view class="color-gray" v-if="item.state == 3" @click="remindingOrder">Remming</view>
-					<view class="color-blue" v-if="item.state == 3" @click="comfirmOrder">Confirm</view>
-					<view class="color-blue" v-if="item.state == 4" @click="commentOrder">Comment</view>
-					<view class="color-blue" v-if="['4', '6'].indexOf(item.state) !== -1" @click="anotherOrder">Another order</view>
-					<view class="color-red" v-if="['4', '5', '6', '8', '9'].indexOf(item.state) !== -1" @click="deleteOrder">Delete</view>
+					<view class="color-gray" v-if="item.state == 1" @click="cancelOrder(item.id)">Cancel</view>
+					<view class="color-blue" v-if="item.state == 1" @click="payOrder(item.id)">Pay Now</view>
+					<view class="color-red" v-if="(item.state == 2 && item.isYue == 2) || (item.state == 3 && item.isYue == 2)" @click="refundClick(item.id)">Apply for refund</view>
+					<view class="color-blue" v-if="item.state == 2" @click="remindOrder(item.id)">Remind</view>
+					<view class="color-gray" v-if="item.state == 3" @click="remindingOrder(item.id)">Remming</view>
+					<view class="color-blue" v-if="item.state == 3" @click="comfirmOrder(item.id)">Confirm</view>
+					<view class="color-blue" v-if="item.state == 4" @click="commentOrder(item.id)">Comment</view>
+					<view class="color-blue" v-if="['4', '6'].indexOf(item.state) !== -1" @click="anotherOrder(item.id)">Another order</view>
+					<view class="color-red" v-if="['4', '5', '6', '8', '9'].indexOf(item.state) !== -1" @click="deleteOrder(item.id)">Delete</view>
 				</view>
 			</view>
 		</view>
@@ -50,7 +50,64 @@ export default {
 			}
 		}
 	},
-	methods: {},
+	methods: {
+		cancelOrder(orderId) {
+			let that = this;
+			wx.showModal({
+				title: 'Notice',
+				content: 'Cancel the order?',
+				cancelText: 'Cancel',
+				confirmText: 'Yes',
+				success(res) {
+					if (res.confirm) {
+						const param = {
+							orderId: orderId
+						};
+						that.$request
+							.post('/entry/wxapp/cancelOrder?orderId=' + orderId, {
+								data: param
+							})
+							.then(res => {
+								that.$emit('refreshOrder',true);
+							})
+							.catch(error => {
+								console.error('error:', error);
+							});
+					} else if (res.cancel) {
+						console.log('用户点击取消');
+					}
+				}
+			});
+		},
+		deleteOrder(orderId) {
+			let that = this;
+			wx.showModal({
+				title: 'Notice',
+				content: 'Delete the order?',
+				cancelText: 'Cancel',
+				confirmText: 'Yes',
+				success(res) {
+					if (res.confirm) {
+						const param = {
+							orderId: orderId
+						};
+						that.$request
+							.post('/entry/wxapp/delOrder?orderId=' + orderId, {
+								data: param
+							})
+							.then(res => {
+								that.$emit('refreshOrder',true);
+							})
+							.catch(error => {
+								console.error('error:', error);
+							});
+					} else if (res.cancel) {
+						console.log('用户点击取消');
+					}
+				}
+			});
+		}
+	},
 	mounted() {},
 	computed: {
 		...mapGetters({})

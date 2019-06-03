@@ -6,11 +6,10 @@
 				<view class="status-name" :class="'color-' + item.state" style="float:right">{{ item.state | stateFilter }}</view>
 			</view>
 			<view class="order-content-main border-bottom uni-flex uni-row">
-				<view style="display: flex; justify-content: center;align-items: center;">
-					<image :src="item.logo" style="width: 150upx;height: 150upx;border-radius: 50%;"></image>
-				</view>
+				<view style="display: flex; justify-content: center;align-items: center;"><image :src="item.logo" style="width: 150upx;height: 150upx;border-radius: 50%;"></image></view>
 				<view class="uni-flex uni-column" style="padding-left: 20upx;">
 					<view class="title-name">{{ item.img }}</view>
+					<view class="title">{{ item.name }}</view>
 					<view class="title-text">Arrival time：{{ item.xzDate }} {{ item.yjddDate }}</view>
 					<view class="title-text">Count of meals：{{ item.jcNum }}</view>
 				</view>
@@ -20,9 +19,9 @@
 				<view>
 					<!-- "state": 1待审核,2已审核,3已拒绝（不会出现3状态）,4取消 5商家审核 6 商家已退款 7 商家已拒绝退款-->
 					<view class="color-blue" v-if="[1, 2, 5].indexOf(item.state) !== -1" @click="queryOrderDetail(item.id)">Detail</view>
-					<view class="color-red" v-if="item.ydcode !== '' && item.state === 4" @click="refundClick">Apply for refund</view>
-					<view class="color-red" v-if="[2, 4, 6, 7].indexOf(item.state) !== -1" @click="deleteOrder">Delete</view>
-					<view class="color-red" v-if="item.state == 1" @click="cancelOrder">Cancel</view>
+					<view class="color-red" v-if="item.ydcode !== '' && item.state === 4" @click="refundClick(item.id)">Apply for refund</view>
+					<view class="color-red" v-if="[2, 4, 6, 7].indexOf(item.state) !== -1" @click="deleteOrder(item.id)">Delete</view>
+					<view class="color-red" v-if="item.state == 1" @click="cancelOrder(item.id)">Cancel</view>
 				</view>
 			</view>
 		</view>
@@ -48,6 +47,91 @@ export default {
 		queryOrderDetail(ydOrderId) {
 			uni.navigateTo({
 				url: '/pages/home/child/reservationDetail?ydOrderId=' + ydOrderId
+			});
+		},
+		refundClick(ydOrderId) {
+			//申请退款
+			let that = this;
+			wx.showModal({
+				title: 'Notice',
+				content: 'Do you need to apply for a refund?',
+				cancelText: 'Cancel',
+				confirmText: 'Yes',
+				success(res) {
+					if (res.confirm) {
+						const param = {
+							orderId: ydOrderId
+						};
+						that.$request
+							.post('/entry/wxapp/ydRefund?orderId=' + ydOrderId, {
+								data: param
+							})
+							.then(res => {
+								that.$emit('refreshOrder',true);
+							})
+							.catch(error => {
+								console.error('error:', error);
+							});
+					} else if (res.cancel) {
+						console.log('用户点击取消');
+					}
+				}
+			});
+		},
+		deleteOrder(ydOrderId) {
+			let that = this;
+			wx.showModal({
+				title: 'Notice',
+				content: 'Delete the reservation?',
+				cancelText: 'Cancel',
+				confirmText: 'Yes',
+				success(res) {
+					if (res.confirm) {
+						const param = {
+							orderId: ydOrderId
+						};
+						that.$request
+							.post('/entry/wxapp/delYd?orderId=' + ydOrderId, {
+								data: param
+							})
+							.then(res => {
+								that.$emit('refreshOrder',true);
+							})
+							.catch(error => {
+								console.error('error:', error);
+							});
+					} else if (res.cancel) {
+						console.log('用户点击取消');
+					}
+				}
+			});
+		},
+		cancelOrder(ydOrderId) {
+			let that = this;
+			wx.showModal({
+				title: 'Notice',
+				content: 'Cancel the reservation?',
+				cancelText: 'Cancel',
+				confirmText: 'Yes',
+				success(res) {
+					if (res.confirm) {
+						const param = {
+							orderId: ydOrderId
+						};
+						that.$request
+							.post('/entry/wxapp/cancelReservation?orderId=' + ydOrderId, {
+								data: param
+							})
+							.then(res => {
+								that.$emit('refreshOrder',true);
+							})
+							.catch(error => {
+								console.error('error:', error);
+							});
+					} else if (res.cancel) {
+						console.log('用户点击取消');
+					}
+				}
 			});
 		}
 	},

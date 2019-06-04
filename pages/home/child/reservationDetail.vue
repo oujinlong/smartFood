@@ -110,24 +110,10 @@ export default {
 				});
 		},
 		cancelReservation() {
+			// 跳转到订单列表页面取消
 			uni.reLaunch({
-				url: '/pages/home/store/index?storeId=' + 3
+				url: '/pages/order/index?tabIndex=' + 0
 			});
-			// const param = {
-			// 	orderId: this.ydOrderId
-			// };
-			// this.$request
-			// 	.get('/entry/wxapp/cancelReservation', {
-			// data: param
-			// 	})
-			// 	.then(res => {
-			// 		uni.reLaunch({
-			// 			url: '/pages/home/store/index?storeId=' + 3
-			// 		});
-			// 	})
-			// 	.catch(error => {
-			// 		console.error('error:', error);
-			// 	});
 		},
 		showCancleDialog() {
 			this.isShowDialog = true;

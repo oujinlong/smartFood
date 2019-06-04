@@ -82,7 +82,7 @@
 				<view class="margin-top-xl">
 					<view class="padding-sm bg-white">
 						<view class="margin-bottom-xs">Remark</view>
-						<view class="uni-textarea"><textarea style="border: 1px solid #DDDEE1;margin-left: 2%;" name="textArea" v-model="textArea" placeholder="Remark" /></view>
+						<view class="uni-textarea"><textarea style="border: 1px solid #DDDEE1;margin-left: 2%;" name="textArea" v-model="remark" placeholder="Remark" /></view>
 					</view>
 				</view>
 
@@ -166,7 +166,7 @@ export default {
 			tableArrayLabel: [],
 			tableIndex: 0,
 			tableType: '',
-			textArea: '',
+			remark: '',
 			phone: '',
 			name: '',
 			isShowDialog: false,
@@ -272,15 +272,12 @@ export default {
 				})
 				.then(res => {
 					this.isShowDialog = false;
-					// uni.navigateTo({
-					// 	url: '/pages/home/child/reservationDetail?ydOrderId=' + res.ydOrderId
-					// });
+					uni.navigateTo({
+						url: '/pages/home/child/reservationDetail?ydOrderId=' + res.ydOrderId
+					});
 				})
 				.catch(error => {
 					this.isShowDialog = false;
-					uni.navigateTo({
-						url: '/pages/home/child/reservationDetail?ydOrderId=23'
-					});
 					console.error('error:', error);
 				});
 		}

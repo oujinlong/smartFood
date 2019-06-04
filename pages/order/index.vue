@@ -2,16 +2,14 @@
 	<view class="order-main">
 		<!-- 功能切换 -->
 		<wuc-tab :tab-list="tabList" :tabCur.sync="TabCur" @change="tabChange"></wuc-tab>
-
 		<view class="order-content bg-white padding-xs text-black">
 			<scroll-view class="search-list" scroll-y @scrolltolower="loadMore()">
 				<!-- 预定页面 -->
-				<reservation-order-detail v-if="TabCur === 0" :reservationList="reservationList" @refreshOrder="queryOrder"></reservation-order-detail>
+				<reservation-order v-if="TabCur === 0" :reservationList="reservationList" @refreshOrder="queryOrder"></reservation-order>
 				<!-- 自取页面 -->
-				<self-taking-order v-else-if="TabCur === 1" :selfTakingOrderList="orderList" @refreshOrder="queryOrder"></self-taking-order>
+				<self-taking v-else-if="TabCur === 1" :selfTakingOrderList="orderList" @refreshOrder="queryOrder"></self-taking>
 				<!-- 店内点单 -->
-				<order-detail v-else-if="TabCur === 2" :orderList="orderList" @refreshOrder="queryOrder"></order-detail>
-
+				<dined-in v-else-if="TabCur === 2" :orderList="orderList" @refreshOrder="queryOrder"></dined-in>
 				<!-- 无数据状态 -->
 				<view class="no_data_container uni-flex uni-column" v-if="reservationList.length == 0 && orderList.length == 0">
 					<image src="../../static/img/no-data.png" style="width: 300upx;height: 300upx"></image>
@@ -25,11 +23,17 @@
 <script>
 import { mapGetters } from 'vuex';
 import WucTab from '@/components/wuc-tab/wuc-tab.vue';
-import reservationOrderDetail from './child/reservationOrderDetail.vue';
-import orderDetail from './child/orderDetail.vue';
-import selfTakingOrder from './child/selfTakingOrder.vue';
+import reservationOrder from './child/reservationOrderDetail.vue';
+import dinedIn from './child/orderDetail.vue';
+import selfTaking from './child/selfTakingOrder.vue';
 export default {
 	name: '',
+	onLoad(e) {
+		this.tabIndex = e.tabIndex || undefined;
+		if (this.tabIndex) {
+			this.TabCur = Number(this.tabIndex);
+		}
+	},
 	data() {
 		return {
 			tabList: [{ name: 'Reservation' }, { name: 'Self-taking' }, { name: 'Dined-In' }],
@@ -38,7 +42,8 @@ export default {
 			pageSize: 5,
 			totalPage: 0,
 			reservationList: [],
-			orderList: []
+			orderList: [],
+			tabIndex: undefined
 		};
 	},
 	props: {},
@@ -47,7 +52,6 @@ export default {
 			this.TabCur = index;
 			this.currPage = 1;
 			this.queryOrder();
-			console.log(this.TabCur);
 		},
 		loadMore() {
 			if (this.currPage < this.totalPage) {
@@ -56,8 +60,7 @@ export default {
 			}
 		},
 		queryOrder(value) {
-			if(value) {
-				console.log('teststttttttt')
+			if (value) {
 				this.currPage = 1;
 			}
 			if (this.TabCur === 0) {
@@ -123,9 +126,9 @@ export default {
 	},
 	components: {
 		WucTab,
-		reservationOrderDetail,
-		orderDetail,
-		selfTakingOrder
+		reservationOrder,
+		dinedIn,
+		selfTaking
 	}
 };
 </script>

@@ -5,11 +5,11 @@
 		<view class="order-content bg-white padding-xs text-black">
 			<scroll-view class="search-list" scroll-y @scrolltolower="loadMore()">
 				<!-- 预定页面 -->
-				<reservation-order v-if="TabCur === 0" :reservationList="reservationList" @refreshOrder="queryOrder"></reservation-order>
+				<reservation-order v-if="TabCur === 0" :reservationList="reservationList" @refreshOrder="refreshOrder"></reservation-order>
 				<!-- 自取页面 -->
-				<self-taking v-else-if="TabCur === 1" :selfTakingOrderList="orderList" @refreshOrder="queryOrder"></self-taking>
+				<self-taking v-else-if="TabCur === 1" :selfTakingOrderList="orderList" @refreshOrder="refreshOrder"></self-taking>
 				<!-- 店内点单 -->
-				<dined-in v-else-if="TabCur === 2" :orderList="orderList" @refreshOrder="queryOrder"></dined-in>
+				<dined-in v-else-if="TabCur === 2" :orderList="orderList" @refreshOrder="refreshOrder"></dined-in>
 				<!-- 无数据状态 -->
 				<view class="no_data_container uni-flex uni-column" v-if="reservationList.length == 0 && orderList.length == 0">
 					<image src="../../static/img/no-data.png" style="width: 300upx;height: 300upx"></image>
@@ -48,6 +48,18 @@ export default {
 	},
 	props: {},
 	methods: {
+		onLoad() {
+			uni.startPullDownRefresh();
+		},
+		refreshOrder() {
+			uni.startPullDownRefresh();
+		},
+		onPullDownRefresh() {
+			this.queryOrder(true);
+			setTimeout(function() {
+				uni.stopPullDownRefresh();
+			}, 1000);
+		},
 		tabChange(index) {
 			this.TabCur = index;
 			this.currPage = 1;
@@ -118,9 +130,7 @@ export default {
 				});
 		}
 	},
-	mounted() {
-		this.queryOrder();
-	},
+	mounted() {},
 	computed: {
 		...mapGetters({})
 	},

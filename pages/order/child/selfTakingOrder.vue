@@ -19,11 +19,12 @@
 					<view class="color-gray" v-if="item.state == 1" @click="cancelOrder(item.id)">Cancel</view>
 					<view class="color-blue" v-if="item.state == 1" @click="payOrder(item.id)">Pay Now</view>
 					<view class="color-red" v-if="(item.state == 2 && item.isYue == 2) || (item.state == 3 && item.isYue == 2)" @click="refundClick(item.id)">Apply for refund</view>
-					<view class="color-blue" v-if="item.state == 2" @click="remindOrder(item.id)">Remind</view>
-					<view class="color-gray" v-if="item.state == 3" @click="remindingOrder(item.id)">Remming</view>
+					<view class="color-blue" v-if="item.state == 2" @click="remindOrder(item.tel)">Remind</view>
+					<view class="color-gray" v-if="item.state == 3" @click="remindOrder(item.tel)">Remming</view>
 					<view class="color-blue" v-if="item.state == 3" @click="comfirmOrder(item.id)">Confirm</view>
-					<view class="color-blue" v-if="item.state == 4" @click="commentOrder(item.id)">Comment</view>
-					<view class="color-blue" v-if="['4', '6'].indexOf(item.state) !== -1" @click="anotherOrder(item.id)">Another order</view>
+					<!-- <view class="color-blue" v-if="item.state == 4" @click="commentOrder(item.storeId)">Comment</view> -->
+					<view class="color-blue" @click="commentOrder(item.storeId)">Comment</view>
+					<view class="color-blue" v-if="['4', '6'].indexOf(item.state) !== -1" @click="anotherOrder(item.storeId)">Another order</view>
 					<view class="color-red" v-if="['4', '5', '6', '8', '9'].indexOf(item.state) !== -1" @click="deleteOrder(item.id)">Delete</view>
 				</view>
 			</view>
@@ -51,6 +52,103 @@ export default {
 		}
 	},
 	methods: {
+		commentOrder(storeId) {
+			uni.navigateTo({
+				url: '/pages/order/child/commentOrder?storeId=' + storeId
+			});
+		},
+		comfirmOrder(orderId) {
+			// 确认收货
+			let that = this;
+			wx.showModal({
+				title: 'Notice',
+				content: 'Confirm the order?',
+				cancelText: 'Cancel',
+				confirmText: 'Yes',
+				success(res) {
+					if (res.confirm) {
+						const param = {
+							orderId: orderId
+						};
+						that.$request
+							.post('/entry/wxapp/complete?orderId=' + orderId, {
+								data: param
+							})
+							.then(res => {
+								wx.showToast({
+									title: 'Successful',
+									icon: 'success',
+									duration: 1000
+								});
+								setTimeout(function() {
+									that.$emit('refreshOrder', true);
+								}, 1000);
+							})
+							.catch(error => {
+								console.error('error:', error);
+								wx.showToast({
+									title: 'Try again later',
+									icon: 'loading',
+									duration: 1000
+								});
+							});
+					} else if (res.cancel) {
+						console.log('用户点击取消');
+					}
+				}
+			});
+		},
+		anotherOrder(storeId) {
+			uni.navigateTo({
+				url: '/pages/home/store/index?storeId=' + storeId
+			});
+		},
+		refundClick(orderId) {
+			//申请退款
+			let that = this;
+			wx.showModal({
+				title: 'Notice',
+				content: 'Do you need to apply for a refund?',
+				cancelText: 'Cancel',
+				confirmText: 'Yes',
+				success(res) {
+					if (res.confirm) {
+						const param = {
+							orderId: orderId
+						};
+						that.$request
+							.post('/entry/wxapp/tuik?orderId=' + orderId, {
+								data: param
+							})
+							.then(res => {
+								wx.showToast({
+									title: 'Refunded',
+									icon: 'success',
+									duration: 1000
+								});
+								setTimeout(function() {
+									that.$emit('refreshOrder', true);
+								}, 1000);
+							})
+							.catch(error => {
+								console.error('error:', error);
+								wx.showToast({
+									title: 'Try again later',
+									icon: 'loading',
+									duration: 1000
+								});
+							});
+					} else if (res.cancel) {
+						console.log('用户点击取消');
+					}
+				}
+			});
+		},
+		remindOrder(tel) {
+			wx.makePhoneCall({
+				phoneNumber: tel
+			});
+		},
 		cancelOrder(orderId) {
 			let that = this;
 			wx.showModal({
@@ -68,10 +166,22 @@ export default {
 								data: param
 							})
 							.then(res => {
-								that.$emit('refreshOrder',true);
+								wx.showToast({
+									title: 'Cancelled',
+									icon: 'success',
+									duration: 1000
+								});
+								setTimeout(function() {
+									that.$emit('refreshOrder', true);
+								}, 1000);
 							})
 							.catch(error => {
 								console.error('error:', error);
+								wx.showToast({
+									title: 'Try again later',
+									icon: 'loading',
+									duration: 1000
+								});
 							});
 					} else if (res.cancel) {
 						console.log('用户点击取消');
@@ -96,10 +206,22 @@ export default {
 								data: param
 							})
 							.then(res => {
-								that.$emit('refreshOrder',true);
+								wx.showToast({
+									title: 'Deleted',
+									icon: 'success',
+									duration: 1000
+								});
+								setTimeout(function() {
+									that.$emit('refreshOrder', true);
+								}, 1000);
 							})
 							.catch(error => {
 								console.error('error:', error);
+								wx.showToast({
+									title: 'Try again later',
+									icon: 'loading',
+									duration: 1000
+								});
 							});
 					} else if (res.cancel) {
 						console.log('用户点击取消');

@@ -67,10 +67,22 @@ export default {
 								data: param
 							})
 							.then(res => {
-								that.$emit('refreshOrder',true);
+								wx.showToast({
+									title: 'Refunded',
+									icon: 'success',
+									duration: 1000
+								});
+								setTimeout(function() {
+									that.$emit('refreshOrder', true);
+								}, 1000);
 							})
 							.catch(error => {
 								console.error('error:', error);
+								wx.showToast({
+									title: 'Try again later',
+									icon: 'loading',
+									duration: 1000
+								});
 							});
 					} else if (res.cancel) {
 						console.log('用户点击取消');
@@ -95,10 +107,22 @@ export default {
 								data: param
 							})
 							.then(res => {
-								that.$emit('refreshOrder',true);
+								wx.showToast({
+									title: 'Deleted',
+									icon: 'success',
+									duration: 1000
+								});
+								setTimeout(function() {
+									that.$emit('refreshOrder', true);
+								}, 1000);
 							})
 							.catch(error => {
 								console.error('error:', error);
+								wx.showToast({
+									title: 'Try again later',
+									icon: 'loading',
+									duration: 1000
+								});
 							});
 					} else if (res.cancel) {
 						console.log('用户点击取消');
@@ -123,10 +147,22 @@ export default {
 								data: param
 							})
 							.then(res => {
-								that.$emit('refreshOrder',true);
+								wx.showToast({
+									title: 'Cancelled',
+									icon: 'success',
+									duration: 1000
+								});
+								setTimeout(function() {
+									that.$emit('refreshOrder', true);
+								}, 1000);
 							})
 							.catch(error => {
 								console.error('error:', error);
+								wx.showToast({
+									title: 'Try again',
+									icon: 'loading',
+									duration: 1000
+								});
 							});
 					} else if (res.cancel) {
 						console.log('用户点击取消');

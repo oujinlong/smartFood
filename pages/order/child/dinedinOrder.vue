@@ -5,7 +5,7 @@
 				Order：{{ item.orderNum }}
 				<view class="status-name" :class="'color-' + item.dnState" style="float:right">{{ item.dnState | stateFilter }}</view>
 			</view>
-			<view class="order-content-main border-bottom uni-flex uni-row">
+			<view class="order-content-main border-bottom uni-flex uni-row" @click="goOrderDetail(item.id)">
 				<view style="display: flex; justify-content: center;align-items: center;"><image :src="item.logo" style="width: 100upx;height: 100upx;border-radius: 50%;"></image></view>
 				<view class="uni-flex uni-column" style="padding-left: 20upx;">
 					<view class="title-name">{{ item.name }}</view>
@@ -13,13 +13,13 @@
 				</view>
 			</view>
 			<view class="order-action uni-flex uni-row">
-				<view class="text" style="line-height: 65upx;flex: 1;">Total: {{CURRENCY_SYMBOL}} {{ item.money }}</view>
+				<view class="text" style="line-height: 65upx;flex: 1;">Total: {{ CURRENCY_SYMBOL }} {{ item.money }}</view>
 				<view>
 					<!-- dnState：店内订单状态1,待支付，2已完成,3关闭订单 -->
-					<view class="text color-gray" v-if="item.dnState == 1" @click="CancelOrder">Cancel</view>
-					<view class="text color-blue" v-if="item.dnState == 1" @click="payOrder">Pay Now</view>
-					<view class="text color-blue" v-if="[2, 4].indexOf(item.dnState) !== -1" @click="anotherOrder">Another order</view>
-					<view class="text color-blue" v-if="item.dnState == 2" @click="commentOrder">Comment</view>
+					<view class="text color-gray" v-if="item.dnState == 1" @click="cancelOrder(item.id)">Cancel</view>
+					<view class="text color-blue" v-if="item.dnState == 1" @click="goOrderDetail(item.id)">Pay Now</view>
+					<view class="text color-blue" v-if="[2, 4].indexOf(item.dnState) !== -1" @click="anotherOrder(item.storeId)">Another order</view>
+					<view class="text color-blue" v-if="item.dnState == 2" @click="commentOrder(item.storeId)">Comment</view>
 				</view>
 			</view>
 		</view>
@@ -45,7 +45,63 @@ export default {
 			}
 		}
 	},
-	methods: {},
+	methods: {
+		cancelOrder(orderId) {
+			let that = this;
+			wx.showModal({
+				title: 'Notice',
+				content: 'Cancel the order?',
+				cancelText: 'Cancel',
+				confirmText: 'Yes',
+				success(res) {
+					if (res.confirm) {
+						const param = {
+							orderId: orderId
+						};
+						that.$request
+							.post('/entry/wxapp/cancelOrder?orderId=' + orderId, {
+								data: param
+							})
+							.then(res => {
+								wx.showToast({
+									title: 'Cancelled',
+									icon: 'success',
+									duration: 1000
+								});
+								setTimeout(function() {
+									that.$emit('refreshOrder', true);
+								}, 1000);
+							})
+							.catch(error => {
+								console.error('error:', error);
+								wx.showToast({
+									title: 'Try again later',
+									icon: 'loading',
+									duration: 1000
+								});
+							});
+					} else if (res.cancel) {
+						console.log('用户点击取消');
+					}
+				}
+			});
+		},
+		commentOrder(storeId) {
+			uni.navigateTo({
+				url: '/pages/order/child/commentOrder?storeId=' + storeId
+			});
+		},
+		anotherOrder(storeId) {
+			uni.navigateTo({
+				url: '/pages/home/store/index?storeId=' + storeId
+			});
+		},
+		goOrderDetail(orderId) {
+			uni.navigateTo({
+				url: '/pages/order/child/dinedinOrderDetail?orderId=' + orderId
+			});
+		}
+	},
 	mounted() {},
 	computed: {
 		...mapGetters({})

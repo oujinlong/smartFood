@@ -32,6 +32,12 @@
 			}
 		},
 		{
+			"path": "pages/home/store/aboutUs",
+			"style": {
+				"navigationBarTitleText": "About Us"
+			}
+		},
+		{
 			"path": "pages/home/store/searchStore",
 			"style": {
 				"navigationBarTitleText": "Search Store"
@@ -71,6 +77,18 @@
 			"path": "pages/order/child/commentOrder",
 			"style": {
 				"navigationBarTitleText": "Comment"
+			}
+		},
+		{
+			"path": "pages/order/child/selfTalingOrderDetail",
+			"style": {
+				"navigationBarTitleText": "Order Detail"
+			}
+		},
+		{
+			"path": "pages/order/child/dinedinOrderDetail",
+			"style": {
+				"navigationBarTitleText": "Order Detail"
 			}
 		}
 	],

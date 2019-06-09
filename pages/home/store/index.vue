@@ -88,11 +88,11 @@
 					<view class="title-content" style="flex: 1;">{{ storeInfo.floorDesc || '-'}},{{ storeInfo.directionDesc || '-'}}</view>
 				</view>
 			</view>
-			<view class="uni-list-cell uni-list-cell-pd">
+			<view class="uni-list-cell uni-list-cell-pd" @click="clickTel()">
 				<view class="uni-flex uni-row" style="width: 100%;">
 					<view class="title-content" style="margin-right: 20upx;">Telephone</view>
 					<view class="title-content" style="flex: 1;">{{ storeInfo.tel || '-'}}</view>
-					<uni-icon size="20" type="arrowright" color="#80838F" class="arrow-right-icon" @click="clickTel()"></uni-icon>
+					<uni-icon size="20" type="arrowright" color="#80838F" class="arrow-right-icon"></uni-icon>
 				</view>
 			</view>
 			<view class="uni-list-cell uni-list-cell-pd">
@@ -102,7 +102,7 @@
 					<uni-icon size="20" type="arrowright" color="#80838F" class="arrow-right-icon"></uni-icon>
 				</view>
 			</view>
-			<view class="uni-list-cell uni-list-cell-pd">
+			<view class="uni-list-cell uni-list-cell-pd" @click="aboutUsClick">
 				<view class="title-content" style="flex: 1;">About Us</view>
 				<uni-icon size="20" type="arrowright" color="#80838F" class="arrow-right-icon"></uni-icon>
 			</view>
@@ -275,9 +275,13 @@ export default {
 			});
 		},
 		goOrderMenu() {
-			console.log('storeId:', this.storeId);
 			uni.navigateTo({
 				url: '../child/menu/orderMenu?storeId=' + this.storeId
+			});
+		},
+		aboutUsClick() {
+			uni.navigateTo({
+				url: '/pages/home/store/aboutUs?storeId=' + this.storeId
 			});
 		}
 	}

@@ -24,7 +24,7 @@
 import { mapGetters } from 'vuex';
 import WucTab from '@/components/wuc-tab/wuc-tab.vue';
 import reservationOrder from './child/reservationOrderDetail.vue';
-import dinedIn from './child/orderDetail.vue';
+import dinedIn from './child/dinedinOrder.vue';
 import selfTaking from './child/selfTakingOrder.vue';
 export default {
 	name: '',

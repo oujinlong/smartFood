@@ -5,7 +5,7 @@
 				Order：{{ item.orderNum }}
 				<view class="status-name" :class="'color-' + item.state" style="float:right">{{ item.state | stateFilter }}</view>
 			</view>
-			<view class="order-content-main border-bottom uni-flex uni-row">
+			<view class="order-content-main border-bottom uni-flex uni-row" @click="goOrderDetail(item.id)">
 				<view style="display: flex; justify-content: center;align-items: center;"><image :src="item.logo" style="width: 100upx;height: 100upx;border-radius: 50%;"></image></view>
 				<view class="uni-flex uni-column" style="padding-left: 20upx;">
 					<view class="title-name">{{ item.name }}</view>
@@ -17,7 +17,7 @@
 				<view>
 					<!-- state 1.待付款 2.等待接单 3.等待送达  4.完成  5.取消订单 6.完成评价 7.待退款 8.退款成功 9.退款失败-->
 					<view class="color-gray" v-if="item.state == 1" @click="cancelOrder(item.id)">Cancel</view>
-					<view class="color-blue" v-if="item.state == 1" @click="payOrder(item.id)">Pay Now</view>
+					<view class="color-blue" v-if="item.state == 1" @click="goOrderDetail(item.id)">Pay Now</view>
 					<view class="color-red" v-if="(item.state == 2 && item.isYue == 2) || (item.state == 3 && item.isYue == 2)" @click="refundClick(item.id)">Apply for refund</view>
 					<view class="color-blue" v-if="item.state == 2" @click="remindOrder(item.tel)">Remind</view>
 					<view class="color-gray" v-if="item.state == 3" @click="remindOrder(item.tel)">Remming</view>
@@ -52,6 +52,11 @@ export default {
 		}
 	},
 	methods: {
+		goOrderDetail(orderId) {
+			uni.navigateTo({
+				url: '/pages/order/child/selfTalingOrderDetail?orderId=' + orderId
+			});
+		},
 		commentOrder(storeId) {
 			uni.navigateTo({
 				url: '/pages/order/child/commentOrder?storeId=' + storeId

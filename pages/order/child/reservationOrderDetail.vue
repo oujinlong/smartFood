@@ -5,7 +5,7 @@
 				Order：{{ item.orderNum }}
 				<view class="status-name" :class="'color-' + item.state" style="float:right">{{ item.state | stateFilter }}</view>
 			</view>
-			<view class="order-content-main border-bottom uni-flex uni-row">
+			<view class="order-content-main border-bottom uni-flex uni-row" @click="queryOrderDetail(item.id)">
 				<view style="display: flex; justify-content: center;align-items: center;"><image :src="item.logo" style="width: 150upx;height: 150upx;border-radius: 50%;"></image></view>
 				<view class="uni-flex uni-column" style="padding-left: 20upx;">
 					<view class="title-name">{{ item.img }}</view>

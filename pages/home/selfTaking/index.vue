@@ -362,3 +362,48 @@
     text-align: center;
   }
   </style>
+
+<style lang="scss" type="text/scss" scoped>
+.self-container {
+	display: flex;
+	flex-direction: column;
+}
+
+.bg_white {
+	background-color: #ffffff;
+}
+
+.flag {
+	background-color: $theme-color;
+	width: 10upx;
+	height: 60upx;
+	margin: 10upx 10upx 10upx 24upx;
+}
+
+.title {
+	height: 60upx;
+	line-height: 60upx;
+	margin: 10upx 10upx 10upx 24upx;
+	font-weight: 800;
+	font-size: 34upx;
+}
+.bottom_border {
+	border-bottom: lightgray 0.6upx solid;
+}
+.bottom_bar {
+	background-color: #47464a;
+	height: 90upx;
+	position: fixed;
+	left: 0;
+	bottom: 0;
+	width: 100%;
+}
+.pay_now_btn {
+	color: #ffffff;
+	font-size: 32upx;
+	width: 300upx;
+	height: 90upx;
+	background-color: $theme-color;
+	text-align: center;
+}
+</style>

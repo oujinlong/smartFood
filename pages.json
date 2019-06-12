@@ -9,7 +9,8 @@
 		{
 			"path": "pages/order/index",
 			"style": {
-				"navigationBarTitleText": "Order"
+				"navigationBarTitleText": "Order",
+				"enablePullDownRefresh": true
 			}
 		},
 		{
@@ -28,6 +29,12 @@
 			"path": "pages/home/store/index",
 			"style": {
 				"navigationBarTitleText": "Store"
+			}
+		},
+		{
+			"path": "pages/home/store/aboutUs",
+			"style": {
+				"navigationBarTitleText": "About Us"
 			}
 		},
 		{
@@ -65,7 +72,25 @@
     	"style": {
     		"navigationBarTitleText": "Coupons"
     	}
-    }
+    },
+		{
+			"path": "pages/order/child/commentOrder",
+			"style": {
+				"navigationBarTitleText": "Comment"
+			}
+		},
+		{
+			"path": "pages/order/child/selfTalingOrderDetail",
+			"style": {
+				"navigationBarTitleText": "Order Detail"
+			}
+		},
+		{
+			"path": "pages/order/child/dinedinOrderDetail",
+			"style": {
+				"navigationBarTitleText": "Order Detail"
+			}
+		}
 	],
 	"tabBar": {
 		"color": "#4a4a4a",

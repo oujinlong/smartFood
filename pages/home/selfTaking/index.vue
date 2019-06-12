@@ -91,11 +91,12 @@
           </label>
         </view>
         
-        <view class="pay_now_btn uni-flex uni-row justify-center align-center">
+        <view class="pay_now_btn uni-flex uni-row justify-center align-center" @click='payClickHandle'>
           Pay Now
         </view>
       </view>
       
+      <payment-dialog :visible='showPay' :price='totalAll' @confirm='paymentConfirm'></payment-dialog>
   </view>
 </template>
 
@@ -104,10 +105,11 @@
   import { mapGetters } from 'vuex'
   import { uniIcon } from '@dcloudio/uni-ui';
   import CONFIG from '@/utils/config.js';
-  
+  import {PaymentDialog} from '@/components/paymentDialog'
   export default {
     components: {
-      uniIcon
+      uniIcon,
+      PaymentDialog
     },
     computed: {
       currentDate () {
@@ -119,7 +121,8 @@
         return date.format('HH:mm')
       },
       ...mapGetters({
-        selfTakingInfo: 'selfTakingInfo'
+        selfTakingInfo: 'selfTakingInfo',
+        'userInfo': 'userInfo'
       }),
       storeInfo () {
         return this.selfTakingInfo.storeInfo
@@ -177,7 +180,8 @@
         isNewUser: false,
         taxEnable: false,
         taxRate: 0,
-        remark: ''
+        remark: '',
+        showPay: false
       }
     },
     onLoad() {
@@ -262,6 +266,53 @@
         }).catch(error => {
           console.log(error)
         })
+      },
+      payClickHandle () {
+        this.showPay = true
+      },
+      paymentConfirm (item) {
+        const {payIndex} = item
+        let sz = []
+        console.log(this.selfTakingInfo)
+        this.selfTakingInfo.goodsInfo.forEach((good, index) => {
+           const goodInfo = {
+            dishesId: good.id,
+            img: good.img,
+            money: good.money,
+            name: good.name,
+            num: good.count
+          }
+          sz.push(goodInfo)
+        })
+        const params = {
+          isYue: payIndex,
+          money: this.totalPrice,
+          tax: this.tax,
+          name: this.userInfo.nickName,
+          note: this.remark,
+          preferential:  this.totalDiscount,
+          sellerId: this.selfTakingInfo.storeInfo.id,
+          type: 1,
+          userId: 40,
+          deliveryTime: this.currentDate + ' ' + this.chooseTime,
+          tel: 0,
+          sz,
+          tableId: 0
+        }
+        const coupon = this.selfTakingInfo.coupon
+        if (coupon && coupon.couponsId) {
+          params.couponsId = coupon.couponsId
+        } else if (coupon && coupon.vouchersId)(
+          params.vouchersId = coupon.vouchersId
+        )
+        console.log(JSON.stringify(params))
+        this.$request.post('/entry/wxapp/addOrder',
+          {data: params}
+        ).then(res => {
+          console.log('res:', res)
+        }).catch(error => {
+          console.log('err', error)
+        })
       }
     }
   }
@@ -310,3 +361,4 @@
     background-color: $theme-color;
     text-align: center;
   }
+  </style>

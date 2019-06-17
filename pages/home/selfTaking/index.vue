@@ -66,7 +66,7 @@
       <!-- 小计 -->
       <view  class="uni-flex uni-row justify-end align-center bg_white" style="padding: 20upx; min-width: 200upx;margin-top: 40upx;">
          <label style="height: 36upx; line-height: 36upx;font-size: 32upx;">Total:</label>
-         <label style="font-size: 36upx; font-weight: 800;margin-left: 30upx;">${{totalAll}}</label>
+         <label style="font-size: 36upx; font-weight: 800;margin-left: 30upx;">${{totalAllWithTax}}</label>
       </view>
       
       <!-- 备注 -->
@@ -81,7 +81,7 @@
       <view class="bottom_bar uni-flex uni-row justify-between align-center">
         <view>
           <label style="color: #ffffff;font-size: 36upx; margin-left: 48upx;">
-            ${{totalAll}}   
+            ${{totalAllWithTax}}   
           </label>
           <label style="margin-left: 30upx; color: #ffffff;font-size: 38upx;">
             |
@@ -96,7 +96,7 @@
         </view>
       </view>
       
-      <payment-dialog :visible='showPay' :price='totalAll' @confirm='paymentConfirm'></payment-dialog>
+      <payment-dialog :visible='showPay' :price='totalAllWithTax' @confirm='paymentConfirm'></payment-dialog>
   </view>
 </template>
 
@@ -135,7 +135,9 @@
       },
       tax () {
         if (this.totalPrice - this.totalDiscount > 0) {
-          return ((this.totalPrice - this.totalDiscount) * this.taxRate).toFixed(2)
+          let total = ((this.totalPrice - this.totalDiscount) * this.taxRate)
+          
+          return  ( parseInt( total * 100 ) / 100 ).toFixed(2);
         } else {
           return 0
         }
@@ -146,7 +148,7 @@
         goodsInfo.forEach((item, index) => {
           total += item.money * item.count
         })
-        return total
+          return  total
       },
       totalDiscount () {
         let total = 0
@@ -167,10 +169,15 @@
           total += this.storeInfo.xyhMoney
         }
         
-        return total
+          return  total
       },
       totalAll () {
-        return  (this.totalPrice - this.totalDiscount < 0) ? 0 : (this.totalPrice - this.totalDiscount + parseFloat(this.tax)).toFixed(2)
+        let total = (this.totalPrice - this.totalDiscount < 0) ? 0 : (this.totalPrice - this.totalDiscount ).toFixed(2)
+          return  ( parseInt( total * 100 ) / 100 ).toFixed(2);
+      },
+      totalAllWithTax () {
+        let total = parseFloat(this.totalAll)  + parseFloat(this.tax)
+          return  ( parseInt( total * 100 ) / 100 ).toFixed(2);
       }
     },
     data () {
@@ -286,8 +293,8 @@
         })
         const params = {
           isYue: payIndex,
-          money: this.totalPrice,
-          tax: this.tax,
+          money: this.totalAll,
+          taxMoney: this.tax,
           name: this.userInfo.nickName,
           note: this.remark,
           preferential:  this.totalDiscount,

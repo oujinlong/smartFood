@@ -6,16 +6,24 @@ Vue.use(Vuex)
 const store = new Vuex.Store({
     state: {
         hasLogin: false,
-        userInfo: undefined,
+        userInfo: uni.getStorageSync('userInfo'),
         openId: uni.getStorageSync('openId'),
-        selfTakingInfo: undefined
+        selfTakingInfo: undefined,
+        token: uni.getStorageSync('token')
     },
     mutations: {
         setUserInfo (state, userInfo) {
            state.userInfo = userInfo
+           uni.setStorageSync('userInfo', userInfo);     
+        },
+        setToken (state, token) {
+            state.token = token
+            uni.setStorageSync('token', token);
         },
         setOpenId (state, openId) {
             state.openId = openId
+            uni.setStorageSync('openId', openId);
+            
         },
         setSelfTakingInfo (state, info) {
             state.selfTakingInfo = info
@@ -33,6 +41,9 @@ const store = new Vuex.Store({
         },
         selfTakingInfo (state) {
             return state.selfTakingInfo
+        },
+        token (state) {
+            return state.token
         }
     }
 })

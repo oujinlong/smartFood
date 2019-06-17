@@ -71,7 +71,6 @@
             success: function (loginRes) {
               const code = loginRes.code
               let userInfo = JSON.parse(result.detail.rawData)
-              that.$store.commit('setUserInfo', userInfo)
               that.$request.get('/entry/wxapp/user/'+ that.$appId + '/login?code=' + code,{})
               .then (serverLoginRes => {
                 console.log('serverLoginRes')
@@ -84,9 +83,11 @@
                 const data = {img,name,openid}
                 console.log(JSON.stringify(data))
                 that.$request.post('/entry/wxapp/user/'+ that.$appId + '/session', {data}).then(sessionRes => {
-                  console.log('session res: ')
-                  console.log(sessionRes)
+                  const  {userInfo, accessToken} = sessionRes 
                   that.bannerShow = false;
+                  that.$store.commit('setToken', accessToken)
+                  that.$store.commit('setUserInfo',userInfo)
+                  console.log('store', that.$store.state)
                 })
               })
             }

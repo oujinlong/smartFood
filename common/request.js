@@ -1,7 +1,7 @@
 /**
  * version 1.1.7
  */
-
+import store from '@/store'
 class Request {
   constructor(config = {}) {
     this.config = {};
@@ -55,7 +55,11 @@ class Request {
       lastConfig = this._deepCopy(newConfig);
     }
     let fullUrl = this._formatUrl(lastConfig.baseUrl, url);
-
+    
+    if (store.state.token) {
+      lastConfig.header.accessToken = store.state.token
+    }
+    
     return new Promise((resolve, reject) => {
       uni.request({
         url: fullUrl,

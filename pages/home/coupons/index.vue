@@ -87,7 +87,8 @@
         return this.selfTakingInfo.coupon ? 'circle' : 'checkbox-filled'
       },
       ...mapGetters({
-        selfTakingInfo: 'selfTakingInfo'
+        selfTakingInfo: 'selfTakingInfo',
+        'userInfo': 'userInfo'
       }),
       storeInfo () {
         return this.selfTakingInfo.storeInfo
@@ -116,7 +117,7 @@
     },
     methods: {
       getCoupons () {
-        const userId = 40
+        const userId = this.userInfo.userId
         this.coupons = []
         this.$request.get('/entry/wxapp/coupons?userId=' + userId).then(res => {
           if (res.code === 0) {

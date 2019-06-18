@@ -313,11 +313,25 @@
           params.vouchersId = coupon.vouchersId
         )
         console.log(JSON.stringify(params))
+        uni.showLoading({
+        	icon: 'none'
+        })
         this.$request.post('/entry/wxapp/addOrder',
           {data: params}
         ).then(res => {
+          uni.hideLoading()
           console.log('res:', res)
+          if (res.code === 0) {
+            const { orderId } = res
+            uni.navigateBack({
+            	delta: 1
+            })
+            uni.navigateTo({
+            	'url': '../../order/child/selfTalingOrderDetail?orderId=' + orderId
+            })
+          }
         }).catch(error => {
+          uni.hideLoading()
           console.log('err', error)
         })
       }

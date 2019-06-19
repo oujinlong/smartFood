@@ -17,7 +17,7 @@
 				<view>
 					<!-- state 1.待付款 2.等待接单 3.等待送达  4.完成  5.取消订单 6.完成评价 7.待退款 8.退款成功 9.退款失败-->
 					<view class="color-gray" v-if="item.state == 1" @click="cancelOrder(item.id)">Cancel</view>
-					<view class="color-blue" v-if="item.state == 1" @click="goOrderDetail(item.id)">Pay Now</view>
+					<!-- <view class="color-blue" v-if="item.state == 1" @click="goOrderDetail(item.id)">Pay Now</view> -->
 					<view class="color-red" v-if="(item.state == 2 && item.isYue == 2) || (item.state == 3 && item.isYue == 2)" @click="refundClick(item.id)">Apply for refund</view>
 					<view class="color-blue" v-if="item.state == 2" @click="remindOrder(item.tel)">Remind</view>
 					<view class="color-gray" v-if="item.state == 3" @click="remindOrder(item.tel)">Remming</view>
@@ -72,13 +72,8 @@ export default {
 				confirmText: 'Yes',
 				success(res) {
 					if (res.confirm) {
-						const param = {
-							orderId: orderId
-						};
 						that.$request
-							.post('/entry/wxapp/complete?orderId=' + orderId, {
-								data: param
-							})
+							.post('/entry/wxapp/complete?orderId=' + orderId)
 							.then(res => {
 								wx.showToast({
 									title: 'Successful',
@@ -118,13 +113,8 @@ export default {
 				confirmText: 'Yes',
 				success(res) {
 					if (res.confirm) {
-						const param = {
-							orderId: orderId
-						};
 						that.$request
-							.post('/entry/wxapp/tuik?orderId=' + orderId, {
-								data: param
-							})
+							.post('/entry/wxapp/tuik?orderId=' + orderId)
 							.then(res => {
 								wx.showToast({
 									title: 'Refunded',
@@ -163,13 +153,8 @@ export default {
 				confirmText: 'Yes',
 				success(res) {
 					if (res.confirm) {
-						const param = {
-							orderId: orderId
-						};
 						that.$request
-							.post('/entry/wxapp/cancelOrder?orderId=' + orderId, {
-								data: param
-							})
+							.post('/entry/wxapp/cancelOrder?orderId=' + orderId)
 							.then(res => {
 								wx.showToast({
 									title: 'Cancelled',
@@ -203,13 +188,8 @@ export default {
 				confirmText: 'Yes',
 				success(res) {
 					if (res.confirm) {
-						const param = {
-							orderId: orderId
-						};
 						that.$request
-							.post('/entry/wxapp/delOrder?orderId=' + orderId, {
-								data: param
-							})
+							.post('/entry/wxapp/delOrder?orderId=' + orderId)
 							.then(res => {
 								wx.showToast({
 									title: 'Deleted',

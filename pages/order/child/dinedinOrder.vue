@@ -17,7 +17,7 @@
 				<view>
 					<!-- dnState：店内订单状态1,待支付，2已完成,3关闭订单 -->
 					<view class="text color-gray" v-if="item.dnState == 1" @click="cancelOrder(item.id)">Cancel</view>
-					<view class="text color-blue" v-if="item.dnState == 1" @click="goOrderDetail(item.id)">Pay Now</view>
+					<!-- <view class="text color-blue" v-if="item.dnState == 1" @click="goOrderDetail(item.id)">Pay Now</view> -->
 					<view class="text color-blue" v-if="[2, 4].indexOf(item.dnState) !== -1" @click="anotherOrder(item.storeId)">Another order</view>
 					<view class="text color-blue" v-if="item.dnState == 2" @click="commentOrder(item.storeId)">Comment</view>
 				</view>

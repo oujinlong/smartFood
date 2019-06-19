@@ -86,7 +86,7 @@
 					</view>
 				</view>
 
-				<view class="padding bg-white button-icon"><button type="warn" formType="submit">Reservation</button></view>
+				<view class="padding bg-white button-icon"><button type="warn" formType="submit" v-bind:style="{ backgroundColor: storeColor }">Reservation</button></view>
 			</view>
 		</form>
 
@@ -284,9 +284,15 @@ export default {
 	},
 	mounted() {
 		this.queryTableType();
+		wx.setNavigationBarColor({
+			frontColor: '#ffffff',
+			backgroundColor: this.storeColor
+		});
 	},
 	computed: {
-		...mapGetters({})
+		...mapGetters({
+			storeColor: 'storeColor'
+		})
 	},
 	components: {
 		uniIcon,

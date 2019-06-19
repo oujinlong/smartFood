@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<view class="search-container padding-xl">
+		<view class="search-container padding-xl" v-bind:style="{ backgroundColor: backgroundColor }">
 			<input class="search-input" confirm-type="search" focus placeholder="Key Search" placeholder-class="search-placeholder-class" @confirm="searchStoreClick" />
 		</view>
 		<view class="bg-white padding text-black">
@@ -190,9 +190,18 @@ export default {
 	},
 	mounted() {
 		this.getConfig();
+		wx.setNavigationBarColor({
+			frontColor: '#ffffff',
+			backgroundColor: this.systemInfo.color
+		});
 	},
 	computed: {
-		...mapGetters({})
+		...mapGetters({
+			systemInfo: 'systemInfo'
+		}),
+		backgroundColor () {
+		  return this.systemInfo.color
+		},
 	},
 	components: {}
 };
@@ -200,7 +209,6 @@ export default {
 
 <style lang="scss">
 .search-container {
-	background-color: $app-theme-color;
 	text-align: center;
 
 	.search-input {

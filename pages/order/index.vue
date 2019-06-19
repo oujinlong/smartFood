@@ -33,6 +33,7 @@ export default {
 		if (this.tabIndex) {
 			this.TabCur = Number(this.tabIndex);
 		}
+		uni.startPullDownRefresh();
 	},
 	data() {
 		return {
@@ -48,9 +49,6 @@ export default {
 	},
 	props: {},
 	methods: {
-		onLoad() {
-			uni.startPullDownRefresh();
-		},
 		refreshOrder() {
 			uni.startPullDownRefresh();
 		},
@@ -130,9 +128,16 @@ export default {
 				});
 		}
 	},
-	mounted() {},
+	mounted() {
+		wx.setNavigationBarColor({
+			frontColor: '#ffffff',
+			backgroundColor: this.systemInfo.color
+		});
+	},
 	computed: {
-		...mapGetters({})
+		...mapGetters({
+			systemInfo: 'systemInfo'
+		})
 	},
 	components: {
 		WucTab,

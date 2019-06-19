@@ -39,12 +39,12 @@
         show: false,
         payItems: [
         	{
-        		icon: '../../../static/img/weixin.png',
+        		icon: '../../static/img/weixin.png',
         		name: 'WeChat',
         		value: 2
         	},
         	{
-        		icon: '../../../static/img/qb.png',
+        		icon: '../../static/img/qb.png',
         		name: 'Balance',
         		value: 1
         	}

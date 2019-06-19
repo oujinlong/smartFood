@@ -5,13 +5,15 @@
 			<view style="margin-top: 40upx;">Hello, tourists</view>
 			<view style="margin-top: 40upx;">In order to give you a better shopping experience, we invite you to log in before making a purchase.</view>
 
-			<button open-type="getUserInfo" @getuserinfo="getUserInfoHandle" class="login_btn" style="margin-top: 100upx;">Login</button>
+			<button open-type="getUserInfo" @getuserinfo="getUserInfoHandle" v-bind:style="{ backgroundColor: backgroundColor }" class="login_btn" style="margin-top: 100upx;">
+				Login
+			</button>
 		</view>
 
 		<!-- 已登陆 -->
 		<view v-else>
 			<!-- 红色 title view -->
-			<view class="title_view">
+			<view class="title_view" v-bind:style="{ backgroundColor: backgroundColor }">
 				<image v-bind:src="userInfo.avatarUrl" class="avatar" style="margin-left: 40upx;"></image>
 				<text class="nickName" style="margin-left: 30upx;">{{ userInfo.nickName }}</text>
 			</view>
@@ -19,7 +21,7 @@
 			<!-- 钱包 -->
 			<view class="wallet" style="margin-bottom: 40upx;">
 				<view>
-					<text style="font-size: 24upx;">{{CURRENCY_SYMBOL}}</text>
+					<text style="font-size: 24upx;">{{ CURRENCY_SYMBOL }}</text>
 					<text style="font-size: 46upx; color: #f8ce5f;">708</text>
 				</view>
 
@@ -46,7 +48,10 @@ import { uniList, uniListItem } from '@dcloudio/uni-ui';
 import CONFIG from '@/utils/config.js';
 export default {
 	computed: {
-		...mapGetters(['userInfo', 'hasLogin'])
+		...mapGetters(['userInfo', 'hasLogin', 'systemInfo']),
+		backgroundColor() {
+			return this.systemInfo.color;
+		}
 	},
 	components: { uniList, uniListItem },
 	data() {
@@ -55,6 +60,10 @@ export default {
 		};
 	},
 	mounted() {
+		wx.setNavigationBarColor({
+			frontColor: '#ffffff',
+			backgroundColor: this.systemInfo.color
+		});
 		console.log('more user info');
 		console.log(this.userInfo);
 	},
@@ -158,14 +167,14 @@ export default {
 	text-align: center;
 	line-height: 100upx;
 	border-radius: 50upx;
-	background-color: $app-theme-color;
+	// background-color: $app-theme-color;
 	color: white;
 	font-size: 45upx;
 	font-weight: 600;
 }
 .title_view {
-	background-color: $app-theme-color;
-	width: 100vw;
+	// background-color: $app-theme-color;
+	// width: 100vw;
 	height: 160upx;
 	display: flex;
 	flex-direction: row;

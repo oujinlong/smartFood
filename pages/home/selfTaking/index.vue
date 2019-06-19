@@ -96,7 +96,7 @@
         </view>
       </view>
       
-      <payment-dialog :visible='showPay' :price='totalAllWithTax' @confirm='paymentConfirm'></payment-dialog>
+      <payment-dialog :visible='showPay' :price='totalAllWithTax' @confirm='paymentConfirm' @hideHandle='hideHandle'></payment-dialog>
   </view>
 </template>
 
@@ -199,6 +199,9 @@
       this.getTax()
     },
     methods: {
+			hideHandle() {
+				this.showPay = false
+			},
       bindDateChange(date) {
         const chooseTimeStr = date.detail.value
         this.chooseTime = chooseTimeStr

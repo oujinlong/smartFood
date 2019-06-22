@@ -90,6 +90,12 @@
 			"style": {
 				"navigationBarTitleText": "Order Detail"
 			}
+		},
+		{
+			"path": "pages/order/child/reservationOrderDetail",
+			"style": {
+				"navigationBarTitleText": "Order Detail"
+			}
 		}
 	],
 	"tabBar": {

@@ -89,28 +89,7 @@
 				<view class="padding bg-white button-icon"><button type="warn" formType="submit" v-bind:style="{ backgroundColor: storeColor }">Reservation</button></view>
 			</view>
 		</form>
-
-		<!-- 支付弹框 -->
-		<uni-popup :show="isShowDialog" position="middle" mode="fixed" @hidePopup="isShowDialog = false" class="pay-dialog">
-			<view style="width: 100%;">
-				<view class="pay-title">Payment options</view>
-				<view class="uni-list">
-					<radio-group @change="radioChange">
-						<label class="uni-list-cell uni-list-cell-pd" v-for="(item, index) in payItems" :key="item.value">
-							<view class="uni-flex uni-row" style="position: relative;">
-								<view class="flex-item" style="position: absolute;top:-7rpx;"><image :src="item.icon" style="width: 40upx;height: 40upx;"></image></view>
-								<view class="flex-item padding-left-xl" style="line-height: 28upx;">{{ item.name }}</view>
-							</view>
-							<view><radio :value="item.value" :checked="index === currentPayIndex" /></view>
-						</label>
-					</radio-group>
-					<view class="uni-list-cell-pd" style="text-align:center;border-top:1upx solid #DDDEE1;margin-top:2upx;">You selected {{ payItems[currentPayIndex].name }}</view>
-				</view>
-				<view class="confirm-button" :class="{ 'blue-button': payItems[currentPayIndex].name === 'Balance' }" @click="confirmClick">
-					Confirm payment ${{ tableArray[tableIndex].ydCost || '0' }}
-				</view>
-			</view>
-		</uni-popup>
+		<payment-dialog :visible="isShowDialog" :price="tableArray[tableIndex].ydCost" @confirm="confirmClick" @hideHandle="hideHandle"></payment-dialog>
 	</view>
 </template>
 
@@ -144,6 +123,8 @@ function formatTime() {
 import { mapGetters } from 'vuex';
 import { uniIcon, uniPopup } from '@dcloudio/uni-ui';
 import CONFIG from '@/utils/config.js';
+import { PaymentDialog } from '@/components/paymentDialog';
+var graceChecker = require('@/common/graceChecker.js');
 
 export default {
 	name: '',
@@ -170,19 +151,6 @@ export default {
 			phone: '',
 			name: '',
 			isShowDialog: false,
-			payItems: [
-				{
-					icon: '../../../static/img/weixin.png',
-					name: 'WeChat',
-					value: 2
-				},
-				{
-					icon: '../../../static/img/qb.png',
-					name: 'Balance',
-					value: 1
-				}
-			],
-			currentPayIndex: 0,
 			CURRENCY_SYMBOL: CONFIG.common.CURRENCY_SYMBOL
 		};
 	},
@@ -199,6 +167,9 @@ export default {
 		}
 	},
 	methods: {
+		hideHandle() {
+			this.isShowDialog = false;
+		},
 		selectDate(e) {
 			//选择到店日期
 			this.date = e.target.value;
@@ -238,20 +209,25 @@ export default {
 				});
 		},
 		formSubmit(e) {
-			this.isShowDialog = true;
-		},
-		radioChange(evt) {
-			//支付方式变更
-			for (let i = 0; i < this.payItems.length; i++) {
-				if (this.payItems[i].value.toString() === evt.target.value) {
-					this.currentPayIndex = i;
-					break;
-				}
+			var rule = [
+				{ name: 'name', checkType: 'notnull', checkRule: '', errorMsg: 'please input your name' },
+				{ name: 'phone', checkType: 'notnull', checkRule: '', errorMsg: 'please input your phone num' },
+				{ name: 'phone', checkType: 'int', checkRule: '1,30', errorMsg: 'please input current phone num' }
+			];
+			//进行表单检查
+			var formData = e.detail.value;
+			var checkRes = graceChecker.check(formData, rule);
+			if (checkRes) {
+				this.isShowDialog = true;
+			} else {
+				uni.showToast({ title: graceChecker.error, icon: 'none' });
 			}
 		},
-		confirmClick() {
+		confirmClick(item) {
+			const {payIndex} = item
+			debugger
 			const param = {
-				isYue: this.payItems[this.currentPayIndex].value, //余额支付=1，直接支付=2
+				isYue: payIndex, //余额支付=1，直接支付=2
 				jcNum: this.peopleNumber, //就餐人数
 				linkName: this.name, //预约姓名
 				linkTel: this.phone, //预约电话
@@ -296,7 +272,8 @@ export default {
 	},
 	components: {
 		uniIcon,
-		uniPopup
+		uniPopup,
+		PaymentDialog
 	}
 };
 </script>
@@ -353,32 +330,5 @@ export default {
 	position: absolute;
 	bottom: 0;
 	width: calc(100% - 60upx);
-}
-.pay-title {
-	background-color: #f2f2f2;
-	border-top-left-radius: 10upx;
-	border-top-right-radius: 10upx;
-	text-align: center;
-	padding: 20rpx;
-	font-size: 30rpx;
-}
-.confirm-button {
-	border-bottom-left-radius: 10upx;
-	border-bottom-right-radius: 10upx;
-	text-align: center;
-	padding: 20rpx;
-	font-size: 30rpx;
-	color: white;
-	background-color: #39b54a;
-}
-.blue-button {
-	background-color: #34aaff;
-}
-
-.pay-dialog {
-	/deep/ .uni-popup-middle.uni-popup-fixed {
-		padding: 0;
-		width: 85%;
-	}
 }
 </style>

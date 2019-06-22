@@ -1,84 +1,88 @@
 <template>
-  <uni-popup :show="show" position="middle" mode="fixed" @hidePopup="hideHandle" class="pay-dialog">
-    <view style="width: 75vw">
-      <view class="pay-title">Payment options</view>
-      <view class="uni-list">
-        <radio-group @change="radioChange">
-          <label class="uni-list-cell uni-list-cell-pd" v-for="(item, index) in payItems" :key="item.value">
-            <view class="uni-flex uni-row" style="position: relative;">
-              <view class="flex-item" style="position: absolute;top:-7rpx;"><image :src="item.icon" style="width: 40upx;height: 40upx;"></image></view>
-              <view class="flex-item padding-left-xl" style="line-height: 28upx;">{{ item.name }}</view>
-            </view>
-            <view><radio :value="item.value" :checked="index === currentPayIndex" /></view>
-          </label>
-        </radio-group>
-        <view class="uni-list-cell-pd" style="text-align:center;border-top:1upx solid #DDDEE1;margin-top:2upx;">You selected {{ payItems[currentPayIndex].name }}</view>
-      </view>
-      <view class="confirm-button" :class="{ 'blue-button': payItems[currentPayIndex].name === 'Balance' }" @click="confirmClick">
-        Confirm payment ${{ price || '0' }}
-      </view>
-    </view>
-  </uni-popup>
+	<uni-popup :show="show" mode="fiexd" @hidePopup="hideHandle" class="pay-dialog">
+		<view style="width: 75vw">
+			<view class="pay-title">Payment options</view>
+			<view class="uni-list">
+				<radio-group @change="radioChange">
+					<label class="uni-list-cell uni-list-cell-pd" v-for="(item, index) in payItems" :key="item.value">
+						<view class="uni-flex uni-row" style="position: relative;">
+							<view class="flex-item" style="position: absolute;top:-7rpx;"><image :src="item.icon" style="width: 40upx;height: 40upx;"></image></view>
+							<view class="flex-item padding-left-xl" style="line-height: 28upx;">{{ item.name }}</view>
+						</view>
+						<view><radio :value="item.value" :checked="index === currentPayIndex" /></view>
+					</label>
+				</radio-group>
+				<view class="uni-list-cell-pd" style="text-align:center;border-top:1upx solid #DDDEE1;margin-top:2upx;">You selected {{ payItems[currentPayIndex].name }}</view>
+			</view>
+			<view class="confirm-button" :class="{ 'blue-button': payItems[currentPayIndex].name === 'Balance' }" @click="confirmClick">Confirm payment ${{ price || '0' }}</view>
+		</view>
+	</uni-popup>
 </template>
 
 <script>
-  import CONFIG from '@/utils/config.js';
-  import { uniPopup } from '@dcloudio/uni-ui';
- 
-  export default {
-    name: 'paymentDialog',
-    props: {
-      visible: false,
-      price: 0
-    },
-    components: {
-      uniPopup,
-    },
-    data() {
-      return ({
-        show: false,
-        payItems: [
-        	{
-        		icon: '../../static/img/weixin.png',
-        		name: 'WeChat',
-        		value: 2
-        	},
-        	{
-        		icon: '../../static/img/qb.png',
-        		name: 'Balance',
-        		value: 1
-        	}
-        ],
-        currentPayIndex: 0,
-        CURRENCY_SYMBOL: CONFIG.common.CURRENCY_SYMBOL
-      })
-    },
-    watch: {
-      visible (value) {
-        this.show = this.visible
-      }
-    },
-    methods: {
-      hideHandle () {
-        this.$emit('hideHandle', '')
-      },
-      radioChange (evt) {
-        //支付方式变更
-        for (let i = 0; i < this.payItems.length; i++) {
-        	if (this.payItems[i].value.toString() === evt.target.value) {
-        		this.currentPayIndex = i;
-        		break;
-        	}
-        }
-      },
-      confirmClick () {
-        this.$emit('confirm', {payIndex: this.currentPayIndex + 1})
-      }
-    }
-  }
+import CONFIG from '@/utils/config.js';
+import { uniPopup } from '@dcloudio/uni-ui';
+
+export default {
+	name: 'paymentDialog',
+	props: {
+		visible: false,
+		price: 0
+	},
+	components: {
+		uniPopup
+	},
+	data() {
+		return {
+			show: false,
+			payItems: [
+				{
+					icon: '../../static/img/weixin.png',
+					name: 'WeChat',
+					value: 2
+				},
+				{
+					icon: '../../static/img/qb.png',
+					name: 'Balance',
+					value: 1
+				}
+			],
+			currentPayIndex: 0,
+			CURRENCY_SYMBOL: CONFIG.common.CURRENCY_SYMBOL
+		};
+	},
+	watch: {
+		visible(value) {
+			this.show = this.visible;
+		}
+	},
+	methods: {
+		hideHandle() {
+			this.$emit('hideHandle', '');
+		},
+		radioChange(evt) {
+			//支付方式变更
+			for (let i = 0; i < this.payItems.length; i++) {
+				if (this.payItems[i].value.toString() === evt.target.value) {
+					this.currentPayIndex = i;
+					break;
+				}
+			}
+		},
+		confirmClick() {
+			this.$emit('confirm', { payIndex: this.payItems[this.currentPayIndex].value });
+		}
+	}
+};
 </script>
 
 <style lang="scss" type="text/scss" scoped>
+.pay-dialog {
+	/deep/ .uni-popup-middle.uni-popup-fixed {
+		padding: 0;
+		width: 85vw;
+	}
+}
 .title-content {
 	flex: 1;
 	text-align: right;
@@ -150,12 +154,5 @@
 }
 .blue-button {
 	background-color: #34aaff;
-}
-
-.pay-dialog {
-	/deep/ .uni-popup-middle.uni-popup-fixed {
-		padding: 0;
-		width: 85vw;
-	}
 }
 </style>

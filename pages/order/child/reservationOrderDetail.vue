@@ -1,28 +1,29 @@
 <template>
-	<view>
-		<view class="reservation-detail" v-for="(item, index) in reservationList" :key="index">
-			<view class="order-name border-bottom">
-				Order：{{ item.orderNum }}
-				<view class="status-name" :class="'color-' + item.state" style="float:right">{{ item.state | stateFilter }}</view>
+	<view class="reservation-mian">
+		<!-- 标题 -->
+		<view class="reservation-title uni-flex uni-row" style="justify-content: center;" v-bind:style="{ backgroundColor: systemInfo.color }">
+			<image :src="reservationInfo.logo" style="width: 80upx;height: 80upx;border-radius: 50%;margin: 20upx 20upx 0 0"></image>
+			<view style="line-height: 120upx;">{{ progressList[activeStep].title }}</view>
+		</view>
+		<!-- 预定内容 -->
+		<view class="reservation-detail">
+			<view class="reservation-name">{{ reservationInfo.name }}</view>
+			<view style="padding: 20upx 0;">
+				<view class="reservation-value">Time: {{ reservationInfo.createdTime }}</view>
+				<view class="reservation-value">Number of people: {{ reservationInfo.jcNum }}</view>
+				<view class="reservation-value">Table type: {{ reservationInfo.tableTypeName }}</view>
+				<view class="reservation-value">Name: {{ reservationInfo.linkName }}</view>
+				<view class="reservation-value">Phone: {{ reservationInfo.linkTel }}</view>
+				<view class="reservation-value">Remark: {{ reservationInfo.remark }}</view>
 			</view>
-			<view class="order-content-main border-bottom uni-flex uni-row" @click="queryOrderDetail(item.id)">
-				<view style="display: flex; justify-content: center;align-items: center;"><image :src="item.logo" style="width: 150upx;height: 150upx;border-radius: 50%;"></image></view>
-				<view class="uni-flex uni-column" style="padding-left: 20upx;">
-					<view class="title-name">{{ item.img }}</view>
-					<view class="title">{{ item.name }}</view>
-					<view class="title-text">Arrival time：{{ item.xzDate }} {{ item.yjddDate }}</view>
-					<view class="title-text">Count of meals：{{ item.jcNum }}</view>
-				</view>
-			</view>
-			<view class="order-action uni-flex uni-row">
-				<view class="text" style="line-height: 65upx;flex: 1;">Table type：{{ item.tableTypeName }}</view>
-				<view>
-					<!-- "state": 1待审核,2已审核,3已拒绝（不会出现3状态）,4取消 5商家审核 6 商家已退款 7 商家已拒绝退款-->
-					<view class="color-blue" v-if="[1, 2, 5].indexOf(item.state) !== -1" @click="queryOrderDetail(item.id)">Detail</view>
-					<view class="color-red" v-if="item.ydcode !== '' && item.state === 4" @click="refundClick(item.id)">Apply for refund</view>
-					<view class="color-red" v-if="[2, 4, 6, 7].indexOf(item.state) !== -1" @click="deleteOrder(item.id)">Delete</view>
-					<view class="color-red" v-if="item.state == 1" @click="cancelOrder(item.id)">Cancel</view>
-				</view>
+		</view>
+		<!-- 预定流程 -->
+		<view class="reservation-progress">
+			<view class="title">Detail</view>
+			<view class="progress-detail"><uni-steps :options="progressList" direction="column" :active="activeStep"></uni-steps></view>
+			<view class="uni-flex uni-row">
+				<view class="red-border-button" v-if="isShowCancel" v-bind:style="{ 'border-color': systemInfo.color }" @click="cancelPayment">Cancel</view>
+				<view class="red-button red-border-button" @click="contactStorePhone" v-bind:style="{ backgroundColor: systemInfo.color }">Contact us</view>
 			</view>
 		</view>
 	</view>
@@ -30,122 +31,44 @@
 
 <script>
 import { mapGetters } from 'vuex';
+import { uniSteps, uniPopup } from '@dcloudio/uni-ui';
 export default {
 	name: '',
+	onLoad(e) {
+		this.ydOrderId = e.ydOrderId || '';
+	},
 	data() {
-		return {};
+		return {
+			ydOrderId: '',
+			reservationInfo: {},
+			progressList: [
+				{
+					title: 'Reservation request is received',
+					desc: ''
+				},
+				{
+					title: 'Confirmation in progress',
+					desc: ''
+				}
+			],
+			activeStep: 0,
+			textButtonDesc: '',
+			isShowCancel: false
+		};
 	},
-	props: {
-		reservationList: {
-			type: Array,
-			default() {
-				return [];
-			}
-		}
-	},
+	props: {},
 	methods: {
-		queryOrderDetail(ydOrderId) {
-			uni.navigateTo({
-				url: '/pages/home/child/reservationDetail?ydOrderId=' + ydOrderId
-			});
-		},
-		refundClick(ydOrderId) {
-			//申请退款
+		cancelPayment() {
 			let that = this;
 			wx.showModal({
 				title: 'Notice',
-				content: 'Do you need to apply for a refund?',
+				content: 'Cancel the order?',
 				cancelText: 'Cancel',
 				confirmText: 'Yes',
 				success(res) {
 					if (res.confirm) {
-						const param = {
-							orderId: ydOrderId
-						};
 						that.$request
-							.post('/entry/wxapp/ydRefund?orderId=' + ydOrderId, {
-								data: param
-							})
-							.then(res => {
-								wx.showToast({
-									title: 'Refunded',
-									icon: 'success',
-									duration: 1000
-								});
-								setTimeout(function() {
-									that.$emit('refreshOrder', true);
-								}, 1000);
-							})
-							.catch(error => {
-								console.error('error:', error);
-								wx.showToast({
-									title: 'Try again later',
-									icon: 'loading',
-									duration: 1000
-								});
-							});
-					} else if (res.cancel) {
-						console.log('用户点击取消');
-					}
-				}
-			});
-		},
-		deleteOrder(ydOrderId) {
-			let that = this;
-			wx.showModal({
-				title: 'Notice',
-				content: 'Delete the reservation?',
-				cancelText: 'Cancel',
-				confirmText: 'Yes',
-				success(res) {
-					if (res.confirm) {
-						const param = {
-							orderId: ydOrderId
-						};
-						that.$request
-							.post('/entry/wxapp/delYd?orderId=' + ydOrderId, {
-								data: param
-							})
-							.then(res => {
-								wx.showToast({
-									title: 'Deleted',
-									icon: 'success',
-									duration: 1000
-								});
-								setTimeout(function() {
-									that.$emit('refreshOrder', true);
-								}, 1000);
-							})
-							.catch(error => {
-								console.error('error:', error);
-								wx.showToast({
-									title: 'Try again later',
-									icon: 'loading',
-									duration: 1000
-								});
-							});
-					} else if (res.cancel) {
-						console.log('用户点击取消');
-					}
-				}
-			});
-		},
-		cancelOrder(ydOrderId) {
-			let that = this;
-			wx.showModal({
-				title: 'Notice',
-				content: 'Cancel the reservation?',
-				cancelText: 'Cancel',
-				confirmText: 'Yes',
-				success(res) {
-					if (res.confirm) {
-						const param = {
-							orderId: ydOrderId
-						};
-						that.$request
-							.post('/entry/wxapp/cancelReservation?orderId=' + ydOrderId, {
-								data: param
-							})
+							.post('/entry/wxapp/cancelOrder?orderId=' + that.orderId)
 							.then(res => {
 								wx.showToast({
 									title: 'Cancelled',
@@ -153,13 +76,15 @@ export default {
 									duration: 1000
 								});
 								setTimeout(function() {
-									that.$emit('refreshOrder', true);
+									uni.reLaunch({
+										url: '/pages/order/index?tabIndex=' + 1
+									});
 								}, 1000);
 							})
 							.catch(error => {
 								console.error('error:', error);
 								wx.showToast({
-									title: 'Try again',
+									title: 'Try again later',
 									icon: 'loading',
 									duration: 1000
 								});
@@ -169,91 +94,155 @@ export default {
 					}
 				}
 			});
+		},
+		queryReservationInfo() {
+			const param = {
+				ydOrderId: this.ydOrderId
+			};
+			this.$request
+				.get('/entry/wxapp/reservationInfo', {
+					data: param
+				})
+				.then(res => {
+					this.reservationInfo = res.ydOrder;
+					const state = this.reservationInfo.state;
+					const createdTime = this.reservationInfo.createdTime;
+					this.progressList.forEach(item => {
+						item.desc = createdTime;
+					});
+					// State: 1,待审核，2已审核,3已拒绝（不会出现3状态）,4取消 5商家审核 6 商家已退款 7 商家已拒绝退款
+					if (state === 1 || state === 2) {
+						this.progressList.push({ title: 'Reservation successfully' });
+						if (state === 1) {
+							this.activeStep = 1;
+							this.isShowCancel = true;
+						} else {
+							this.activeStep = 2;
+							this.textButtonDesc = '';
+						}
+					} else if (state === 4) {
+						this.progressList.push({ title: 'Reservation is cancelled' });
+						this.activeStep = 2;
+					} else {
+						this.progressList.push({ title: 'Return application' });
+						if (state === 5) {
+							this.progressList.push({ title: 'Return request review' });
+						} else if (state === 6) {
+							this.progressList.push({ title: 'Refund successfully' });
+						} else if (state === 7) {
+							this.progressList.push({ title: 'Refund failed' });
+						}
+						this.activeStep = 3;
+					}
+				});
+		},
+		contactStorePhone() {
+			wx.makePhoneCall({
+				phoneNumber: this.reservationInfo.tel
+			});
 		}
 	},
-	mounted() {},
+	mounted() {
+		this.queryReservationInfo();
+		wx.setNavigationBarColor({
+			frontColor: '#ffffff',
+			backgroundColor: this.systemInfo.color
+		});
+	},
 	computed: {
-		...mapGetters({})
+		...mapGetters({
+			systemInfo: 'systemInfo'
+		})
 	},
-	filters: {
-		stateFilter(state) {
-			if (state === 1) {
-				return 'Reserving';
-			} else if (state === 2) {
-				return 'Reserved';
-			} else if (state === 4) {
-				return 'Cancelled';
-			} else if (state === 5) {
-				return 'Pending refund';
-			} else if (state === 6) {
-				return 'Refund successful';
-			} else if (state === 7) {
-				return 'Refund failed';
-			} else {
-				return '--';
-			}
-		}
-	},
-	components: {}
+	components: {
+		uniSteps,
+		uniPopup
+	}
 };
 </script>
 
 <style lang="scss" type="text/scss" scoped>
-.reservation-detail {
-	box-shadow: 0 0 10px 0 rgba(105, 126, 255, 0.15);
-	border: 1px solid #dddee1;
-	border-radius: 10upx;
-	padding: 10upx 20upx;
-	margin-bottom: 20upx;
-	.order-name {
-		.status-name {
-			color: #0097ff;
-			&.color-4 {
-				color: #999;
-			}
-			&.color-5 {
-				color: #999;
-			}
-			&.color-7 {
-				color: #ff4040;
-			}
+.reservation-mian {
+	.reservation-title {
+		color: white;
+		background-color: #ce2029;
+		height: 120upx;
+		text-align: center;
+		line-height: 120upx;
+		font-size: 32upx;
+	}
+	.reservation-detail {
+		margin-top: 10upx;
+		background-color: white;
+		padding: 0 20upx 20upx;
+		.reservation-name {
+			font-size: 32upx;
+			padding: 10rpx 0;
+			border-bottom: 1px solid #e7e7e8;
+		}
+		.reservation-value {
+			color: #999;
 		}
 	}
-	.order-content-main {
-		padding: 20upx 0;
-	}
-	.order-action {
-		padding: 20upx 0 10upx;
-		.color-blue {
-			float: right;
-			border-radius: 25upx;
-			font-size: 24upx;
-			padding: 10upx 20upx;
+	.reservation-progress {
+		margin-top: 20upx;
+		padding: 0 20upx 40upx;
+		background-color: white;
+		.title {
+			font-size: 32upx;
+			padding: 10rpx 0;
+			border-bottom: 1px solid #e7e7e8;
 			text-align: center;
-			color: #0097ff;
-			border: 1upx solid #0097ff;
-			margin-left: 20upx;
 		}
-		.color-red {
-			float: right;
-			border-radius: 25upx;
-			font-size: 24upx;
-			padding: 10upx 20upx;
+		.progress-detail {
+			padding: 30upx 0;
+		}
+		.red-border-button {
+			flex: 1;
+			border: 1px solid #ce2029;
+			border-radius: 10upx;
 			text-align: center;
-			color: #ff4040;
-			border: 1upx solid #ff4040;
-			margin-left: 20upx;
+			margin: 0 10rpx;
+			color: #ce2029;
+			padding: 5upx 0;
+		}
+		.red-button {
+			background-color: #ce2029;
+			color: white;
 		}
 	}
-}
-.border-bottom {
-	border-bottom: 1rpx solid #eeeeee;
-}
-.title-name {
-	font-size: 30upx;
-	text-align: left;
-}
-.title-text {
-	color: #b0b0b0;
+	.cancel-dialog {
+		/deep/ .uni-popup-middle.uni-popup-fixed {
+			padding: 0;
+			width: 85%;
+		}
+		.title {
+			padding: 30upx 0 10upx;
+			font-weight: bold;
+			font-size: 32upx;
+		}
+		.small-title {
+			color: #80838f;
+			padding-bottom: 30upx;
+		}
+		.cancel-button {
+			padding: 15upx 0;
+			flex: 1;
+			text-align: center;
+			font-weight: bold;
+			width: 50%;
+			border-top: 1px solid #e7e7e8;
+			border-right: 1px solid #e7e7e8;
+		}
+		.confirm-button {
+			padding: 15upx 0;
+			flex: 1;
+			text-align: center;
+			font-weight: bold;
+			color: #576b95;
+			width: 50%;
+			border-top: 1px solid #e7e7e8;
+		}
+	}
 }
 </style>

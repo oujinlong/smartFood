@@ -159,9 +159,13 @@ export default {
 	},
 	mounted() {
 		this.queryOrderInfo();
+		wx.setNavigationBarColor({
+			frontColor: '#ffffff',
+			backgroundColor: this.systemInfo.color
+		});
 	},
 	computed: {
-		...mapGetters({})
+		...mapGetters({ systemInfo: 'systemInfo' })
 	},
 	components: {}
 };

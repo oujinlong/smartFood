@@ -130,7 +130,7 @@ export default {
 	},
 	methods: {
 		hideHandle() {
-			this.showPay = false
+			this.showPay = false;
 		},
 		payClick() {
 			this.showPay = true;
@@ -150,7 +150,7 @@ export default {
 				})
 				.then(res => {
 					this.orderInfo = res.orderInfo;
-					this.totalAllWithTax = res.orderInfo.money
+					this.totalAllWithTax = res.orderInfo.money;
 				})
 				.catch(error => {
 					console.error('error:', error);
@@ -158,12 +158,12 @@ export default {
 		},
 		anotherOrder() {
 			uni.navigateTo({
-				url: '/pages/home/store/index?storeId=' + this.orderInfo.storeId
+				url: '/pages/home/store/index?storeId=' + this.orderInfo.storeId + '&orderId=' + this.orderInfo.orderId
 			});
 		},
 		commentOrder() {
 			uni.navigateTo({
-				url: '/pages/order/child/commentOrder?storeId=' + this.orderInfo.storeId
+				url: '/pages/order/child/commentOrder?storeId=' + this.orderInfo.storeId + '&orderId=' + this.orderInfo.orderId
 			});
 		},
 		cancelPayment() {
@@ -244,9 +244,15 @@ export default {
 	},
 	mounted() {
 		this.queryOrderInfo();
+		wx.setNavigationBarColor({
+			frontColor: '#ffffff',
+			backgroundColor: this.systemInfo.color
+		});
 	},
 	computed: {
-		...mapGetters({})
+		...mapGetters({
+			systemInfo: 'systemInfo'
+		})
 	},
 	components: {
 		PaymentDialog

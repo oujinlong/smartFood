@@ -284,7 +284,6 @@
       paymentConfirm (item) {
         const {payIndex} = item
         let sz = []
-        console.log(this.selfTakingInfo)
         this.selfTakingInfo.goodsInfo.forEach((good, index) => {
            const goodInfo = {
             dishesId: good.id,

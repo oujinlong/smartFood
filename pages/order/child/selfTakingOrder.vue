@@ -22,8 +22,8 @@
 					<view class="color-blue" v-if="item.state == 2" @click="remindOrder(item.tel)">Remind</view>
 					<view class="color-gray" v-if="item.state == 3" @click="remindOrder(item.tel)">Remming</view>
 					<view class="color-blue" v-if="item.state == 3" @click="comfirmOrder(item.id)">Confirm</view>
-					<!-- <view class="color-blue" v-if="item.state == 4" @click="commentOrder(item.storeId)">Comment</view> -->
-					<view class="color-blue" @click="commentOrder(item.storeId)">Comment</view>
+					<view class="color-blue" v-if="item.state == 4" @click="commentOrder(item.storeId,item.id)">Comment</view>
+					<!-- <view class="color-blue" @click="commentOrder(item.storeId,item.id)">Comment</view> -->
 					<view class="color-blue" v-if="['4', '6'].indexOf(item.state) !== -1" @click="anotherOrder(item.storeId)">Another order</view>
 					<view class="color-red" v-if="['4', '5', '6', '8', '9'].indexOf(item.state) !== -1" @click="deleteOrder(item.id)">Delete</view>
 				</view>
@@ -57,9 +57,10 @@ export default {
 				url: '/pages/order/child/selfTalingOrderDetail?orderId=' + orderId
 			});
 		},
-		commentOrder(storeId) {
+		commentOrder(storeId,orderId) {
+			const url = '/pages/order/child/commentOrder?storeId=' + storeId + '&orderId='+ orderId
 			uni.navigateTo({
-				url: '/pages/order/child/commentOrder?storeId=' + storeId
+				url: url
 			});
 		},
 		comfirmOrder(orderId) {

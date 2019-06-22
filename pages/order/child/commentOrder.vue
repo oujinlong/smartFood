@@ -1,15 +1,22 @@
 <template>
 	<view class="comment-main">
 		<view class="comment-star uni-flex uni-row">
-			<image src="http://lsl-1257417616.cos.ap-shanghai.myqcloud.com/201905281324451.png" style="width: 100upx;height: 100upx;"></image>
+			<image :src="storeInfo.logo" style="width: 100upx;height: 100upx;"></image>
+			<view style="line-height: 100upx;margin-left: 20upx;font-size: 30upx;">{{ storeInfo.name }}</view>
+		</view>
+		<view class="comment-star uni-flex uni-row">
 			<view class="text" style="margin: 0upx 20upx;line-height: 100upx;">Score</view>
 			<uni-rate :value="starValue" margin="5" @change="onChange" class="comment-rate"></uni-rate>
 			<view class="start-value">{{ starValue }} start(s)</view>
 		</view>
 		<view class="comment-text"><textarea class="text-area" name="textArea" v-model="commentText" placeholder="Give us your advice" /></view>
 		<view class="comment-button uni-flex uni-row">
-			<view class="store-name">Michelangelo's Restaurant & Bar</view>
-			<view class="comment-button-text" @click="submitComment">Submit</view>
+			<view class="store-name">
+				Comment get
+				<span v-bind:style="{ color: storeColor }" style="font-size: 40upx;padding: 0 10upx;">{{ point }}</span>
+				point(s)
+			</view>
+			<view class="comment-button-text" @click="submitComment" v-bind:style="{ backgroundColor: storeColor }">Submit</view>
 		</view>
 	</view>
 </template>
@@ -21,13 +28,20 @@ export default {
 	name: '',
 	onLoad(e) {
 		this.storeId = e.storeId || '';
+		this.orderId = e.orderId || '';
 	},
 	data() {
 		return {
 			storeId: '',
+			orderId: '',
+			orderNum: '',
 			starValue: 0,
 			commentText: '',
-			warn: ''
+			warn: '',
+			point: '',
+			storeInfo: {},
+			storeColor: '',
+			orderInfo: {}
 		};
 	},
 	props: {},
@@ -43,16 +57,91 @@ export default {
 				flag = false;
 			}
 			if (flag == true) {
-				wx.showModal({
-					title: 'Waring',
-					content: this.warn,
-					cancelText: 'Cancel',
-					confirmText: 'Yes'
-				});
+				uni.showToast({ title: this.warn, icon: 'none' });
+			} else {
+				const param = {
+					score: this.starValue,
+					userId: this.orderInfo.userId,
+					storeId: this.storeId,
+					orderId: this.orderId,
+					orderNum: this.orderInfo.orderNum,
+					point: this.point,
+					content: this.commentText
+				};
+				this.$request
+					.get('/entry/wxapp/pl', {
+						data: param
+					})
+					.then(res => {
+						wx.showToast({
+							title: 'Comment',
+							icon: 'success',
+							duration: 1000
+						});
+						setTimeout(function() {
+							uni.reLaunch({
+								url: '/pages/order/index?tabIndex=' + 1
+							});
+						}, 1000);
+					})
+					.catch(error => {
+						console.error('error:', error);
+					});
 			}
+		},
+		queryPoint() {
+			this.$request
+				.get('/entry/wxapp/system')
+				.then(res => {
+					this.point = res.system.integral;
+					console.log(this.point);
+				})
+				.catch(error => {
+					console.error('error:', error);
+				});
+		},
+		queryStoreInfo() {
+			const param = {
+				userId: this.orderInfo.userId,
+				storeId: this.storeId
+			};
+			this.$request
+				.get('/entry/wxapp/store', {
+					data: param
+				})
+				.then(res => {
+					this.storeInfo = res.store;
+					this.storeColor = res.store.color;
+					wx.setNavigationBarColor({
+						frontColor: '#ffffff',
+						backgroundColor: res.store.color
+					});
+				})
+				.catch(error => {
+					console.error('error:', error);
+				});
+		},
+		queryOrderInfo() {
+			const param = {
+				orderId: this.orderId
+			};
+			this.$request
+				.get('/entry/wxapp/myorderInfo', {
+					data: param
+				})
+				.then(res => {
+					this.orderInfo = res.orderInfo;
+					this.queryStoreInfo();
+				})
+				.catch(error => {
+					console.error('error:', error);
+				});
 		}
 	},
-	mounted() {},
+	mounted() {
+		this.queryPoint();
+		this.queryOrderInfo();
+	},
 	computed: {
 		...mapGetters({})
 	},

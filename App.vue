@@ -5,7 +5,6 @@
 			wx.getUserInfo({
 				success: (res) => {
           let userInfo = JSON.parse(res.rawData)
-          this.$store.commit('setUserInfo', userInfo)
 				},
         fail: (err) => {
         	console.log(err)

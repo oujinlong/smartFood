@@ -99,7 +99,6 @@ export default {
 					success: function(loginRes) {
 						const code = loginRes.code;
 						userInfo = JSON.parse(userInfo);
-						_this.$store.commit('setUserInfo', userInfo);
 						_this.$request.get('/entry/wxapp/user/wx6d8cc793be64b899/login?code=' + code, {}).then(serverLoginRes => {
 							console.log('serverLoginRes');
 							console.log(serverLoginRes);

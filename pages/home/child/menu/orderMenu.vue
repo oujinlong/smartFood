@@ -27,49 +27,131 @@
 		<!-- 功能切换 -->
 		<wuc-tab :tab-list="tabList" :tabCur.sync="TabCur" @change="tabChange"></wuc-tab>
     <view v-if="TabCur === 0">
-    <view class="content">
+      <view class="content">
 
-		<scroll-view class="menu-wrapper" scroll-y :style="'height:'+height+'px'">
-			<view ref="menuWrapper">
-				<!--  :class="{'current': currentIndex == index}" @click="selectMenu(index,$event)" -->
-				<view style="position: relative;" v-for="(item,index) in goods" :key="index" ref="menuList" @click="select(index)"
-				 :class="{'current': currentIndex === index}">
+      <scroll-view class="menu-wrapper" scroll-y :style="'height:'+height+'px'">
+        <view ref="menuWrapper">
+          <!--  :class="{'current': currentIndex == index}" @click="selectMenu(index,$event)" -->
+          <view style="position: relative;" v-for="(item,index) in goods" :key="index" ref="menuList" @click="select(index)"
+           :class="{'current': currentIndex === index}">
 
-					<view class="menu-item">{{item.typeName}}</view>
-					<text class="allcount" v-if="getAllCount>=item.count&&item.count>0">{{item.count}}</text>
-					<!-- <text class="allcount">1</text> -->
-				</view>
-			</view>
-		</scroll-view>
-		<!--  @scroll="scroll" -->
-		<scroll-view class="foods-wrapper" scroll-y :style="'height:'+height+'px'" :scroll-top="foodSTop">
-			<view ref="foodsWrapper">
-				<view ref="foodList" class="foods" v-for="(item, i) in goods" :key="i">
+            <view class="menu-item">{{item.typeName}}</view>
+            <text class="allcount" v-if="getAllCount>=item.count&&item.count>0">{{item.count}}</text>
+            <!-- <text class="allcount">1</text> -->
+          </view>
+        </view>
+      </scroll-view>
+      <!--  @scroll="scroll" -->
+      <scroll-view class="foods-wrapper" scroll-y :style="'height:'+height+'px'" :scroll-top="foodSTop">
+        <view ref="foodsWrapper">
+          <view ref="foodList" class="foods" v-for="(item, i) in goods" :key="i">
 
-					<view class="food-title" style="background: #f3f5f7">
-						{{item.typeName}}
-					</view>
-					<view class="food" v-for="(food, index) in item.goods" :key="index">
-						<image :src="food.img" mode="" style="width: 75px;height: 75px;margin-top: 6px;"></image>
-						<view class="food-info">
-							<text style="font-size: 15px;margin-top: 2px;">{{food.name}}</text>
-							<!-- <text style="font-size: 13px;margin: 2px 0;">{{food.description}}</text> -->
-							<text style="font-size: 13px;margin: 2px 0 4px;">{{food.num}}/Month</text>
+            <view class="food-title" style="background: #f3f5f7">
+              {{item.typeName}}
+            </view>
+            <view class="food" v-for="(food, index) in item.goods" :key="index">
+              <image :src="food.img" mode="" style="width: 75px;height: 75px;margin-top: 6px;"></image>
+              <view class="food-info">
+                <text style="font-size: 15px;margin-top: 2px;">{{food.name}}</text>
+                <!-- <text style="font-size: 13px;margin: 2px 0;">{{food.description}}</text> -->
+                <text style="font-size: 13px;margin: 2px 0 4px;">{{food.num}}/Month</text>
 
-							<!-- 加减 -->
-							<view class="food-btm">
-								<text class="food-price">${{food.money}}</text>
-								<cartcontrol :food="food" @add="addCart" @dec="decreaseCart"></cartcontrol>							
-							</view>
-						</view>
-					</view>
-				</view>
-			</view>
-		</scroll-view>
-		<shop-cart :goods="goods" @add="addCart" @dec="decreaseCart" @delAll="delAll" @next='nextHandle'></shop-cart>
-	</view>
+                <!-- 加减 -->
+                <view class="food-btm">
+                  <text class="food-price">${{food.money}}</text>
+                  <cartcontrol :food="food" @add="addCart" @dec="decreaseCart"></cartcontrol>							
+                </view>
+              </view>
+            </view>
+          </view>
+        </view>
+      </scroll-view>
+      <shop-cart :goods="goods" @add="addCart" @dec="decreaseCart" @delAll="delAll" @next='nextHandle'></shop-cart>
+      </view>
     </view>
-	</view>
+	
+    <view v-if = "TabCur === 1">
+      <scroll-view style="height: calc(100vh - 100px);" scroll-y @scrolltolower="loadMoreComments()">
+      
+      <view class="uni-flex uni-row align-center" style="background-color: white;border-top: lightGray 1px solid;height:160upx">
+        <view class="uni-flex uni-column justify-center align-center" style="width: 40%; padding: 12px">
+          <view class="scoreTitle">{{scoreInfo.averageScore}}</view>
+          <view>Total Score</view>
+        </view>
+        
+        <view style="width: 2upx;border-left: lightGray 1px solid;height: 60%;">
+        </view>
+        
+        <view class="uni-flex uni-row justify-center align-center" style="width: 60%; padding: 12px">
+          <view style="margin-right: 20upx;">
+             Rate:  
+          </view>
+          
+          <view>
+            <uni-rate  disabled = true :value="scoreInfo.averageScore"></uni-rate>
+          </view>
+          
+        </view>  
+      </view>
+      
+       <view class="uni-flex uni-row justify-between align-center" style = "background-color: white;margin-top: 20upx; padding: 30upx;">
+        <view> Score: {{scoreInfo.averageScore}}</view>
+        <view> Comment(s): {{scoreInfo.totalCount}}</view>
+      </view>
+      
+       <view style="margin-top: 40upx;">
+           <view class="uni-flex uni-row"  v-for="(comment,index) in commentList" :key="index" style="padding: 20upx;background-color: white;">
+             <image :src="comment.userImg" style="width: 80upx;height: 80upx;border-radius: 40upx;"></image>
+             <view class="uni-flex uni-column" style="margin-left: 20upx;">
+               <view>{{comment.userName}}</view>
+               <uni-rate disabled = true value="3"></uni-rate>
+               <view>{{comment.content}}</view>
+             </view>
+           </view>
+       </view>
+      </scroll-view>
+    </view>
+ 
+    <view v-if = "TabCur === 2">
+      <view class="uni-flex uni-row justify-between detailItem">
+        
+        <view class="uni-flex uni-row align-center">
+          <image src="../../../../static/img/time.png" style="width:15px;height:15px"></image>
+          <view style="margin-left: 20upx;">Open Hours</view>
+        </view>
+        
+        <view class="uni-flex uni-column">
+          <view>weekday {{storeInfo.weekday}}</view>
+          <view>weekend {{storeInfo.weekend}}</view>
+        </view>
+      </view>
+      
+       <view class="uni-flex uni-row justify-between align-center detailItem" @click = "clickTel">
+        <view class="uni-flex uni-rate align-center">
+            <image src="../../../../static/img/phone.png" style="width:15px;height:15px"></image>
+          <view style="margin-left: 20upx;">{{storeInfo.tel}}</view>
+        </view>
+        
+					<uni-icon size="20" type="arrowright" color="#80838F" class="arrow-right-icon"></uni-icon>
+      </view>
+      
+      <view class="uni-flex uni-row justify-between align-center detailItem" >
+        <view class="uni-flex uni-rate align-center">
+            <image src="../../../../static/img/location.png" style="width:20px;height:15px"></image>
+          <view style="margin-left: 20upx;">{{storeInfo.address}}</view>
+        </view>
+      </view>
+      
+       <view class="uni-flex uni-row justify-between align-center detailItem" @click = "enClick">
+        <view class="uni-flex uni-rate align-center">
+            <image src="../../../../static/img/pic.png" style="width:20px;height:15px"></image>
+          <view style="margin-left: 20upx;">Merchant environment</view>
+        </view>
+              <uni-icon size="20" type="arrowright" color="#80838F" class="arrow-right-icon"></uni-icon>
+        
+      </view>
+    </view>
+  </view>
 </template>
 
 <script>
@@ -77,12 +159,16 @@ import { mapGetters } from 'vuex';
 import WucTab from "@/components/wuc-tab/wuc-tab.vue";
 import ShopCart from './cart/shopcart.vue'
 import Cartcontrol from './cart/cartcontrol.vue'
+import uniRate from "@/components/uni-rate/uni-rate.vue"
+import { uniList, uniListItem, uniIcon } from '@dcloudio/uni-ui';
+
 export default {
 	name: '',
 
 	data() {
 		return {
 			storeInfo: {},
+      scoreInfo: undefined,
 			storeId: '',
 			reductionList: [],
 			tabList: [
@@ -94,14 +180,21 @@ export default {
       goods: [],
       height: 0,
       foodSTop: 0,
-      currentIndex: 0
+      currentIndex: 0,
+      commentList: [],
+      commentPage: 1,
+      isLoadAll: false
 		};
 	},
 	props: {},
   components: {
     ShopCart,
     WucTab,
-    Cartcontrol
+    Cartcontrol,
+    uniRate,
+    uniList, 
+    uniListItem,
+    uniIcon
   },
   onLoad(e) {
       this.height = Number(uni.getSystemInfoSync().windowHeight) - 55 - 190;
@@ -180,7 +273,7 @@ export default {
 					data: param
 				})
 				.then(res => {
-					this.storeInfo = res.store				
+					this.storeInfo = res.store	
 				})
 				.catch(error => {
 					console.error('error:', error)
@@ -292,12 +385,50 @@ export default {
         uni.navigateTo({
         	url: '/pages/home/selfTaking/index'
         })
+      },
+      queryScore () {
+        const storeId = this.storeId
+        this.$request.get('/entry/wxapp/averageStorePL?storeId=' + storeId).then(res => {
+          this.scoreInfo = res.scoreInfo
+        })
+      },
+      queryComments () {
+        this.commentPage = 1
+        this.commentList = []
+        this.queryCommentsRequest()
+      },
+      loadMoreComments () {
+        if (this.isLoadAll) {return}
+        this.commentPage += 1
+        this.queryCommentsRequest()
+      },
+      queryCommentsRequest () {
+        const storeId = this.storeId
+        this.$request.get('/entry/wxapp/storePL?storeId=' + storeId + '&pageSize=10&pageNo=' + this.commentPage).then(res => {
+          if (res.assess.list.length > 0) {
+            this.commentList = [...this.commentList, ...res.assess.list]
+          } else {
+            this.isLoadAll = true
+          }
+        })
+      },
+      clickTel() {
+      	wx.makePhoneCall({
+      		phoneNumber: this.storeInfo.tel
+      	});
+      },
+      enClick () {
+        uni.navigateTo({
+        	url: '/pages/home/store/aboutUs?storeId=' + this.storeId
+        });
       }
 	},
 	mounted() {
 		this.queryStoreInfo();
 		this.queryReduction();
     this.queryFoods();
+    this.queryScore();
+    this.queryComments();
 	}
 };
 </script>
@@ -404,4 +535,14 @@ export default {
 		color: #f01414;
 		font-size: 16px;
 	}
+  
+  .scoreTitle {
+    color: orange;
+    font-size: 22px;
+  }
+  .detailItem {
+    background: white;
+    padding: 20upx;
+    border-bottom: #fefefe 0.8px solid
+  }
 </style>

@@ -246,7 +246,8 @@
         this.reduce = result
       },
       checkNewUser () {
-        let userId = 50
+        const userId = this.userInfo.userId
+        console.log('userId',this.$store.userInfo, userId)
         this.$request.get('/entry/wxapp/checkFirstUser?userId=' + userId + '&sellerId=' + this.storeInfo.id).then(res => {
           if (res.code === 0) {
             this.isNewUser = (res.result === true || res.result === 'true')

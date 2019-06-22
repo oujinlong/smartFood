@@ -1,6 +1,6 @@
 <template>
 	<view class="search-main">
-		<view class="search-container padding-xl" v-bind:style="{ backgroundColor: backgroundColor }">
+		<view class="search-container padding-xl">
 			<view class="search-button uni-flex uni-row">
 				<image src="../../static/img/searchIcon.png" class="search-icon"></image>
 				<view class="search-text" @click="searchClick()">Search</view>
@@ -10,7 +10,6 @@
 		<view>
 			<view><choose-cade :list="list" @chooseLike="chooseLike()"></choose-cade></view>
 			<view class="bg-white padding text-black">
-				<scroll-view class="search-list" scroll-y @scrolltolower="loadMore()">
 					<block v-for="(item, index) in storeList" :key="index">
 						<view class="uni-tab-bar-loading">
 							<view class="uni-flex uni-row" @click="storeDetailClick(item)">
@@ -22,8 +21,8 @@
 									<view class="uni-flex uni-row">
 										<view class="title-time" style="margin-right: 20upx;">Open Hours:</view>
 										<view style="flex: 1;">
-											<view class="title-time">Weekday {{ item.weekday || '-' }}</view>
-											<view class="title-time">Weekend {{ item.weekend || '-' }}</view>
+											<view class="title-time">Weekday {{item.weekday || '-'}}</view>
+											<view class="title-time">Weekend {{item.weekend || '-' }}</view>
 										</view>
 									</view>
 									<view class="title-text">Restaurant Category: {{ item.categoryDesc }}</view>
@@ -78,10 +77,10 @@ export default {
 			categories: '',
 			floorLevelParam: [],
 			directionParam: [],
-			categoriesParam: [],
-			backgroundColor: ''
+			categoriesParam: []
 		};
 	},
+
 	props: {},
 	onLoad() {},
 	methods: {
@@ -255,36 +254,18 @@ export default {
 					console.error(error);
 				});
 		},
+		tabChange() {},
 		autoLogin() {
 			uni.login({
 				success: res => {
 					console.log('login res: ', res);
 				}
 			});
-		},
-		querySystem() {
-			this.$request
-				.get('/entry/wxapp/system')
-				.then(res => {
-					this.backgroundColor = res.system.color;
-					uni.setNavigationBarTitle({
-						title: res.system.linkName
-					});
-					wx.setNavigationBarColor({
-						frontColor: '#ffffff',
-						backgroundColor: res.system.color
-					});
-					this.$store.commit('setSystemInfo', res.system);
-				})
-				.catch(error => {
-					console.error(error);
-				});
 		}
 	},
 	mounted() {
 		this.autoLogin();
 		this.getConfig();
-		this.querySystem();
 	},
 	computed: {
 		...mapGetters({
@@ -304,6 +285,8 @@ export default {
 	height: 100vh;
 
 	.search-container {
+		background-color: $app-theme-color;
+
 		.search-button {
 			background-color: #ffffff;
 			padding: 20upx;

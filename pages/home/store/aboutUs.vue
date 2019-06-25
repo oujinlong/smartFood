@@ -66,7 +66,7 @@ export default {
 			this.environmentList = [];
 			this.awardsList = [];
 			const param = {
-				userId: 40,
+				userId: this.userInfo.userId,
 				storeId: this.storeId
 			};
 			this.$request
@@ -101,7 +101,9 @@ export default {
 		this.queryStoreInfo();
 	},
 	computed: {
-		...mapGetters({})
+		...mapGetters({
+			'userInfo': 'userInfo'
+		})
 	},
 	components: {}
 };

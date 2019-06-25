@@ -236,7 +236,7 @@ export default {
 				storeId: this.storeId, //店铺id
 				tableTypeId: this.tableArray[this.tableIndex].id, //桌位类型
 				tableTypeName: this.tableArray[this.tableIndex].name, //桌位类型名称
-				userId: 40, //用户ID
+				userId: this.userInfo.userId, //用户ID
 				xzDate: this.date, //预定日期
 				ydCode: '', //预定编码（不需要填写，可为空）
 				yjddDate: this.arrivalTime, //预定到店时间
@@ -267,7 +267,8 @@ export default {
 	},
 	computed: {
 		...mapGetters({
-			storeColor: 'storeColor'
+			storeColor: 'storeColor',
+			'userInfo': 'userInfo'
 		})
 	},
 	components: {

@@ -13,7 +13,7 @@
 				<!-- 无数据状态 -->
 				<view class="no_data_container uni-flex uni-column" v-if="reservationList.length == 0 && orderList.length == 0">
 					<image src="../../static/img/no-data.png" style="width: 300upx;height: 300upx"></image>
-					<view style="justify-content:center;font-size: 40rpx;margin-top: 20rpx ">No data</view>
+					<view style="justify-content:center;font-size: 40upx;margin-top: 20upx ">No data</view>
 				</view>
 			</scroll-view>
 		</view>
@@ -84,7 +84,7 @@ export default {
 			const param = {
 				curpage: this.currPage,
 				pageSize: this.pageSize,
-				userId: 40,
+				userId: this.userInfo.userId,
 				type: this.TabCur
 			};
 			this.$request
@@ -109,7 +109,7 @@ export default {
 			const param = {
 				curpage: this.currPage,
 				pageSize: this.pageSize,
-				userId: 40
+				userId: this.userInfo.userId
 			};
 			this.$request
 				.get('/entry/wxapp/myReservation', {
@@ -136,7 +136,8 @@ export default {
 	},
 	computed: {
 		...mapGetters({
-			systemInfo: 'systemInfo'
+			systemInfo: 'systemInfo',
+			'userInfo': 'userInfo'
 		})
 	},
 	components: {

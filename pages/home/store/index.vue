@@ -133,6 +133,11 @@ export default {
 			categoriesParam: []
 		};
 	},
+	computed: {
+		...mapGetters({
+		  'userInfo': 'userInfo'
+		})
+	},
 	mounted() {
 		this.queryAd();
 		this.getConfig();
@@ -229,7 +234,7 @@ export default {
 		},
 		queryStoreInfo() {
 			const param = {
-				userId: 40,
+				userId: this.userInfo.userId,
 				storeId: this.storeId
 			};
 			this.$request

@@ -225,7 +225,6 @@ export default {
 		},
 		confirmClick(item) {
 			const {payIndex} = item
-			debugger
 			const param = {
 				isYue: payIndex, //余额支付=1，直接支付=2
 				jcNum: this.peopleNumber, //就餐人数

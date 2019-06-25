@@ -9,7 +9,7 @@
 			<view style="font-size:26upx;color:#666;"><rich-text :nodes="storeInfo.details"></rich-text></view>
 		</view>
 
-		<view class="about-us-content" v-if="storeInfo.storeVideo">
+<!-- 		<view class="about-us-content" v-if="storeInfo.storeVideo">
 			<view class="about-us-title">
 				<view class="hx"></view>
 				<view class="hxwz">商家视频</view>
@@ -17,7 +17,7 @@
 			</view>
 			<view><video :src="storeInfo.storeVideo"></video></view>
 			<video :src="src"></video>
-		</view>
+		</view> -->
 
 		<view class="about-us-content">
 			<view class="about-us-title">

@@ -7,7 +7,7 @@ import request from '@/common/request.js'
 
 // 全局配置
 request.setConfig({
-	baseUrl: 'http://jeetpan.natapp1.cc/',
+	baseUrl: 'http://jeetpan.mynatapp.cc/',
 	header: {
 		'content-type': 'application/json'
 	}

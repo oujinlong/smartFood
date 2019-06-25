@@ -111,6 +111,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
 import { uniSwiperDot, uniList, uniListItem, uniIcon } from '@dcloudio/uni-ui';
 export default {
 	onLoad(e) {
@@ -135,7 +136,7 @@ export default {
 	},
 	computed: {
 		...mapGetters({
-		  'userInfo': 'userInfo'
+			userInfo: 'userInfo'
 		})
 	},
 	mounted() {

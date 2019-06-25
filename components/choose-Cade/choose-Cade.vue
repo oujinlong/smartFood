@@ -14,7 +14,7 @@
 				<view class="uni-flex uni-column all-value" :class="{ 'remark-value': directionList.length > 0 }">
 					<view v-for="(item, i) in listchild" :key="i">
 						<view class="mli" @tap="chooseOne(i)">
-							<text :class="[i == i2 ? 'actives' : '']" class="uni_14">{{ item.remark }}{{ directionList.length }}</text>
+							<text :class="[i == i2 ? 'actives' : '']" class="uni_14">{{ item.remark }}</text>
 							<image v-if="i == i2 && directionList.length == 0" class="ii" src="/static/choose-Cade/choose-Cadecc.png" mode=""></image>
 						</view>
 					</view>
@@ -193,8 +193,6 @@ export default {
 	align-items: center;
 	background-color: #ffffff;
 	padding: 28upx 5%;
-	position: fixed;
-	top: 189upx;
 	width: 90%;
 	z-index: 99;
 	/* #ifdef APP-PLUS */

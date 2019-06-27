@@ -90,6 +90,12 @@
                   console.log('store', that.$store.state)
                 })
               })
+            },
+            fail: (err) => {
+            	uni.showToast({
+            		title:err.toString(),
+                icon: 'none'
+            	})
             }
           })
 				} else {

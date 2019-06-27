@@ -14,7 +14,9 @@
 				</radio-group>
 				<view class="uni-list-cell-pd" style="text-align:center;border-top:1upx solid #DDDEE1;margin-top:2upx;">You selected {{ payItems[currentPayIndex].name }}</view>
 			</view>
-			<view class="confirm-button" :class="{ 'blue-button': payItems[currentPayIndex].name === 'Balance' }" @click="confirmClick">Confirm payment ${{ price || '0' }}</view>
+      <form-button @onPress = "confirmClick">
+          <view  class="confirm-button" :class="{ 'blue-button': payItems[currentPayIndex].name === 'Balance' }">Confirm payment ${{ price || '0' }}</view>
+      </form-button>
 		</view>
 	</uni-popup>
 </template>
@@ -22,7 +24,7 @@
 <script>
 import CONFIG from '@/utils/config.js';
 import { uniPopup } from '@dcloudio/uni-ui';
-
+import FormButton from '../formButton/index.vue'
 export default {
 	name: 'paymentDialog',
 	props: {
@@ -30,7 +32,8 @@ export default {
 		price: 0
 	},
 	components: {
-		uniPopup
+		uniPopup,
+    FormButton
 	},
 	data() {
 		return {
@@ -69,8 +72,8 @@ export default {
 				}
 			}
 		},
-		confirmClick() {
-			this.$emit('confirm', { payIndex: this.payItems[this.currentPayIndex].value });
+		confirmClick(formIdList) {
+			this.$emit('confirm', { payIndex: this.payItems[this.currentPayIndex].value, formIdList });
 		}
 	}
 };
@@ -144,8 +147,7 @@ export default {
 	font-size: 30rpx;
 }
 .confirm-button {
-	border-bottom-left-radius: 10upx;
-	border-bottom-right-radius: 10upx;
+	
 	text-align: center;
 	padding: 20rpx;
 	font-size: 30rpx;

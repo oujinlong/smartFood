@@ -85,6 +85,8 @@ export default {
 	name: '',
 	onLoad(e) {
 		this.orderId = e.orderId || '';
+    this.returnHome = e.returnHome || ''
+    console.log('onload')
 	},
 	data() {
 		return {
@@ -92,9 +94,17 @@ export default {
 			orderId: '',
 			orderInfo: {},
 			showPay: false,
-			totalAllWithTax: 0
+			totalAllWithTax: 0,
+      returnHome: ''
 		};
 	},
+  onUnload() {
+  	if (this.returnHome) {
+      uni.navigateBack({
+      	delta: 5
+      })
+    }
+  },
 	props: {},
 	filters: {
 		titleFilter(val) {

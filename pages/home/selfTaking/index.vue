@@ -111,6 +111,7 @@
       uniIcon,
       PaymentDialog
     },
+ 
     computed: {
       currentDate () {
         let date = new Date()
@@ -122,7 +123,8 @@
       },
       ...mapGetters({
         selfTakingInfo: 'selfTakingInfo',
-        'userInfo': 'userInfo'
+        'userInfo': 'userInfo',
+        'storeColor': 'storeColor'
       }),
       storeInfo () {
         return this.selfTakingInfo.storeInfo
@@ -197,6 +199,10 @@
       this.getReduce()
       this.checkNewUser()
       this.getTax()
+      wx.setNavigationBarColor({
+      	frontColor: '#ffffff',
+        backgroundColor: this.storeColor
+      })
     },
     methods: {
 			hideHandle() {
@@ -282,7 +288,8 @@
         this.showPay = true
       },
       paymentConfirm (item) {
-        const {payIndex} = item
+        const {payIndex, formIdList} = item
+        console.log(formIdList)
         let sz = []
         this.selfTakingInfo.goodsInfo.forEach((good, index) => {
            const goodInfo = {
@@ -326,11 +333,8 @@
           console.log('res:', res)
           if (res.code === 0) {
             const { orderId } = res
-            uni.navigateBack({
-            	delta: 1
-            })
             uni.navigateTo({
-            	'url': '../../order/child/selfTalingOrderDetail?orderId=' + orderId
+            	'url': '../../order/child/selfTalingOrderDetail?orderId=' + orderId + '&returnHome=1'
             })
           }
         }).catch(error => {

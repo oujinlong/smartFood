@@ -4,7 +4,7 @@
 		<uni-swiper-dot :info="info" :current="current" field="content">
 			<swiper class="swiper-box" autoplay="true" @change="change">
 				<swiper-item v-for="(item, index) in info" :key="index">
-					<view class="swiper-item"><image :src="item.logo" mode="aspectFill"></image></view>
+					<view class="swiper-item"><image :src="item" mode="aspectFill"></image></view>
 				</swiper-item>
 			</swiper>
 		</uni-swiper-dot>
@@ -140,7 +140,7 @@ export default {
 		})
 	},
 	mounted() {
-		this.queryAd();
+		// this.queryAd();
 		this.getConfig();
 	},
 	methods: {
@@ -244,6 +244,7 @@ export default {
 				})
 				.then(res => {
 					this.storeInfo = res.store;
+          this.info = this.storeInfo.img.split(',')
 					let cate = this.getCategoryFilter(this.storeInfo.categories);
 					let floor = this.getFloorFilter(this.storeInfo.floorLevel);
 					let direction = this.getDirectionFilter(this.storeInfo.direction);

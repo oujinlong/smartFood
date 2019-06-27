@@ -205,9 +205,10 @@ export default {
       })
   },
   computed: {
-    ...mapGetters ({
-      'storeColor': 'storeColor'
-    }),
+		...mapGetters({
+		  'userInfo': 'userInfo',
+		  'storeColor': 'storeColor'
+		}),
 			getList() {
 				let result = [];
 				this.goods.forEach((good) => {
@@ -272,7 +273,7 @@ export default {
 		},
 		queryStoreInfo() {
 			const param = {
-				userId: 40,
+				userId: this.userInfo.userId,
 				storeId: this.storeId
 			};
 			this.$request

@@ -3,7 +3,8 @@
 		{
 			"path": "pages/home/index",
 			"style": {
-				"navigationBarTitleText": "Pavilion KL"
+				"navigationBarTitleText": "Pavilion KL",
+				"enablePullDownRefresh": true // 下拉刷新
 			}
 		},
 		{
@@ -125,7 +126,7 @@
 	"globalStyle": {
 		"navigationBarTextStyle": "white",
 		"navigationBarTitleText": "uni-app",
-		"navigationBarBackgroundColor": "#ce2029",
+		"navigationBarBackgroundColor": "#980000",
 		"backgroundColor": "#F8F8F8"
 	}
 }

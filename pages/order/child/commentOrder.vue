@@ -74,7 +74,7 @@ export default {
 					})
 					.then(res => {
 						wx.showToast({
-							title: 'Comment',
+							title: 'Comment Succeed',
 							icon: 'success',
 							duration: 1000
 						});

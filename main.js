@@ -9,7 +9,7 @@ import request from '@/common/request.js'
 request.setConfig({
 	baseUrl: 'http://10.11.19.227:8084/',
    // baseUrl: 'https://jeetpan.mynatapp.cc/',
-  header: {
+	header: {
 		'content-type': 'application/json'
 	}
 })

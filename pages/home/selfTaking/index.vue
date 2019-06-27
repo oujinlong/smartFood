@@ -310,7 +310,7 @@
           preferential:  this.totalDiscount,
           sellerId: this.selfTakingInfo.storeInfo.id,
           type: 1,
-          userId: 40,
+          userId: this.userInfo.userId,
           deliveryTime: this.currentDate + ' ' + this.chooseTime,
           tel: 0,
           sz,

@@ -1,6 +1,6 @@
 <template>
 	<view class="search-main">
-		<view class="search-container padding-xl">
+		<view class="search-container padding-xl" v-bind:style="{ backgroundColor: backgroundColor }">
 			<view class="search-button uni-flex uni-row">
 				<image src="../../static/img/searchIcon.png" class="search-icon"></image>
 				<view class="search-text" @click="searchClick()">Search</view>
@@ -8,8 +8,12 @@
 		</view>
 		<!-- menu -->
 		<view>
-			<view><choose-cade :list="list" @chooseLike="chooseLike()"></choose-cade></view>
+			<view style="position: relative;height: 104upx;">
+				<choose-cade style="position: absolute;top: -104upx;height: 104upx;width: 100%;" :list="list" @chooseLike="chooseLike()"></choose-cade>
+			</view>
+
 			<view class="bg-white padding text-black">
+				<scroll-view class="search-list" scroll-y @scrolltolower="loadMore()">
 					<block v-for="(item, index) in storeList" :key="index">
 						<view class="uni-tab-bar-loading">
 							<view class="uni-flex uni-row" @click="storeDetailClick(item)">
@@ -21,8 +25,8 @@
 									<view class="uni-flex uni-row">
 										<view class="title-time" style="margin-right: 20upx;">Open Hours:</view>
 										<view style="flex: 1;">
-											<view class="title-time">Weekday {{item.weekday || '-'}}</view>
-											<view class="title-time">Weekend {{item.weekend || '-' }}</view>
+											<view class="title-time">Weekday {{ item.weekday || '-' }}</view>
+											<view class="title-time">Weekend {{ item.weekend || '-' }}</view>
 										</view>
 									</view>
 									<view class="title-text">Restaurant Category: {{ item.categoryDesc }}</view>
@@ -33,7 +37,7 @@
 					</block>
 					<view class="no_data_container uni-flex uni-column" v-if="storeList.length == 0">
 						<image src="../../static/img/no-data.png" style="width: 300upx;height: 300upx"></image>
-						<view style="justify-content:center;font-size: 40rpx;margin-top: 20rpx ">No data</view>
+						<view style="justify-content:center;font-size: 40upx;margin-top: 20upx ">No data</view>
 					</view>
 				</scroll-view>
 			</view>
@@ -77,13 +81,22 @@ export default {
 			categories: '',
 			floorLevelParam: [],
 			directionParam: [],
-			categoriesParam: []
+			categoriesParam: [],
+			backgroundColor: ''
 		};
 	},
 
 	props: {},
-	onLoad() {},
+	onLoad(e) {
+		uni.startPullDownRefresh();
+	},
 	methods: {
+		onPullDownRefresh() {
+			this.getConfig();
+			setTimeout(function() {
+				uni.stopPullDownRefresh();
+			}, 1000);
+		},
 		loadMore() {
 			if (this.currentPageNo < this.totalPage) {
 				this.currentPageNo++;
@@ -121,9 +134,9 @@ export default {
 			const param = {
 				pageNo: this.pageNo,
 				pageSize: this.pageSize,
-				floorLevel: this.floorLevel,
-				direction: this.direction,
-				categories: this.categories
+				floorLevel: this.floorLevel ? this.floorLevel : '',
+				direction: this.direction ? this.direction : '',
+				categories: this.categories ? this.categories : ''
 			};
 			this.$request
 				.get('/entry/wxapp/queryStore', {
@@ -254,18 +267,27 @@ export default {
 					console.error(error);
 				});
 		},
-		tabChange() {},
-		autoLogin() {
-			uni.login({
-				success: res => {
-					console.log('login res: ', res);
-				}
-			});
+		querySystem() {
+			this.$request
+				.get('/entry/wxapp/system')
+				.then(res => {
+					this.backgroundColor = res.system.color;
+					uni.setNavigationBarTitle({
+						title: res.system.linkName
+					});
+					wx.setNavigationBarColor({
+						frontColor: '#ffffff',
+						backgroundColor: res.system.color
+					});
+					this.$store.commit('setSystemInfo', res.system);
+				})
+				.catch(error => {
+					console.error(error);
+				});
 		}
 	},
 	mounted() {
-		this.autoLogin();
-		this.getConfig();
+		this.querySystem();
 	},
 	computed: {
 		...mapGetters({

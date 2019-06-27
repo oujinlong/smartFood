@@ -111,6 +111,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
 import { uniSwiperDot, uniList, uniListItem, uniIcon } from '@dcloudio/uni-ui';
 export default {
 	onLoad(e) {
@@ -132,6 +133,11 @@ export default {
 			directionParam: [],
 			categoriesParam: []
 		};
+	},
+	computed: {
+		...mapGetters({
+			userInfo: 'userInfo'
+		})
 	},
 	mounted() {
 		this.queryAd();
@@ -229,7 +235,7 @@ export default {
 		},
 		queryStoreInfo() {
 			const param = {
-				userId: 40,
+				userId: this.userInfo.userId,
 				storeId: this.storeId
 			};
 			this.$request

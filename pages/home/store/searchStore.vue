@@ -1,6 +1,7 @@
 <template>
 	<view>
-		<view class="search-container padding-xl" v-bind:style="{ backgroundColor: backgroundColor }">
+		<view class="search-container">
+			<image :src="backgroundImg" style="width: 100%;height: 100%;"></image>
 			<input class="search-input" confirm-type="search" focus placeholder="Key Search" placeholder-class="search-placeholder-class" @confirm="searchStoreClick" />
 		</view>
 		<view class="bg-white padding text-black">
@@ -16,8 +17,8 @@
 								<view class="uni-flex uni-row">
 									<view class="title-time" style="margin-right: 20upx;">Open Hours:</view>
 									<view style="flex: 1;">
-										<view class="title-time">Weekday {{item.weekday || '-'}}</view>
-										<view class="title-time">Weekend {{item.weekend || '-' }}</view>
+										<view class="title-time">Weekday {{ item.weekday || '-' }}</view>
+										<view class="title-time">Weekend {{ item.weekend || '-' }}</view>
 									</view>
 								</view>
 								<view class="title-text">Restaurant Category: {{ item.categoryDesc || '-' }}</view>
@@ -49,7 +50,8 @@ export default {
 			totalPage: 0,
 			floorLevelParam: [],
 			directionParam: [],
-			categoriesParam: []
+			categoriesParam: [],
+			backgroundImg: ''
 		};
 	},
 	props: {},
@@ -186,9 +188,20 @@ export default {
 				.then(res => {
 					this.categoriesParam = res.params;
 				});
+		},
+		querySystem() {
+			this.$request
+				.get('/entry/wxapp/system')
+				.then(res => {
+					this.backgroundImg = res.system.linkLogo;
+				})
+				.catch(error => {
+					console.error(error);
+				});
 		}
 	},
 	mounted() {
+		this.querySystem();
 		this.getConfig();
 		wx.setNavigationBarColor({
 			frontColor: '#ffffff',
@@ -199,9 +212,9 @@ export default {
 		...mapGetters({
 			systemInfo: 'systemInfo'
 		}),
-		backgroundColor () {
-		  return this.systemInfo.color
-		},
+		backgroundColor() {
+			return this.systemInfo.color;
+		}
 	},
 	components: {}
 };
@@ -210,15 +223,19 @@ export default {
 <style lang="scss">
 .search-container {
 	text-align: center;
-
+	position: relative;
+	height: 400upx;
 	.search-input {
+		position: absolute;
+		width: 80%;
+		top: 60%;
+		left: 7%;
 		background-color: #ffffff;
 		padding: 20upx;
 		height: 80upx;
 		line-height: 80upx;
 		border-radius: 40upx;
 	}
-
 	.search-placeholder-class {
 		line-height: 80upx;
 	}

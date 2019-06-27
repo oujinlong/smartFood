@@ -1,7 +1,8 @@
 <template>
 	<view class="search-main">
-		<view class="search-container padding-xl" v-bind:style="{ backgroundColor: backgroundColor }">
-			<view class="search-button uni-flex uni-row">
+		<view class="search-container">
+			<image :src="backgroundImg" style="width: 100%;height: 100%;"></image>
+			<view class="search-button uni-flex uni-row" style="position: absolute;">
 				<image src="../../static/img/searchIcon.png" class="search-icon"></image>
 				<view class="search-text" @click="searchClick()">Search</view>
 			</view>
@@ -82,7 +83,8 @@ export default {
 			floorLevelParam: [],
 			directionParam: [],
 			categoriesParam: [],
-			backgroundColor: ''
+			backgroundColor: '',
+			backgroundImg: ''
 		};
 	},
 
@@ -272,6 +274,7 @@ export default {
 				.get('/entry/wxapp/system')
 				.then(res => {
 					this.backgroundColor = res.system.color;
+					this.backgroundImg = res.system.linkLogo;
 					uni.setNavigationBarTitle({
 						title: res.system.linkName
 					});
@@ -307,9 +310,13 @@ export default {
 	height: 100vh;
 
 	.search-container {
-		background-color: $app-theme-color;
-
+		position: relative;
+		height: 400upx;
 		.search-button {
+			position: absolute;
+			width: 80%;
+			top: 60%;
+			left: 7%;
 			background-color: #ffffff;
 			padding: 20upx;
 			height: 40upx;

@@ -1,7 +1,7 @@
 <template>
 	<view class="order-menu-main">
 		<!-- 餐厅信息 -->
-		<view class="uni-flex uni-column uni-list-cell-pd" style="background-color: #ce2029;padding-bottom: 0upx;">
+		<view class="uni-flex uni-column uni-list-cell-pd order-header" v-bind:style="{backgroundColor: storeColor ? storeColor : '#ce2029'}">
 			<view class="flex-item">
 				<view class="uni-flex uni-row">
 					<view class="text" style="display: flex; justify-content: center;align-items: center;">
@@ -58,7 +58,7 @@
 
                 <!-- 加减 -->
                 <view class="food-btm">
-                  <text class="food-price">${{food.money}}</text>
+                  <text class="food-price" >${{food.money}}</text>
                   <cartcontrol :food="food" @add="addCart" @dec="decreaseCart"></cartcontrol>							
                 </view>
               </view>
@@ -164,7 +164,7 @@ import { uniList, uniListItem, uniIcon } from '@dcloudio/uni-ui';
 
 export default {
 	name: '',
-
+  
 	data() {
 		return {
 			storeInfo: {},
@@ -199,10 +199,15 @@ export default {
   onLoad(e) {
       this.height = Number(uni.getSystemInfoSync().windowHeight) - 55 - 190;
       this.storeId = e.storeId || '';
+       wx.setNavigationBarColor({
+      	frontColor: '#ffffff',
+        backgroundColor: this.storeColor
+      })
   },
   computed: {
 		...mapGetters({
-		  'userInfo': 'userInfo'
+		  'userInfo': 'userInfo',
+		  'storeColor': 'storeColor'
 		}),
 			getList() {
 				let result = [];
@@ -547,5 +552,8 @@ export default {
     background: white;
     padding: 20upx;
     border-bottom: #fefefe 0.8px solid
+  }
+  .order-header {
+    background-color: #ce2029;padding-bottom: 0upx;
   }
 </style>

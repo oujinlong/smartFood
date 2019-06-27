@@ -78,7 +78,7 @@ export default {
 				merchantName: '大数据产业基地',
 				orderId: '123',
 				orderPrice: '100',
-				'orderTime"': '2019 05-24 23:00',
+				orderTime: '2019 05-24 23:00',
 				orderType: 'success',
 				payMethod: 'wechat'
 			};

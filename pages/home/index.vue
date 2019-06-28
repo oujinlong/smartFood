@@ -315,7 +315,7 @@ export default {
 		.search-button {
 			position: absolute;
 			width: 80%;
-			top: 73%;
+			top: 77%;
 			left: 7%;
 			background-color: #ffffff;
 			padding: 20upx;

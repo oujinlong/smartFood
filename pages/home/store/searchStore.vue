@@ -228,8 +228,8 @@ export default {
 	.search-input {
 		position: absolute;
 		width: 80%;
-		top: 60%;
-		left: 7%;
+		top: 73%;
+		left: 10%;
 		background-color: #ffffff;
 		padding: 20upx;
 		height: 80upx;

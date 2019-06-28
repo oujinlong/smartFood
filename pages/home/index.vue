@@ -2,15 +2,15 @@
 	<view class="search-main">
 		<view class="search-container">
 			<image :src="backgroundImg" style="width: 100%;height: 100%;"></image>
-			<view class="search-button uni-flex uni-row" style="position: absolute;">
+			<view class="search-button uni-flex uni-row" style="position: absolute;" @click="searchClick()">
 				<image src="../../static/img/searchIcon.png" class="search-icon"></image>
-				<view class="search-text" @click="searchClick()">Search</view>
+				<view class="search-text">Search</view>
 			</view>
 		</view>
 		<!-- menu -->
 		<view>
 			<view style="position: relative;height: 104upx;">
-				<choose-cade style="position: absolute;top: -104upx;height: 104upx;width: 100%;" :list="list" @chooseLike="chooseLike()"></choose-cade>
+				<choose-cade style="position: absolute;top: 0;height: 104upx;width: 100%;" :list="list" @chooseLike="chooseLike()"></choose-cade>
 			</view>
 
 			<view class="bg-white padding text-black">
@@ -315,7 +315,7 @@ export default {
 		.search-button {
 			position: absolute;
 			width: 80%;
-			top: 60%;
+			top: 73%;
 			left: 7%;
 			background-color: #ffffff;
 			padding: 20upx;

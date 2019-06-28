@@ -201,8 +201,8 @@ export default {
 }
 
 .boxa {
-	padding-top: 105upx;
-	position: relative;
+/* 	padding-top: 105upx;
+	position: relative; */
 }
 
 .remark-value {

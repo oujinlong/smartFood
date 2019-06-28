@@ -113,6 +113,7 @@
 <script>
 import { mapGetters } from 'vuex';
 import { uniSwiperDot, uniList, uniListItem, uniIcon } from '@dcloudio/uni-ui';
+import { compact } from 'lodash';
 export default {
 	onLoad(e) {
 		this.storeId = e.storeId || '';
@@ -244,7 +245,8 @@ export default {
 				})
 				.then(res => {
 					this.storeInfo = res.store;
-          this.info = this.storeInfo.img.split(',')
+					this.info = this.storeInfo.img.split(',');
+					this.info = compact(this.info);
 					let cate = this.getCategoryFilter(this.storeInfo.categories);
 					let floor = this.getFloorFilter(this.storeInfo.floorLevel);
 					let direction = this.getDirectionFilter(this.storeInfo.direction);
@@ -261,16 +263,6 @@ export default {
 						backgroundColor: res.store.color
 					});
 					this.$store.commit('setStoreColor', res.store.color);
-				})
-				.catch(error => {
-					console.error('error:', error);
-				});
-		},
-		queryAd() {
-			this.$request
-				.get('/entry/wxapp/ad2')
-				.then(res => {
-					this.info = res.adList;
 				})
 				.catch(error => {
 					console.error('error:', error);

@@ -96,7 +96,7 @@
         </view>
       </view>
       
-      <payment-dialog :visible='showPay' :price='totalAllWithTax' @confirm='paymentConfirm' @hideHandle='hideHandle'></payment-dialog>
+      <payment-dialog :visible='showPay' :price='totalAllWithTax' @confirm='uploadFormIds' @hideHandle='hideHandle'></payment-dialog>
   </view>
 </template>
 
@@ -287,9 +287,27 @@
       payClickHandle () {
         this.showPay = true
       },
+      uploadFormIds (item) {
+        const {formIdList} = item
+        const params = {
+          formIdList,
+          openId: this.userInfo.openid
+        }
+        this.$request.post('/entry/wxapp/notification/msgid',
+          {data: params}
+        ).then(res => {
+          if (res.code === 0) {
+            this.paymentConfirm(item)
+          } else {
+            uni.showToast({
+            	title: res.msg,
+              icon: 'none'
+            })
+          }
+        })
+      },
       paymentConfirm (item) {
         const {payIndex, formIdList} = item
-        console.log(formIdList)
         let sz = []
         this.selfTakingInfo.goodsInfo.forEach((good, index) => {
            const goodInfo = {

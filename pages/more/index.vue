@@ -14,19 +14,50 @@
 		<view v-else>
 			<!-- 红色 title view -->
 			<view class="title_view" v-bind:style="{ backgroundColor: backgroundColor }">
-				<image v-bind:src="userInfo.avatarUrl" class="avatar" style="margin-left: 40upx;"></image>
-				<text class="nickName" style="margin-left: 30upx;">{{ userInfo.nickName }}</text>
+				<image v-bind:src="userInfo.img" class="avatar" style="margin-left: 40upx;"></image>
+				<text class="nickName" style="margin-left: 30upx;">{{ userInfo.name }}</text>
 			</view>
 
 			<!-- 钱包 -->
-			<view class="wallet" style="margin-bottom: 40upx;">
+			<!-- 			<view class="wallet" style="margin-bottom: 40upx;">
 				<view>
 					<text style="font-size: 24upx;">{{ CURRENCY_SYMBOL }}</text>
-					<text style="font-size: 46upx; color: #f8ce5f;">708</text>
+					<text style="font-size: 46upx; color: #f8ce5f;">{{ walletVaule }}</text>
 				</view>
 
 				<view><text style="font-size: 26upx;">Wallet</text></view>
+			</view> -->
+
+			<view class="uni-flex uni-row user-info">
+				<view class="text" style="flex: 1;">
+					<view>
+						<text style="font-size: 46upx; color: #f8ce5f;margin-right: 10upx;">{{ myUserInfo.wallet }}</text>
+						<text style="font-size: 24upx;color: #f8ce5f;">{{ CURRENCY_SYMBOL }}</text>
+					</view>
+					<view><text style="font-size: 26upx;">Wallet</text></view>
+				</view>
+				<view class="text" style="flex: 1;">
+					<view>
+						<text style="font-size: 46upx; color: #fb7b63;margin-right: 10upx;">{{myUserInfo.userAllCoupons}}</text>
+						<text style="font-size: 24upx;color: #fb7b63;">piece</text>
+					</view>
+					<view><text style="font-size: 26upx;">Coupon</text></view>
+				</view>
+				<view class="text" style="flex: 1;">
+					<view>
+						<text style="font-size: 46upx; color: #94d84e;margin-right: 10upx;">{{myUserInfo.totalScore || 0}}</text>
+						<text style="font-size: 24upx;color: #94d84e;">point</text>
+					</view>
+					<view><text style="font-size: 26upx;">Score</text></view>
+				</view>
 			</view>
+			
+			<uni-list class="list" style="margin-bottom: 60upx;display: flex;">
+				<uni-list-item title="Delivery Address" thumb="/static/img/address.png"></uni-list-item>
+				<uni-list-item title="Recharge Center" thumb="/static/img/qb.png" @click="rechargeClick"></uni-list-item>
+				<uni-list-item title="Coupon Collection" thumb="/static/img/coupon.png"></uni-list-item>
+				<uni-list-item title="My Coupon" thumb="/static/img/myCoupon.png"></uni-list-item>
+			</uni-list>
 
 			<uni-list class="list">
 				<uni-list-item title="Online Service" thumb="/static/img/online_service.png" @click="serviceHandle"></uni-list-item>
@@ -56,7 +87,8 @@ export default {
 	components: { uniList, uniListItem },
 	data() {
 		return {
-			CURRENCY_SYMBOL: CONFIG.common.CURRENCY_SYMBOL
+			CURRENCY_SYMBOL: CONFIG.common.CURRENCY_SYMBOL,
+			myUserInfo: {}
 		};
 	},
 	mounted() {
@@ -66,6 +98,7 @@ export default {
 		});
 		console.log('more user info');
 		console.log(this.userInfo);
+		this.queryWallet();
 	},
 	methods: {
 		senMessage(event) {
@@ -106,20 +139,6 @@ export default {
 							userInfo.openId = openid;
 							let img = userInfo.avatarUrl;
 							let name = userInfo.nickName;
-							uni
-								.request({
-									url: 'http://bluecoffee.s1.natapp.cc/entry/wxapp/user/wx6d8cc793be64b899/session',
-									method: 'POST',
-									data: {
-										img: 'http://xxx.png',
-										name: 'JeepV2019',
-										openid: 'xxx'
-									}
-								})
-								.then(sessionRes => {
-									console.log('session res: ');
-									console.log(sessionRes);
-								});
 						});
 					}
 				});
@@ -143,6 +162,20 @@ export default {
 				title: 'Help Center',
 				icon: 'none'
 			});
+		},
+		// 充值
+		rechargeClick() {
+			console.log('dddd')	
+		},
+		queryWallet() {
+			this.$request
+				.get('/entry/wxapp/userInfo?id=' + this.userInfo.userId)
+				.then(res => {
+					this.myUserInfo = res.user;
+				})
+				.catch(error => {
+					console.error(error);
+				});
 		}
 	}
 };
@@ -190,13 +223,9 @@ export default {
 	}
 }
 
-.wallet {
-	width: 100vw;
-	height: 130upx;
+.user-info {
 	background-color: white;
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
+	text-align: center;
+	margin-bottom: 20upx;
 }
 </style>

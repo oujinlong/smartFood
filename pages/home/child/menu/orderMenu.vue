@@ -502,7 +502,7 @@ export default {
 		top: 8px;
 		display: inline-block;
 		padding: 0 4px;
-		font-size: 9px;
+		font-size: 12px;
 		line-height: 16px;
 		font-weight: 400;
 		border-radius: 50%;

@@ -354,9 +354,19 @@
             uni.navigateTo({
             	'url': '../../order/child/selfTalingOrderDetail?orderId=' + orderId + '&returnHome=1'
             })
+          } else {
+            uni.showToast({
+            	title: res.msg,
+              icon: 'none'
+            })
           }
         }).catch(error => {
+          console.log(error)
           uni.hideLoading()
+           uni.showToast({
+          	title: error.msg,
+            icon: 'none'
+          })
           console.log('err', error)
         })
       }

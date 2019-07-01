@@ -7,7 +7,7 @@ import request from '@/common/request.js'
 
 // 全局配置
 request.setConfig({
-	// baseUrl: 'http://10.11.19.227:8084/',
+	// baseUrl: 'http://bluecoffee.s1.natapp.cc/',
    baseUrl: 'https://jeetpan.mynatapp.cc/',
 	header: {
 		'content-type': 'application/json'

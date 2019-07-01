@@ -106,6 +106,7 @@
   import { uniIcon } from '@dcloudio/uni-ui';
   import CONFIG from '@/utils/config.js';
   import {PaymentDialog} from '@/components/paymentDialog'
+ require('../../../tools/DateTool.js')
   export default {
     components: {
       uniIcon,
@@ -361,7 +362,6 @@
             })
           }
         }).catch(error => {
-          console.log(error)
           uni.hideLoading()
            uni.showToast({
           	title: error.msg,

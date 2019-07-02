@@ -11,7 +11,8 @@ const store = new Vuex.Store({
 		selfTakingInfo: undefined,
 		token: uni.getStorageSync('token'),
 		systemInfo: uni.getStorageSync('systemInfo'),
-		storeColor: uni.getStorageInfoSync('storeColor')
+		storeColor: uni.getStorageInfoSync('storeColor'),
+		selfTakingInfo: uni.getStorageInfoSync('selfTakingInfo')
 	},
 	mutations: {
 		setUserInfo(state, userInfo) {
@@ -29,6 +30,7 @@ const store = new Vuex.Store({
 		},
 		setSelfTakingInfo(state, info) {
 			state.selfTakingInfo = info
+			uni.setStorageSync('selfTakingInfo', info);
 		},
 		setSystemInfo(state, systemInfo) {
 			state.systemInfo = systemInfo

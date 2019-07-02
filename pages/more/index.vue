@@ -165,7 +165,9 @@ export default {
 		},
 		// 充值
 		rechargeClick() {
-			console.log('dddd')	
+			uni.navigateTo({
+				url: '/pages/more/recharge/index'
+			});
 		},
 		queryWallet() {
 			this.$request

@@ -34,7 +34,7 @@
        console.log('this.formidList.length:',this.formidList.length)
         if (this.formidList.length === this.idCount) {
             this.$emit('onPress',this.formidList)
-            this.formIdList = []
+            this.formidList = []
         }
       }
     }

@@ -106,6 +106,7 @@
   import { uniIcon } from '@dcloudio/uni-ui';
   import CONFIG from '@/utils/config.js';
   import {PaymentDialog} from '@/components/paymentDialog'
+ require('../../../tools/DateTool.js')
   export default {
     components: {
       uniIcon,
@@ -354,9 +355,18 @@
             uni.navigateTo({
             	'url': '../../order/child/selfTalingOrderDetail?orderId=' + orderId + '&returnHome=1'
             })
+          } else {
+            uni.showToast({
+            	title: res.msg,
+              icon: 'none'
+            })
           }
         }).catch(error => {
           uni.hideLoading()
+           uni.showToast({
+          	title: error.msg,
+            icon: 'none'
+          })
           console.log('err', error)
         })
       }

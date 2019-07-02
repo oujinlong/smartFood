@@ -35,7 +35,10 @@
           <view style="position: relative;" v-for="(item,index) in goods" :key="index" ref="menuList" @click="select(index)"
            :class="{'current': currentIndex === index}">
 
-            <view class="menu-item">{{item.typeName}}</view>
+            <view class="menu-item">
+              <view>{{item.typeName}}</view>
+              <view>{{item.typeNameCn}}</view>
+            </view>
             <text class="allcount" v-if="getAllCount>=item.count&&item.count>0">{{item.count}}</text>
             <!-- <text class="allcount">1</text> -->
           </view>
@@ -494,6 +497,7 @@ export default {
 		align-items: center;
 		justify-content: center;
 		height: 70px;
+    flex-direction: column;
 	}
 
 	.allcount {

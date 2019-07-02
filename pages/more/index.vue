@@ -56,7 +56,7 @@
 				<uni-list-item title="Delivery Address" thumb="/static/img/address.png"></uni-list-item>
 				<uni-list-item title="Recharge Center" thumb="/static/img/qb.png" @click="rechargeClick"></uni-list-item>
 				<uni-list-item title="Coupon Collection" thumb="/static/img/coupon.png"></uni-list-item>
-				<uni-list-item title="My Coupon" thumb="/static/img/myCoupon.png"></uni-list-item>
+				<uni-list-item title="My Coupon" thumb="/static/img/myCoupon.png" @click = "couponClick"></uni-list-item>
 			</uni-list>
 
 			<uni-list class="list">
@@ -178,7 +178,12 @@ export default {
 				.catch(error => {
 					console.error(error);
 				});
-		}
+		},
+    couponClick () {
+      uni.navigateTo({
+      	url: '../home/coupons/index'
+      })
+    }
 	}
 };
 </script>

@@ -21,8 +21,8 @@
 										<view class="title-time">Weekend {{ item.weekend || '-' }}</view>
 									</view>
 								</view>
-								<view class="title-text">Restaurant Category: {{ item.categoryDesc || '-' }}</view>
-								<view class="title-text">Floor,Direction: {{ item.floorDesc || '-' }},{{ item.directionDesc || '-' }}</view>
+								<view class="title-time">Restaurant Category: {{ item.categoryDesc || '-' }}</view>
+								<view class="title-time">Floor,Direction: {{ item.floorDesc || '-' }},{{ item.directionDesc || '-' }}</view>
 							</view>
 						</view>
 					</view>
@@ -259,11 +259,7 @@ export default {
 }
 
 .title-time {
-	font-size: 22upx;
+	font-size: 24upx;
 	color: #80838f;
-	display: -webkit-box;
-	-webkit-box-orient: vertical;
-	-webkit-line-clamp: 1;
-	overflow: hidden;
 }
 </style>

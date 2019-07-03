@@ -103,6 +103,12 @@
 			"style": {
 				"navigationBarTitleText": "Recharge Center"
 			}
+		},
+		{
+			"path": "pages/more/helpCenter/index",
+			"style": {
+				"navigationBarTitleText": "FAQ"
+			}
 		}
 	],
 	"tabBar": {

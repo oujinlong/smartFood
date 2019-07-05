@@ -86,7 +86,9 @@
 					</view>
 				</view>
 
-				<view class="padding bg-white button-icon"><button type="warn" formType="submit" v-bind:style="{ backgroundColor: storeColor }">Reservation</button></view>
+				<view class="padding bg-white button-icon">
+					<button type="warn" formType="submit" style="display: block;" v-bind:style="{ backgroundColor: storeColor }">Reservation</button>
+					</view>
 			</view>
 		</form>
 		<payment-dialog :visible="isShowDialog" :price="tableArray[tableIndex].ydCost" @confirm="confirmClick" @hideHandle="hideHandle"></payment-dialog>

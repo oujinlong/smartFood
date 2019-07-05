@@ -38,25 +38,25 @@
 				</view>
 				<view class="text" style="flex: 1;">
 					<view>
-						<text style="font-size: 46upx; color: #fb7b63;margin-right: 10upx;">{{myUserInfo.userAllCoupons}}</text>
+						<text style="font-size: 46upx; color: #fb7b63;margin-right: 10upx;">{{ myUserInfo.userAllCoupons }}</text>
 						<text style="font-size: 24upx;color: #fb7b63;">piece</text>
 					</view>
 					<view><text style="font-size: 26upx;">Coupon</text></view>
 				</view>
 				<view class="text" style="flex: 1;">
 					<view>
-						<text style="font-size: 46upx; color: #94d84e;margin-right: 10upx;">{{myUserInfo.totalScore || 0}}</text>
+						<text style="font-size: 46upx; color: #94d84e;margin-right: 10upx;">{{ myUserInfo.totalScore || 0 }}</text>
 						<text style="font-size: 24upx;color: #94d84e;">point</text>
 					</view>
 					<view><text style="font-size: 26upx;">Score</text></view>
 				</view>
 			</view>
-			
+
 			<uni-list class="list" style="margin-bottom: 60upx;display: flex;">
-				<uni-list-item title="Delivery Address" thumb="/static/img/address.png"></uni-list-item>
+				<uni-list-item title="Delivery Address" thumb="/static/img/address.png" @click="chooseAddress"></uni-list-item>
 				<uni-list-item title="Recharge Center" thumb="/static/img/qb.png" @click="rechargeClick"></uni-list-item>
 				<uni-list-item title="Coupon Collection" thumb="/static/img/coupon.png"></uni-list-item>
-				<uni-list-item title="My Coupon" thumb="/static/img/myCoupon.png" @click = "couponClick"></uni-list-item>
+				<uni-list-item title="My Coupon" thumb="/static/img/myCoupon.png" @click="couponClick"></uni-list-item>
 			</uni-list>
 
 			<uni-list class="list">
@@ -88,7 +88,8 @@ export default {
 	data() {
 		return {
 			CURRENCY_SYMBOL: CONFIG.common.CURRENCY_SYMBOL,
-			myUserInfo: {}
+			myUserInfo: {},
+			addressInfo: {}
 		};
 	},
 	mounted() {
@@ -101,6 +102,27 @@ export default {
 		this.queryWallet();
 	},
 	methods: {
+		chooseAddress() {
+			wx.chooseAddress({
+				success: res => {
+					console.log(res);
+					this.addressInfo = res
+				},
+				fail: function(err) {
+					console.log(err);
+				}
+			});
+		},
+		querySystem() {
+			this.$request
+				.get('/entry/wxapp/userInfo?id=' + this.userInfo.userId)
+				.then(res => {
+					this.myUserInfo = res.user;
+				})
+				.catch(error => {
+					console.error(error);
+				});
+		},
 		senMessage(event) {
 			const formId = event.detail.formId;
 			console.log(this.userInfo);
@@ -149,18 +171,14 @@ export default {
 		},
 		// 点击 online service
 		serviceHandle() {
-			uni.showToast({
-				duration: 1000,
-				title: 'Online Service',
-				icon: 'none'
+			wx.makePhoneCall({
+				phoneNumber: this.systemInfo.tel
 			});
 		},
 		// 点击 Help Center
 		helpHandle() {
-			uni.showToast({
-				duration: 1000,
-				title: 'Help Center',
-				icon: 'none'
+			uni.navigateTo({
+				url: '/pages/more/helpCenter/index'
 			});
 		},
 		// 充值

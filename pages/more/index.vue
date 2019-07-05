@@ -181,7 +181,7 @@ export default {
 		},
     couponClick () {
       uni.navigateTo({
-      	url: '../home/coupons/index'
+      	url: '../home/coupons/index?choose=false'
       })
     }
 	}

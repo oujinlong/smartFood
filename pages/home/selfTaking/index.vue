@@ -215,7 +215,7 @@
       },
       chooseCouponsClickHandle () {
         uni.navigateTo({
-          url: '/pages/home/coupons/index'
+          url: '/pages/home/coupons/index?choose=true'
         })
       },
       getReduce () {

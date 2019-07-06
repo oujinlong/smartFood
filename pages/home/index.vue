@@ -4,7 +4,7 @@
 			<image :src="backgroundImg" style="width: 100%;height: 100%;"></image>
 			<view class="search-button uni-flex uni-row" style="position: absolute;" @click="searchClick()">
 				<image src="../../static/img/searchIcon.png" class="search-icon"></image>
-				<view class="search-text">Search</view>
+				<view class="search-text">{{i18n.search}}</view>
 			</view>
 		</view>
 		<!-- menu -->
@@ -295,7 +295,10 @@ export default {
 	computed: {
 		...mapGetters({
 			openId: 'openId'
-		})
+		}),
+    i18n () {  
+      return this.$t('index')  
+    }  
 	},
 	components: {
 		ChooseCade,

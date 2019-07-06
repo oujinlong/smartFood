@@ -190,7 +190,11 @@ export default {
 						return item;
 					}
 				});
-				return list[0].remark;
+				if(list.length===0){
+					return '--'
+				}else {
+					return list[0].remark;
+				}
 			} else {
 				return '--';
 			}
@@ -202,7 +206,11 @@ export default {
 						return item;
 					}
 				});
-				return list[0].remark;
+				if(list.length===0){
+					return '--'
+				}else {
+					return list[0].remark;
+				}
 			} else {
 				return '--';
 			}
@@ -214,7 +222,11 @@ export default {
 						return item;
 					}
 				});
-				return list[0].remark;
+				if(list.length===0){
+                   return '--'
+				}else {
+					return list[0].remark;
+				}
 			} else {
 				return '--';
 			}

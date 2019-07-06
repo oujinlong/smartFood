@@ -71,9 +71,15 @@
     {
     	"path": "pages/home/coupons/index",
     	"style": {
-    		"navigationBarTitleText": "Coupons"
+    		"navigationBarTitleText": "My Coupons"
     	}
     },
+		{
+			"path": "pages/home/coupons/collectCoupon",
+			"style": {
+				"navigationBarTitleText": "Coupons Center"
+			}
+		},
 		{
 			"path": "pages/order/child/commentOrder",
 			"style": {

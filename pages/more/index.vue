@@ -195,11 +195,11 @@ export default {
 					console.error(error);
 				});
 		},
-		couponClick() {
-			uni.navigateTo({
-				url: '../home/coupons/index'
-			});
-		}
+    couponClick () {
+      uni.navigateTo({
+      	url: '../home/coupons/index?choose=false'
+      })
+    }
 	}
 };
 </script>

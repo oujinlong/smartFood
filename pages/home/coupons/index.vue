@@ -1,6 +1,6 @@
 <template>
   <view class="container">
-    <view class="coupon_item_no uni-flex uni-row justify-between" @click="disableCouponsHandle">
+    <view class="coupon_item_no uni-flex uni-row justify-between" v-if = "this.choose" @click="disableCouponsHandle">
       <label style="font-size: 36upx;font-weight: 800;">No coupons</label>
       <uni-icon size="20" :type='selectType' color="#68c834" ></uni-icon>
     </view>
@@ -38,7 +38,7 @@
           {{item.startTime}}-{{item.endTime}}
         </view>
         
-        <view class="cover_view"  v-if='!checkAvisible(item)'/>
+        <view class="cover_view"  v-if='!checkAvisible(item) && this.choose'/>
         
       </view>
     </view>
@@ -91,17 +91,22 @@
         'userInfo': 'userInfo'
       }),
       storeInfo () {
-        return this.selfTakingInfo.storeInfo
+        return this.selfTakingInfo ? this.selfTakingInfo.storeInfo : {}
       },
       goodsInfo () {
-        return this.selfTakingInfo.goodsInfo
+        return this.selfTakingInfo ? this.selfTakingInfo.goodsInfo : []
       },
       totalPrice () {
-        let price = 0
-        this.goodsInfo.forEach((item) => {
-          price += item.money * item.count
-        })
-        return price
+        if (this.goodsInfo) {
+          let price = 0
+          this.goodsInfo.forEach((item) => {
+            price += item.money * item.count
+          })
+          return price
+        } else {
+          return 0
+        }
+        
       }
     },
     data () {
@@ -109,10 +114,12 @@
         coupons: [],
         selectCoupon: undefined,
         detailCoupon: undefined,
-        showModal: false
+        showModal: false,
+        choose: false
       })
     },
-    onLoad() {
+    onLoad(e) {
+      this.choose = e.choose === 'true' ? true : false
     	this.getCoupons()
     },
     methods: {
@@ -149,6 +156,10 @@
         return item.preferential <= this.totalPrice && item.storeId.toString() === this.storeInfo.id.toString()
       },
       itemClickHandle (item) {
+        console.log(this.choose)
+        if (this.choose === false) {
+          return
+        }
         const avisible = this.checkAvisible(item)
         if (!avisible) {
           uni.showToast({

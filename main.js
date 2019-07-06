@@ -40,9 +40,30 @@ Vue.prototype.$store = store
 Vue.prototype.$appId = 'wx6d8cc793be64b899'
 
 App.mpType = 'app'
+
+import VueI18n from 'vue-i18n'  
+
+Vue.use(VueI18n)  
+Vue.config.productuinTip = false  
+import zh from './common/lang/zh.js'
+import en from './common/lang/en.js'
+const i18n = new VueI18n({  
+  locale: 'zh-CN',  
+  messages: {  
+    'en-US': {  
+      index: en
+    },  
+    'zh-CN': {  
+      index: zh
+    }  
+  }  
+})  
+
+Vue.prototype._i18n = i18n  
+
 const app = new Vue({
 	store,
-  
+  i18n,
 	...App
 })
 app.$mount()

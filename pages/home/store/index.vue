@@ -280,7 +280,7 @@ export default {
 		},
 		goOrderMenu() {
 			uni.navigateTo({
-				url: '../child/menu/orderMenu?storeId=' + this.storeId
+				url: '../child/menu/orderMenu?storeId=' + this.storeId + '&dishesType=2'
 			});
 		},
 		aboutUsClick() {

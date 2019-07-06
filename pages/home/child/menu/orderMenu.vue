@@ -186,7 +186,8 @@ export default {
       currentIndex: 0,
       commentList: [],
       commentPage: 1,
-      isLoadAll: false
+      isLoadAll: false,
+      dishesType: 1
 		};
 	},
 	props: {},
@@ -202,6 +203,7 @@ export default {
   onLoad(e) {
       this.height = Number(uni.getSystemInfoSync().windowHeight) - 55 - 190;
       this.storeId = e.storeId || '';
+      this.dishesType = e.dishesType
        wx.setNavigationBarColor({
       	frontColor: '#ffffff',
         backgroundColor: this.storeColor
@@ -291,7 +293,7 @@ export default {
 				});
 		},
     queryFoods () {
-      this.$request.get('/entry/wxapp/dishes?dishesType=2&storeId=' + this.storeId).then(res => {
+      this.$request.get('/entry/wxapp/dishes?dishesType=' + this.dishesType + '&storeId=' + this.storeId).then(res => {
         console.log('food res', res)
         this.goods = res.dishes.filter((item) => {
           return item.goods.length > 0

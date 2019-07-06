@@ -97,8 +97,6 @@ export default {
 			frontColor: '#ffffff',
 			backgroundColor: this.systemInfo.color
 		});
-		console.log('more user info');
-		console.log(this.userInfo);
 		this.queryWallet();
 	},
 	methods: {

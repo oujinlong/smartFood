@@ -13,7 +13,7 @@
 				<choose-cade style="position: absolute;top: 0;height: 104upx;width: 100%;" :list="list" @chooseLike="chooseLike()"></choose-cade>
 			</view>
 
-			<view class="bg-white padding text-black">
+			<view class="bg-white padding text-black" style="padding-top: 0;">
 				<scroll-view class="search-list" scroll-y @scrolltolower="loadMore()">
 					<block v-for="(item, index) in storeList" :key="index">
 						<view class="uni-tab-bar-loading">

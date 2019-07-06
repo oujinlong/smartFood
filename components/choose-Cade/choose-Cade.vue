@@ -163,7 +163,8 @@ export default {
 
 .list_boxs2 {
 	background-color: rgba(84, 80, 80, 0.48);
-	position: fixed;
+	position: absolute;
+	top: 104upx;
 	height: calc(100%);
 	width: 100%;
 	z-index: 88;
@@ -203,6 +204,7 @@ export default {
 .boxa {
 /* 	padding-top: 105upx;
 	position: relative; */
+	position: relative;
 }
 
 .remark-value {

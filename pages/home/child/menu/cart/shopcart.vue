@@ -9,7 +9,7 @@
 				</view>
 			</view>
 			<view class="middle">
-				<text class="price" :class="getAllCount ?　'active': ''">${{getAllPrice}}</text>
+				<text class="price" :class="getAllCount ?　'active': ''">MYR {{getAllPrice}}</text>
 <!-- 				<text class="deliveryPrice" style="font-size: 12px;">免配送费|支持自取</text>
  -->			</view>
 			<view class="BtnRight" v-bind:class="{'button_disable': getAllCount === 0}" @click.stop="nextClickHandle">
@@ -28,7 +28,7 @@
 				<view class="list">
 					<view class="list-text" v-for="(item,index) in getList" :key="index">
 						<text style="flex:1">{{item.name}}</text>
-						<text style="flex:1">${{item.money}}</text>
+						<text style="flex:1">MYR {{item.money}}</text>
 						<cartcontrol :food="item" @add="addCart" @dec="decreaseCart"></cartcontrol>
 					</view>
 				</view>

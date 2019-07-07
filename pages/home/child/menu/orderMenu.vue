@@ -61,7 +61,7 @@
 
                 <!-- 加减 -->
                 <view class="food-btm">
-                  <text class="food-price" >${{food.money}}</text>
+                  <text class="food-price" > MYR {{food.money}}</text>
                   <cartcontrol :food="food" @add="addCart" @dec="decreaseCart"></cartcontrol>							
                 </view>
               </view>

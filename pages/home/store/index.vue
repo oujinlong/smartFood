@@ -23,7 +23,7 @@
 			<view class="text function-item" v-if="storeInfo.isDn == 1">
 				<view class="item-content uni-flex uni-row">
 					<view style="flex: 1">
-						<view class="item-title">Scan</view>
+						<view class="item-title">Dined-In</view>
 						<view class="item-detail">Scan QRcode</view>
 					</view>
 					<image src="../../../static/img/qrcode.png" class="function-icon"></image>
@@ -32,7 +32,7 @@
 			<view class="text function-item" v-if="storeInfo.isWm == 1" @click="goOrderMenu">
 				<view class="item-content uni-flex uni-row">
 					<view style="flex: 1">
-						<view class="item-title">Menu</view>
+						<view class="item-title">Self-taking</view>
 						<view class="item-detail">Order Menu</view>
 					</view>
 					<image src="../../../static/img/orderList.png" class="function-icon"></image>

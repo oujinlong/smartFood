@@ -9,8 +9,9 @@
 		</view>
 		<!-- menu -->
 		<view>
-			<view style="position: relative;height: 104upx;">
-				<choose-cade style="position: absolute;top: 0;height: 104upx;width: 100%;" :list="list" @chooseLike="chooseLike()"></choose-cade>
+			<view style="position: relative;height: 104upx;background-color: white;">
+				<choose-cade style="position: absolute;top: 0;height: 104upx;width: 66.67%;" :list="list" @chooseLike="chooseLike()"></choose-cade>
+				<view style="width: 33.34%;float: right;height: 104upx;line-height: 104upx;text-align: center;">Promotion</view>
 			</view>
 
 			<view class="bg-white padding text-black" style="padding-top: 0;">
@@ -61,10 +62,6 @@ export default {
 				{
 					name: 'Location',
 					value: 'floorLevel'
-				},
-				{
-					name: '	Promotion',
-					value: ''
 				},
 				{
 					name: '	Categories',

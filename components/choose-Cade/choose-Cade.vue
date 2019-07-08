@@ -149,6 +149,7 @@ export default {
 	background-color: #fff;
 	/* height: 262upx; */
 	padding: 10upx 40upx;
+	box-shadow: 0 0 0 1px #DDDEE1;
 }
 
 .list_boxs {

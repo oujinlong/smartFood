@@ -11,7 +11,7 @@
 		</view>
 		<view v-show="show" :class="[show ? 'list_boxs2' : 'list_boxs']">
 			<view class="lione uni-flex uni-row">
-				<view class="uni-flex uni-column all-value" :class="{ 'remark-value': directionList.length > 0 }">
+				<view class="uni-flex uni-column remark-value" :class="{ 'remark-value': directionList.length > 0 }">
 					<view v-for="(item, i) in listchild" :key="i">
 						<view class="mli" @tap="chooseOne(i)">
 							<text :class="[i == i2 ? 'actives' : '']" class="uni_14">{{ item.remark }}</text>
@@ -41,6 +41,22 @@ export default {
 			default() {
 				return [];
 			}
+		},
+		isPromotion: {
+			type: Boolean,
+			default() {
+				return false;
+			}
+		}
+	},
+	watch: {
+		isPromotion: {
+			handler(newValue, oldValue) {
+				if (newValue) {
+					this.hide();
+				}
+			},
+			deep: true
 		}
 	},
 	data() {
@@ -52,12 +68,14 @@ export default {
 			listchild: [],
 			newlist: this.list,
 			directionList: [],
-			tabValue: ''
+			tabValue: '',
+			localItem: {}
 		};
 	},
 	methods: {
 		alertnum(i, item) {
 			if (this.i1 != i) {
+				this.$emit('clickTop');
 				this.listchild = [];
 				this.i1 = i;
 				if (item.value !== '') {
@@ -96,6 +114,8 @@ export default {
 				} else {
 					this.hide();
 				}
+			} else {
+				this.hide();
 			}
 		},
 		chooseOne(i) {
@@ -126,6 +146,7 @@ export default {
 			this.i1 = null;
 			this.i2 = null;
 			this.i3 = null;
+			this.$emit('close');
 		}
 	},
 	components: {}
@@ -135,10 +156,10 @@ export default {
 <style>
 .hideA {
 	height: calc(100% - 310upx);
+	background-color: rgba(84, 80, 80, 0.48);
 }
 
 .mli {
-	/* border: 1upx solid red; */
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
@@ -147,30 +168,24 @@ export default {
 
 .lione {
 	background-color: #fff;
-	/* height: 262upx; */
 	padding: 10upx 40upx;
-	box-shadow: 0 0 0 1px #DDDEE1;
+	box-shadow: 0 0 0 1px #dddee1;
 }
 
 .list_boxs {
-	background-color: rgba(84, 80, 80, 0.48);
 	position: fixed;
-	height: 80rpx;
+	height: 80upx;
 	width: 100%;
 	z-index: 88;
-	transition: all 5.5s;
-	transform: translateY(-120%);
 }
 
 .list_boxs2 {
-	background-color: rgba(84, 80, 80, 0.48);
+	/* background-color: rgba(84, 80, 80, 0.48); */
 	position: absolute;
 	top: 104upx;
-	height: calc(100%);
-	width: 100%;
+	height: 100vh;
+	width: 100vw;
 	z-index: 88;
-	transform: translateY(0);
-	transition: all 5.5s;
 }
 
 .ii {
@@ -203,7 +218,7 @@ export default {
 }
 
 .boxa {
-/* 	padding-top: 105upx;
+	/* 	padding-top: 105upx;
 	position: relative; */
 	position: relative;
 }
@@ -212,7 +227,4 @@ export default {
 	width: 50%;
 }
 
-.all-value {
-	width: 100%;
-}
 </style>

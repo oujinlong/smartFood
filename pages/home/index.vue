@@ -4,13 +4,17 @@
 			<image :src="backgroundImg" style="width: 100%;height: 100%;"></image>
 			<view class="search-button uni-flex uni-row" style="position: absolute;" @click="searchClick()">
 				<image src="../../static/img/searchIcon.png" class="search-icon"></image>
-				<view class="search-text">{{i18n.search}}</view>
+				<view class="search-text">{{ i18n.search }}</view>
 			</view>
 		</view>
 		<!-- menu -->
-		<view>
-			<view style="position: relative;height: 104upx;">
-				<choose-cade style="position: absolute;top: 0;height: 104upx;width: 100%;" :list="list" @chooseLike="chooseLike()"></choose-cade>
+		<view class="choose-content" :class="{ 'choose-top': isClick }">
+			<view style="position: relative;height: 104upx;background-color: white;">
+				<choose-cade class="choose-cade" :list="list" @chooseLike="chooseLike()" @clickTop="clickTop" @close="cancelTop" :isPromotion="isPromotion"></choose-cade>
+				<view class="promotion-title" @click="clickPromotion" :class="{ 'promotion-click': isPromotion }">
+					Promotion
+					<image src="../../static/img/promotion.png" class="promotion-icon"></image>
+				</view>
 			</view>
 
 			<view class="bg-white padding text-black">
@@ -63,10 +67,6 @@ export default {
 					value: 'floorLevel'
 				},
 				{
-					name: '	Promotion',
-					value: ''
-				},
-				{
 					name: '	Categories',
 					value: 'categories'
 				}
@@ -84,7 +84,9 @@ export default {
 			directionParam: [],
 			categoriesParam: [],
 			backgroundColor: '',
-			backgroundImg: ''
+			backgroundImg: '',
+			isClick: false,
+			isPromotion: false
 		};
 	},
 
@@ -99,11 +101,74 @@ export default {
 				uni.stopPullDownRefresh();
 			}, 1000);
 		},
+		clickTop() {
+			this.isClick = true;
+			this.isPromotion = false;
+		},
+		cancelTop() {
+			this.isClick = false;
+		},
+		clickPromotion() {
+			this.isPromotion = true;
+			this.currentPageNo = 1;
+			const param = {
+				pageNo: this.pageNo,
+				pageSize: this.pageSize
+			};
+			this.$request
+				.get('/entry/wxapp/storeList', {
+					data: param
+				})
+				.then(res => {
+					this.storeList = res.page.list;
+					this.currentPageNo = res.page.currPage;
+					this.totalPage = res.page.totalPage;
+					this.storeList.forEach(storeItem => {
+						let cate = this.getCategoryFilter(storeItem.categories);
+						let floor = this.getFloorFilter(storeItem.floorLevel);
+						let direction = this.getDirectionFilter(storeItem.direction);
+						this.$set(storeItem, 'categoryDesc', cate);
+						this.$set(storeItem, 'floorDesc', floor);
+						this.$set(storeItem, 'directionDesc', direction);
+					});
+				})
+				.catch(error => {
+					console.error('error:', error);
+				});
+		},
 		loadMore() {
 			if (this.currentPageNo < this.totalPage) {
 				this.currentPageNo++;
-				this.pageChange(this.currentPageNo);
+				if (this.isPromotion) {
+					this.promotionPageChange(this.currentPageNo)
+				} else {
+					this.pageChange(this.currentPageNo);
+				}
 			}
+		},
+		promotionPageChange(pageNo) {
+			const param = {
+				pageNo: pageNo,
+				pageSize: this.pageSize,
+			};
+			this.$request
+				.get('/entry/wxapp/storeList', {
+					data: param
+				})
+				.then(res => {
+					res.page.list.forEach(storeItem => {
+						let cate = this.getCategoryFilter(storeItem.categories);
+						let floor = this.getFloorFilter(storeItem.floorLevel);
+						let direction = this.getDirectionFilter(storeItem.direction);
+						this.$set(storeItem, 'categoryDesc', cate);
+						this.$set(storeItem, 'floorDesc', floor);
+						this.$set(storeItem, 'directionDesc', direction);
+					});
+					this.storeList = [...this.storeList, ...res.page.list];
+				})
+				.catch(error => {
+					console.error('error:', error);
+				});
 		},
 		pageChange(pageNo) {
 			const param = {
@@ -190,7 +255,11 @@ export default {
 						return item;
 					}
 				});
-				return list[0].remark;
+				if (list.length === 0) {
+					return '--';
+				} else {
+					return list[0].remark;
+				}
 			} else {
 				return '--';
 			}
@@ -202,7 +271,11 @@ export default {
 						return item;
 					}
 				});
-				return list[0].remark;
+				if (list.length === 0) {
+					return '--';
+				} else {
+					return list[0].remark;
+				}
 			} else {
 				return '--';
 			}
@@ -214,7 +287,11 @@ export default {
 						return item;
 					}
 				});
-				return list[0].remark;
+				if (list.length === 0) {
+					return '--';
+				} else {
+					return list[0].remark;
+				}
 			} else {
 				return '--';
 			}
@@ -296,9 +373,9 @@ export default {
 		...mapGetters({
 			openId: 'openId'
 		}),
-    i18n () {  
-      return this.$t('index')  
-    }  
+		i18n() {
+			return this.$t('index');
+		}
 	},
 	components: {
 		ChooseCade,
@@ -339,8 +416,35 @@ export default {
 		}
 	}
 
+	.choose-top {
+		width: 100%;
+		position: fixed;
+		top: 0;
+	}
+	.choose-content {
+		.choose-cade {
+			position: absolute;
+			top: 0;
+			height: 104upx;
+			width: 66.67%;
+		}
+		.promotion-title {
+			width: 33.34%;
+			float: right;
+			height: 104upx;
+			line-height: 104upx;
+			text-align: center;
+			.promotion-icon {
+				height: 40upx;
+				width: 40upx;
+			}
+		}
+		.promotion-click {
+			color: #f0ad4e;
+		}
+	}
 	.search-list {
-		height: calc(100vh - 350upx);
+		height: calc(100vh - 104upx);
 	}
 
 	.title-name {

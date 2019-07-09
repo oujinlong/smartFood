@@ -12,7 +12,8 @@ const store = new Vuex.Store({
 		token: uni.getStorageSync('token'),
 		systemInfo: uni.getStorageSync('systemInfo'),
 		storeColor: uni.getStorageInfoSync('storeColor'),
-		selfTakingInfo: uni.getStorageInfoSync('selfTakingInfo')
+		selfTakingInfo: uni.getStorageInfoSync('selfTakingInfo'),
+    lang: uni.getStorageInfoSync('lang') ? uni.getStorageInfoSync('lang') : 'cn'
 	},
 	mutations: {
 		setUserInfo(state, userInfo) {
@@ -39,7 +40,12 @@ const store = new Vuex.Store({
 		setStoreColor(state, storeColor) {
 			state.storeColor = storeColor
 			uni.setStorageSync('storeColor', storeColor);
-		}
+		},
+    setLanguage(state, lang) {
+      state.lang = lang
+      console.log('store lang', lang)
+      uni.setStorageSync('lang', lang);
+    }
 	},
 	getters: {
 		userInfo(state) {
@@ -62,7 +68,10 @@ const store = new Vuex.Store({
 		},
 		storeColor(state) {
 			return state.storeColor
-		}
+		},
+    lang(state) {
+      return state.lang
+    }
 	}
 })
 

@@ -62,6 +62,8 @@
 			<uni-list class="list">
 				<uni-list-item title="Online Service" thumb="/static/img/online_service.png" @click="serviceHandle"></uni-list-item>
 				<uni-list-item title="Help Center" thumb="/static/img/help_center.png" @click="helpHandle"></uni-list-item>
+        <uni-list-item title="Change Language" thumb="/static/img/language.png" @click="changeLangHandle"></uni-list-item>
+        
 			</uni-list>
 
 			<!-- <form @submit="senMessage" report-submit="true">
@@ -153,8 +155,6 @@ export default {
 						const code = loginRes.code;
 						userInfo = JSON.parse(userInfo);
 						_this.$request.get('/entry/wxapp/user/wx6d8cc793be64b899/login?code=' + code, {}).then(serverLoginRes => {
-							console.log('serverLoginRes');
-							console.log(serverLoginRes);
 							let openid = serverLoginRes[1].data.data.openid;
 							userInfo.openId = openid;
 							let img = userInfo.avatarUrl;
@@ -204,7 +204,12 @@ export default {
 			uni.navigateTo({
 				url: '/pages/home/coupons/collectCoupon'
 			});
-		}
+		},
+    changeLangHandle () {
+      uni.navigateTo({
+      	url: '/pages/more/lang/index'
+      })
+    }
 	}
 };
 </script>

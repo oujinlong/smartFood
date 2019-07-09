@@ -48,12 +48,12 @@ Vue.config.productuinTip = false
 import zh from './common/lang/zh.js'
 import en from './common/lang/en.js'
 const i18n = new VueI18n({  
-  locale: 'zh-CN',  
+  locale: 'en',  
   messages: {  
-    'en-US': {  
+    'en': {  
       index: en
     },  
-    'zh-CN': {  
+    'cn': {  
       index: zh
     }  
   }  

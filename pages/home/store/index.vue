@@ -20,7 +20,7 @@
 					<image src="../../../static/img/reservation.png" class="function-icon"></image>
 				</view>
 			</view>
-			<view class="text function-item" v-if="storeInfo.isDn == 1">
+			<view class="text function-item" v-if="storeInfo.isDn == 1" @click="goScan">
 				<view class="item-content uni-flex uni-row">
 					<view style="flex: 1">
 						<view class="item-title">Dined-In</view>
@@ -287,7 +287,12 @@ export default {
 			uni.navigateTo({
 				url: '/pages/home/store/aboutUs?storeId=' + this.storeId
 			});
-		}
+		},
+    goScan () {
+      uni.navigateTo({
+      	url: '../child/menu/orderMenu?storeId=' + this.storeId + '&dishesType=1&tableId=1'
+      });
+    }
 	}
 };
 </script>

@@ -187,7 +187,8 @@ export default {
       commentList: [],
       commentPage: 1,
       isLoadAll: false,
-      dishesType: 1
+      dishesType: 1,
+      tableId: ''
 		};
 	},
 	props: {},
@@ -204,6 +205,7 @@ export default {
       this.height = Number(uni.getSystemInfoSync().windowHeight) - 55 - 190;
       this.storeId = e.storeId || '';
       this.dishesType = e.dishesType
+      this.tableId = e.tableId || ''
        wx.setNavigationBarColor({
       	frontColor: '#ffffff',
         backgroundColor: this.storeColor
@@ -390,9 +392,11 @@ export default {
       nextHandle (items) {
         const goodsInfo = items
         const storeInfo = this.storeInfo
+        const tableId = this.tableId
         const selfTakingInfo = {
           storeInfo,
-          goodsInfo
+          goodsInfo,
+          tableId
         }
         this.$store.commit('setSelfTakingInfo', selfTakingInfo)
         uni.navigateTo({

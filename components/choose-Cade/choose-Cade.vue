@@ -1,9 +1,9 @@
 <template>
 	<view class="boxa">
-		<view class="top_kbox">
-			<view v-for="(item, i) in newlist" :key="i" @click="alertnum(i, item)">
+		<view class="top_kbox uni-flex uni-row" style="justify-content: center;">
+			<view style="flex: 1;" v-for="(item, i) in newlist" :key="i" @click="alertnum(i, item)">
 				<view class="ibox" :class="[i === i1 ? 'actives' : '']">
-					<text class="uni_14">{{ item.name }}</text>
+					{{ item.name }}
 					<image v-if="i != i1" class="ii" src="/static/choose-Cade/choose-Cadex.png" mode=""></image>
 					<image v-else class="ii" src="/static/choose-Cade/choose-Cades.png" mode=""></image>
 				</view>
@@ -74,6 +74,8 @@ export default {
 	},
 	methods: {
 		alertnum(i, item) {
+			console.log(this.list);
+
 			if (this.i1 != i) {
 				this.$emit('clickTop');
 				this.listchild = [];
@@ -226,5 +228,4 @@ export default {
 .remark-value {
 	width: 50%;
 }
-
 </style>

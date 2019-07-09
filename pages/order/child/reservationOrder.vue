@@ -2,7 +2,7 @@
 	<view>
 		<view class="reservation-detail" v-for="(item, index) in reservationList" :key="index">
 			<view class="order-name border-bottom">
-				Order：{{ item.orderNum }}
+				{{ i18n.OrderID }}：{{ item.orderNum }}
 				<view class="status-name" :class="'color-' + item.state" style="float:right">{{ item.state | stateFilter }}</view>
 			</view>
 			<view class="order-content-main border-bottom uni-flex uni-row" @click="queryOrderDetail(item.id)">
@@ -10,18 +10,18 @@
 				<view class="uni-flex uni-column" style="padding-left: 20upx;">
 					<view class="title-name">{{ item.img }}</view>
 					<view class="title">{{ item.name }}</view>
-					<view class="title-text">Arrival time：{{ item.xzDate }} {{ item.yjddDate }}</view>
-					<view class="title-text">Count of meals：{{ item.jcNum }}</view>
+					<view class="title-text">{{ i18n.ArrivalTime }}：{{ item.xzDate }} {{ item.yjddDate }}</view>
+					<view class="title-text">{{ i18n.Countofmeals }}：{{ item.jcNum }}</view>
 				</view>
 			</view>
 			<view class="order-action uni-flex uni-row">
-				<view class="text" style="line-height: 65upx;flex: 1;">Table type：{{ item.tableTypeName }}</view>
+				<view class="text" style="line-height: 65upx;flex: 1;">{{ i18n.Tabletype }}：{{ item.tableTypeName }}</view>
 				<view>
 					<!-- "state": 1待审核,2已审核,3已拒绝（不会出现3状态）,4取消 5商家审核 6 商家已退款 7 商家已拒绝退款-->
-					<view class="color-blue" v-if="[1, 2, 5].indexOf(item.state) !== -1" @click="queryOrderDetail(item.id)">Detail</view>
-					<view class="color-red" v-if="item.ydcode !== '' && item.state === 4" @click="refundClick(item.id)">Apply for refund</view>
-					<view class="color-red" v-if="[2, 4, 6, 7].indexOf(item.state) !== -1" @click="deleteOrder(item.id)">Delete</view>
-					<view class="color-red" v-if="item.state == 1" @click="cancelOrder(item.id)">Cancel</view>
+					<view class="color-blue" v-if="[1, 2, 5].indexOf(item.state) !== -1" @click="queryOrderDetail(item.id)">{{ i18n.Detail }}</view>
+					<view class="color-red" v-if="item.ydcode !== '' && item.state === 4" @click="refundClick(item.id)">{{ i18n.reservation.Applyforrefund }}</view>
+					<view class="color-red" v-if="[2, 4, 6, 7].indexOf(item.state) !== -1" @click="deleteOrder(item.id)">{{ i18n.reservation.Delete }}</view>
+					<view class="color-red" v-if="item.state == 1" @click="cancelOrder(item.id)">{{ i18n.reservation.Cancel }}</view>
 				</view>
 			</view>
 		</view>
@@ -53,10 +53,10 @@ export default {
 			//申请退款
 			let that = this;
 			wx.showModal({
-				title: 'Notice',
-				content: 'Do you need to apply for a refund?',
-				cancelText: 'Cancel',
-				confirmText: 'Yes',
+				title: this.i18n.common.Notice,
+				content: this.i18n.reservation.Doyouneedtoapplyforarefund,
+				cancelText: this.i18n.common.Cancel,
+				confirmText: this.i18n.common.Yes,
 				success(res) {
 					if (res.confirm) {
 						const param = {
@@ -68,7 +68,7 @@ export default {
 							})
 							.then(res => {
 								wx.showToast({
-									title: 'Refunded',
+									title: this.i18n.Refunded,
 									icon: 'success',
 									duration: 1000
 								});
@@ -79,7 +79,7 @@ export default {
 							.catch(error => {
 								console.error('error:', error);
 								wx.showToast({
-									title: 'Try again later',
+									title: this.i18n.Tryagainlater,
 									icon: 'loading',
 									duration: 1000
 								});
@@ -93,10 +93,10 @@ export default {
 		deleteOrder(ydOrderId) {
 			let that = this;
 			wx.showModal({
-				title: 'Notice',
-				content: 'Delete the reservation?',
-				cancelText: 'Cancel',
-				confirmText: 'Yes',
+				title: this.i18n.common.Notice,
+				content: this.i18n.reservation.Deletethereservation,
+				cancelText: this.i18n.common.Cancel,
+				confirmText: this.i18n.common.Yes,
 				success(res) {
 					if (res.confirm) {
 						const param = {
@@ -108,7 +108,7 @@ export default {
 							})
 							.then(res => {
 								wx.showToast({
-									title: 'Deleted',
+									title: this.i18n.Deleted,
 									icon: 'success',
 									duration: 1000
 								});
@@ -119,7 +119,7 @@ export default {
 							.catch(error => {
 								console.error('error:', error);
 								wx.showToast({
-									title: 'Try again later',
+									title: this.i18n.Tryagainlater,
 									icon: 'loading',
 									duration: 1000
 								});
@@ -133,10 +133,10 @@ export default {
 		cancelOrder(ydOrderId) {
 			let that = this;
 			wx.showModal({
-				title: 'Notice',
-				content: 'Cancel the reservation?',
-				cancelText: 'Cancel',
-				confirmText: 'Yes',
+				title: this.i18n.common.Notice,
+				content: this.i18n.reservation.Cancelthereservation,
+				cancelText: this.i18n.common.Cancel,
+				confirmText: this.i18n.common.Yes,
 				success(res) {
 					if (res.confirm) {
 						const param = {
@@ -148,7 +148,7 @@ export default {
 							})
 							.then(res => {
 								wx.showToast({
-									title: 'Cancelled',
+									title: this.i18n.reservation.Cancelled,
 									icon: 'success',
 									duration: 1000
 								});
@@ -159,7 +159,7 @@ export default {
 							.catch(error => {
 								console.error('error:', error);
 								wx.showToast({
-									title: 'Try again',
+									title: this.i18n.Tryagainlater,
 									icon: 'loading',
 									duration: 1000
 								});
@@ -173,7 +173,10 @@ export default {
 	},
 	mounted() {},
 	computed: {
-		...mapGetters({})
+		...mapGetters({}),
+		i18n() {
+			return this.$t('index');
+		}
 	},
 	filters: {
 		stateFilter(state) {
@@ -190,7 +193,7 @@ export default {
 			} else if (state === 7) {
 				return 'Refund failed';
 			} else {
-				return '--';
+				return '-';
 			}
 		}
 	},

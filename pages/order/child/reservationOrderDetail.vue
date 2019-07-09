@@ -9,21 +9,21 @@
 		<view class="reservation-detail">
 			<view class="reservation-name">{{ reservationInfo.name }}</view>
 			<view style="padding: 20upx 0;">
-				<view class="reservation-value">Time: {{ reservationInfo.createdTime }}</view>
-				<view class="reservation-value">Number of people: {{ reservationInfo.jcNum }}</view>
-				<view class="reservation-value">Table type: {{ reservationInfo.tableTypeName }}</view>
-				<view class="reservation-value">Name: {{ reservationInfo.linkName }}</view>
-				<view class="reservation-value">Phone: {{ reservationInfo.linkTel }}</view>
-				<view class="reservation-value">Remark: {{ reservationInfo.remark }}</view>
+				<view class="reservation-value">{{ i18n.common.Time }}: {{ reservationInfo.createdTime }}</view>
+				<view class="reservation-value">{{ i18n.reservation.Numberofpeople }}: {{ reservationInfo.jcNum }}</view>
+				<view class="reservation-value">{{ i18n.Tabletype }}: {{ reservationInfo.tableTypeName }}</view>
+				<view class="reservation-value">{{ i18n.common.Name }}: {{ reservationInfo.linkName }}</view>
+				<view class="reservation-value">{{ i18n.common.Phone }}: {{ reservationInfo.linkTel }}</view>
+				<view class="reservation-value">{{ i18n.common.Remark }}: {{ reservationInfo.remark }}</view>
 			</view>
 		</view>
 		<!-- 预定流程 -->
 		<view class="reservation-progress">
-			<view class="title">Detail</view>
+			<view class="title">{{ i18n.common.Detail }}</view>
 			<view class="progress-detail"><uni-steps :options="progressList" direction="column" :active="activeStep"></uni-steps></view>
 			<view class="uni-flex uni-row">
-				<view class="red-border-button" v-if="isShowCancel" v-bind:style="{ 'border-color': systemInfo.color }" @click="cancelPayment">Cancel</view>
-				<view class="red-button red-border-button" @click="contactStorePhone" v-bind:style="{ backgroundColor: systemInfo.color }">Contact us</view>
+				<view class="red-border-button" v-if="isShowCancel" v-bind:style="{ 'border-color': systemInfo.color }" @click="cancelPayment">{{ i18n.common.Cancel }}</view>
+				<view class="red-button red-border-button" @click="contactStorePhone" v-bind:style="{ backgroundColor: systemInfo.color }">{{ i18n.common.Contactus }}</view>
 			</view>
 		</view>
 	</view>
@@ -41,16 +41,6 @@ export default {
 		return {
 			ydOrderId: '',
 			reservationInfo: {},
-			progressList: [
-				{
-					title: 'Reservation request is received',
-					desc: ''
-				},
-				{
-					title: 'Confirmation in progress',
-					desc: ''
-				}
-			],
 			activeStep: 0,
 			textButtonDesc: '',
 			isShowCancel: false
@@ -112,7 +102,7 @@ export default {
 					});
 					// State: 1,待审核，2已审核,3已拒绝（不会出现3状态）,4取消 5商家审核 6 商家已退款 7 商家已拒绝退款
 					if (state === 1 || state === 2) {
-						this.progressList.push({ title: 'Reservation successfully' });
+						this.progressList.push({ title: this.i18n.reservation.Reservationsuccessfully });
 						if (state === 1) {
 							this.activeStep = 1;
 							this.isShowCancel = true;
@@ -121,16 +111,16 @@ export default {
 							this.textButtonDesc = '';
 						}
 					} else if (state === 4) {
-						this.progressList.push({ title: 'Reservation is cancelled' });
+						this.progressList.push({ title: this.i18n.reservation.Reservationiscancelled });
 						this.activeStep = 2;
 					} else {
-						this.progressList.push({ title: 'Return application' });
+						this.progressList.push({ title: this.i18n.reservation.Returnapplication });
 						if (state === 5) {
-							this.progressList.push({ title: 'Return request review' });
+							this.progressList.push({ title: this.i18n.reservation.Returnrequestreview });
 						} else if (state === 6) {
-							this.progressList.push({ title: 'Refund successfully' });
+							this.progressList.push({ title: this.i18n.reservation.Refundsuccessfully });
 						} else if (state === 7) {
-							this.progressList.push({ title: 'Refund failed' });
+							this.progressList.push({ title: this.i18n.reservation.Refundfailed });
 						}
 						this.activeStep = 3;
 					}
@@ -152,7 +142,22 @@ export default {
 	computed: {
 		...mapGetters({
 			systemInfo: 'systemInfo'
-		})
+		}),
+		i18n() {
+			return this.$t('index');
+		},
+		progressList() {
+			return [
+				{
+					title: this.i18n.reservation.Reservationrequestisreceived,
+					desc: ''
+				},
+				{
+					title: this.i18n.reservation.Confirmationinprogress,
+					desc: ''
+				}
+			];
+		}
 	},
 	components: {
 		uniSteps,

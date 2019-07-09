@@ -1,4 +1,60 @@
-  const lang = {
-   search: '搜索'
-  }
+const lang = {
+	common: {
+		Notice: '提醒',
+		Cancel: '取消',
+		Yes: '确认',
+		Name: '姓名',
+		Phone: '电话',
+		Remark: '备注',
+		Time: '时间',
+		Detail: '详情',
+		Contactus: '联系我们'
+	},
+	search: '搜索',
+	location: '方位',
+	Categories: '分类',
+	openHours: '营业时间',
+	promotion: '商家推荐',
+	Weekday: '工作日',
+	Weekend: '周末',
+	RestaurantCategory: '餐厅类别',
+	FloorDirection: '楼层，方向',
+	Nodata: '暂无数据',
+	Reservation: '预订',
+	SelfTaking: '到店自取',
+	DinedIn: '店内点餐',
+	OrderID: '订单号',
+	ArrivalTime: '到店时间',
+	Countofmeals: '用餐人数',
+	Detail: '详情',
+	Tabletype: '餐桌类型',
+	reservation: {
+		Applyforrefund: '申请退款',
+		Delete: '删除订单',
+		Cancel: '关闭订单',
+		ReservingFilter: '待审核',
+		ReservedFilter: '已审核',
+		CancelledFilter: '已关闭',
+		PendingrefundFilter: '待退款',
+		RefundsuccessfulFilter: '退款成功',
+		RefundfailedFilter: '退款失败',
+		Doyouneedtoapplyforarefund: '是否发起退款申请?',
+		Refunded: '已退款',
+		Tryagainlater: '请稍后再试',
+		Deletethereservation: '是否删除订单?',
+		Deleted: '已删除',
+		Cancelthereservation: '是否取消订单?',
+		Cancelled: '已取消',
+		Time: '时间',
+		Numberofpeople: '用餐人数',
+		Reservationrequestisreceived: '已收到预约申请',
+		Confirmationinprogress: '店家确认中',
+		Reservationsuccessfully: '预约成功',
+		Reservationiscancelled: '预订单已取消',
+		Returnapplication: '申请退款',
+		Returnrequestreview:'退款申请审核',
+		Refundsuccessfully: '退款成功',
+		Refundfailed: '退款失败'
+	}
+}
 export default lang

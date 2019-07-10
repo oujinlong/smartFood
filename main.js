@@ -5,6 +5,10 @@ import store from './store'
 // 引入插件
 import request from '@/common/request.js'
 
+import VueI18n from 'vue-i18n'  
+import zh from './common/lang/zh.js'
+import en from './common/lang/en.js'
+
 // 全局配置
 request.setConfig({
 	// baseUrl: 'http://bluecoffee.s1.natapp.cc/',
@@ -41,12 +45,10 @@ Vue.prototype.$appId = 'wx6d8cc793be64b899'
 
 App.mpType = 'app'
 
-import VueI18n from 'vue-i18n'  
 
 Vue.use(VueI18n)  
 Vue.config.productuinTip = false  
-import zh from './common/lang/zh.js'
-import en from './common/lang/en.js'
+
 const i18n = new VueI18n({  
   locale: 'cn',  
   messages: {  

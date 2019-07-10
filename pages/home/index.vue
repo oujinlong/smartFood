@@ -12,12 +12,12 @@
 			<view style="position: relative;height: 104upx;background-color: white;">
 				<choose-cade class="choose-cade" :list="list" @chooseLike="chooseLike()" @clickTop="clickTop" @close="cancelTop" :isPromotion="isPromotion"></choose-cade>
 				<view class="promotion-title" @click="clickPromotion" :class="{ 'promotion-click': isPromotion }">
-					Promotion
+					{{ i18n.promotion }}
 					<image src="../../static/img/promotion.png" class="promotion-icon"></image>
 				</view>
 			</view>
 
-			<view class="bg-white padding text-black">
+
 				<scroll-view class="search-list" scroll-y @scrolltolower="loadMore()">
 					<block v-for="(item, index) in storeList" :key="index">
 						<view class="uni-tab-bar-loading">
@@ -28,21 +28,22 @@
 								<view class="uni-flex uni-column" style="padding-left: 20upx;">
 									<view class="title-name">{{ item.name || '-' }}</view>
 									<view class="uni-flex uni-row">
-										<view class="title-time" style="margin-right: 20upx;">Open Hours:</view>
+
+										<view class="title-time" style="margin-right: 20upx;">{{ i18n.openHours }}:</view>
 										<view style="flex: 1;">
-											<view class="title-time">Weekday {{ item.weekday || '-' }}</view>
-											<view class="title-time">Weekend {{ item.weekend || '-' }}</view>
+											<view class="title-time">{{ i18n.Weekday }} {{ item.weekday || '-' }}</view>
+											<view class="title-time">{{ i18n.Weekend }} {{ item.weekend || '-' }}</view>
 										</view>
 									</view>
-									<view class="title-time">Restaurant Category: {{ item.categoryDesc }}</view>
-									<view class="title-time">Floor,Direction: {{ item.floorDesc }},{{ item.directionDesc }}</view>
+									<view class="title-time">{{ i18n.RestaurantCategory }}: {{ item.categoryDesc }}</view>
+									<view class="title-time">{{ i18n.FloorDirection }}: {{ item.floorDesc }},{{ item.directionDesc }}</view>
 								</view>
 							</view>
 						</view>
 					</block>
 					<view class="no_data_container uni-flex uni-column" v-if="storeList.length == 0">
 						<image src="../../static/img/no-data.png" style="width: 300upx;height: 300upx"></image>
-						<view style="justify-content:center;font-size: 40upx;margin-top: 20upx ">No data</view>
+						<view style="justify-content:center;font-size: 40upx;margin-top: 20upx ">{{ i18n.Nodata }}</view>
 					</view>
 				</scroll-view>
 			</view>
@@ -61,16 +62,6 @@ export default {
 	name: '',
 	data() {
 		return {
-			list: [
-				{
-					name: 'Location',
-					value: 'floorLevel'
-				},
-				{
-					name: '	Categories',
-					value: 'categories'
-				}
-			],
 			TabCur: 0,
 			storeList: [],
 			pageSize: 10,
@@ -89,7 +80,6 @@ export default {
 			isPromotion: false
 		};
 	},
-
 	props: {},
 	onLoad(e) {
 		uni.startPullDownRefresh();
@@ -108,6 +98,16 @@ export default {
 		cancelTop() {
 			this.isClick = false;
 		},
+		mergestoreList() {
+			this.storeList.forEach(storeItem => {
+				let cate = this.getCategoryFilter(storeItem.categories);
+				let floor = this.getFloorFilter(storeItem.floorLevel);
+				let direction = this.getDirectionFilter(storeItem.direction);
+				this.$set(storeItem, 'categoryDesc', cate);
+				this.$set(storeItem, 'floorDesc', floor);
+				this.$set(storeItem, 'directionDesc', direction);
+			});
+		},
 		clickPromotion() {
 			this.isPromotion = true;
 			this.currentPageNo = 1;
@@ -123,14 +123,7 @@ export default {
 					this.storeList = res.page.list;
 					this.currentPageNo = res.page.currPage;
 					this.totalPage = res.page.totalPage;
-					this.storeList.forEach(storeItem => {
-						let cate = this.getCategoryFilter(storeItem.categories);
-						let floor = this.getFloorFilter(storeItem.floorLevel);
-						let direction = this.getDirectionFilter(storeItem.direction);
-						this.$set(storeItem, 'categoryDesc', cate);
-						this.$set(storeItem, 'floorDesc', floor);
-						this.$set(storeItem, 'directionDesc', direction);
-					});
+					this.mergestoreList();
 				})
 				.catch(error => {
 					console.error('error:', error);
@@ -140,7 +133,7 @@ export default {
 			if (this.currentPageNo < this.totalPage) {
 				this.currentPageNo++;
 				if (this.isPromotion) {
-					this.promotionPageChange(this.currentPageNo)
+					this.promotionPageChange(this.currentPageNo);
 				} else {
 					this.pageChange(this.currentPageNo);
 				}
@@ -149,7 +142,7 @@ export default {
 		promotionPageChange(pageNo) {
 			const param = {
 				pageNo: pageNo,
-				pageSize: this.pageSize,
+				pageSize: this.pageSize
 			};
 			this.$request
 				.get('/entry/wxapp/storeList', {
@@ -174,9 +167,9 @@ export default {
 			const param = {
 				pageNo: pageNo,
 				pageSize: this.pageSize,
-				floorLevel: this.floorLevel,
-				direction: this.direction,
-				categories: this.categories
+				floorLevel: this.floorLevel ? this.floorLevel : '',
+				direction: this.direction ? this.direction : '',
+				categories: this.categories ? this.categories : ''
 			};
 			this.$request
 				.get('/entry/wxapp/queryStore', {
@@ -213,14 +206,7 @@ export default {
 					this.storeList = res.page.list;
 					this.currentPageNo = res.page.currPage;
 					this.totalPage = res.page.totalPage;
-					this.storeList.forEach(storeItem => {
-						let cate = this.getCategoryFilter(storeItem.categories);
-						let floor = this.getFloorFilter(storeItem.floorLevel);
-						let direction = this.getDirectionFilter(storeItem.direction);
-						this.$set(storeItem, 'categoryDesc', cate);
-						this.$set(storeItem, 'floorDesc', floor);
-						this.$set(storeItem, 'directionDesc', direction);
-					});
+					this.mergestoreList();
 				})
 				.catch(error => {
 					console.error('error:', error);
@@ -375,6 +361,18 @@ export default {
 		}),
 		i18n() {
 			return this.$t('index');
+		},
+		list() {
+			return [
+				{
+					name: this.i18n.location,
+					value: 'floorLevel'
+				},
+				{
+					name: this.i18n.Categories,
+					value: 'categories'
+				}
+			];
 		}
 	},
 	components: {
@@ -444,7 +442,7 @@ export default {
 		}
 	}
 	.search-list {
-		height: calc(100vh - 104upx);
+		height: calc(100vh - 134rpx);
 	}
 
 	.title-name {

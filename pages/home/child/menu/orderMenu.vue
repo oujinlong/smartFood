@@ -57,7 +57,7 @@
               <view class="food-info">
                 <text style="font-size: 15px;margin-top: 2px;">{{food.name}}</text>
                 <!-- <text style="font-size: 13px;margin: 2px 0;">{{food.description}}</text> -->
-                <text style="font-size: 13px;margin: 2px 0 4px;">{{food.num}}/Month</text>
+               <!-- <text style="font-size: 13px;margin: 2px 0 4px;">{{food.num}}/Month</text>-->
 
                 <!-- 加减 -->
                 <view class="food-btm">
@@ -512,7 +512,7 @@ export default {
 		top: 8px;
 		display: inline-block;
 		padding: 0 4px;
-		font-size: 12px;
+		font-size: 14px;
 		line-height: 16px;
 		font-weight: 400;
 		border-radius: 50%;

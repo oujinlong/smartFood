@@ -11,9 +11,9 @@
 				<!-- 店内点单 -->
 				<dined-in v-else-if="TabCur === 2" :orderList="orderList" @refreshOrder="refreshOrder"></dined-in>
 				<!-- 无数据状态 -->
-				<view class="no_data_container uni-flex uni-column" v-if="reservationList.length == 0 && orderList.length == 0">
+				<view class="no_data_container uni-flex uni-column" v-if="isNoDate">
 					<image src="../../static/img/no-data.png" style="width: 300upx;height: 300upx"></image>
-					<view style="justify-content:center;font-size: 40upx;margin-top: 20upx ">No data</view>
+					<view style="justify-content:center;font-size: 40upx;margin-top: 20upx ">{{ i18n.Nodata }}</view>
 				</view>
 			</scroll-view>
 		</view>
@@ -37,7 +37,6 @@ export default {
 	},
 	data() {
 		return {
-			tabList: [{ name: 'Reservation' }, { name: 'Self-taking' }, { name: 'Dined-In' }],
 			TabCur: 0,
 			currPage: 1,
 			pageSize: 5,
@@ -137,8 +136,25 @@ export default {
 	computed: {
 		...mapGetters({
 			systemInfo: 'systemInfo',
-			'userInfo': 'userInfo'
-		})
+			userInfo: 'userInfo'
+		}),
+		i18n() {
+			return this.$t('index');
+		},
+		tabList() {
+			return [{ name: this.i18n.Reservation }, { name: this.i18n.SelfTaking }, { name: this.i18n.SelfTaking }];
+		},
+		isNoDate() {
+			if (this.TabCur === 0 && this.reservationList.length === 0) {
+				return true;
+			} else if (this.orderList.length === 0 && this.TabCur === 1) {
+				return true;
+			} else if (this.orderList.length === 0 && this.TabCur === 2) {
+				return true;
+			} else {
+				return false;
+			}
+		}
 	},
 	components: {
 		WucTab,

@@ -3,10 +3,13 @@
     
      <view class="uni-flex uni-row bg_white">
        <view class='flag'> </view>
-       <label class="title">Self-taking</label>
+       <label v-if = "dishesType === 1" class="title">Diend-In </label>
+      <label v-else class="title">Self-taking</label>
+      
+      
      </view>
      
-     <view class="uni-flex uni-row bg_white" style="margin-top: 40upx;">
+     <view v-if = "dishesType === 2" class="uni-flex uni-row bg_white" style="margin-top: 40upx;">
        <view class="title">
          Self-taking time
        </view>
@@ -191,18 +194,26 @@
         taxEnable: false,
         taxRate: 0,
         remark: '',
-        showPay: false
+        showPay: false,
+        dishesType: 1
       }
     },
-    onLoad() {
+    onLoad(e) {
     	let date = new Date()
     	this.chooseTime = date.format('HH:mm')
       this.getReduce()
       this.checkNewUser()
       this.getTax()
+      this.dishesType = e.dishesType
+      console.log(this.dishesType)
       wx.setNavigationBarColor({
       	frontColor: '#ffffff',
         backgroundColor: this.storeColor
+       })
+      
+      const title = e.dishesType === '1' ? 'Diend-In' : 'Self-Taking'
+      uni.setNavigationBarTitle({
+      	title
       })
     },
     methods: {

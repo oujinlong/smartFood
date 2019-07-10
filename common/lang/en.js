@@ -19,7 +19,7 @@ const lang = {
 	promotion: 'Promotion',
 	Weekday: 'Weekday',
 	Weekend: 'Weekend',
-	RestaurantCategory: 'Restaurant Category',
+	RestaurantCategory: 'Store Category',
 	FloorDirection: 'Floor,Direction',
 	Nodata: 'No data',
 	Reservation: 'Reservation',

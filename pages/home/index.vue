@@ -50,6 +50,17 @@
 
 		<!-- 登录 -->
 		<deng-lu v-if="openId.length === 0"></deng-lu>
+    
+    <maskAndContent
+		type="twoDimensionSwiper" 
+		:imageArray="adImages" 
+		ref="maskAndContent"
+		 @tapImage="tapImage" 
+		 hideTabBar
+		 everyTimeCountSwiperHeight
+     :closeContent = "closeTip"
+ 		 :dataSet="adDataSet"
+     ></maskAndContent>
 	</view>
 </template>
 
@@ -57,6 +68,7 @@
 import { ChooseCade } from '../../components/choose-Cade/choose-Cade.vue';
 import { mapGetters } from 'vuex';
 import DengLu from '../../components/ah-denglu/denglu.vue';
+import maskAndContent from '../../components/QS-maskAndContent/QS-maskAndContent.vue'
 export default {
 	name: '',
 	data() {
@@ -76,7 +88,15 @@ export default {
 			backgroundColor: '',
 			backgroundImg: '',
 			isClick: false,
-			isPromotion: false
+			isPromotion: false,
+      adDataSet: {
+					previous_margin: '10px',
+					next_margin: '10px',
+					indicator_dots: true,
+					indicator_active_color: '#fff'
+				},
+			ads: [],
+      showAds: false
 		};
 	},
 	props: {},
@@ -84,8 +104,20 @@ export default {
 		uni.startPullDownRefresh();
 	},
 	methods: {
+    openMaskAndContent() {
+				this.$refs.maskAndContent.show();
+			},
+			tapImage(obj) {
+        const index = obj.index
+        const storeId = this.ads[index].src
+        uni.navigateTo({
+        	url: 'store/index?storeId=' + storeId
+        })
+        this.$refs.maskAndContent.hide()
+			},
 		onPullDownRefresh() {
-			this.getConfig();
+			this.getConfig()
+      this.loadScreenAd()
 			setTimeout(function() {
 				uni.stopPullDownRefresh();
 			}, 1000);
@@ -349,7 +381,18 @@ export default {
 				.catch(error => {
 					console.error(error);
 				});
-		}
+		},
+    loadScreenAd () {
+      this.$request.get('/entry/wxapp/openScreenAd')
+      .then(res => {
+        if (res.code === 0 && res.adList && res.adList.length > 0) {
+          this.ads = res.adList
+          this.openMaskAndContent()
+        }
+      }).catch(error => {
+        
+      })
+    }
 	},
 	mounted() {
 		this.querySystem();
@@ -362,21 +405,35 @@ export default {
 			return this.$t('index');
 		},
 		list() {
-			return [
-				{
+      let res = []
+      res.push({
 					name: this.i18n.location,
 					value: 'floorLevel'
-				},
-				{
+				})
+        res.push({
 					name: this.i18n.Categories,
 					value: 'categories'
-				}
-			];
-		}
+				})
+			return res
+		},
+    adImages () {
+      let res = []
+      this.ads.forEach((item, index) => {
+//         let imgs = []
+//         imgs.push(item.logo)
+//         res.push(imgs)
+          res.push(item.logo)
+      })
+      return [res]
+    },
+    closeTip () {
+      return this.i18n.adCloseTip
+    }
 	},
 	components: {
 		ChooseCade,
-		DengLu
+		DengLu,
+    maskAndContent
 	},
 	filters: {}
 };
@@ -467,5 +524,18 @@ export default {
 		align-items: center;
 		height: 100%;
 	}
+  
+  .home-ad {
+  	height: 400upx;
+  }
+  
+  .swiper-item {
+  	display: flex;
+  	justify-content: center;
+  	align-items: center;
+  	height: 100%;
+  	background: #eee;
+  	color: #fff;
+  }
 }
 </style>

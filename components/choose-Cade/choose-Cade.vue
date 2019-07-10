@@ -1,7 +1,7 @@
 <template>
 	<view class="boxa">
 		<view class="top_kbox uni-flex uni-row" style="justify-content: center;">
-			<view style="flex: 1;" v-for="(item, i) in newlist" :key="i" @click="alertnum(i, item)">
+			<view style="flex: 1;" v-for="(item, i) in list" :key="i" @click="alertnum(i, item)">
 				<view class="ibox" :class="[i === i1 ? 'actives' : '']">
 					{{ item.name }}
 					<image v-if="i != i1" class="ii" src="/static/choose-Cade/choose-Cadex.png" mode=""></image>
@@ -66,7 +66,7 @@ export default {
 			i3: null,
 			show: false,
 			listchild: [],
-			newlist: this.list,
+// 			newlist: this.list,
 			directionList: [],
 			tabValue: '',
 			localItem: {}

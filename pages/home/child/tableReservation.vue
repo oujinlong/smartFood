@@ -6,7 +6,7 @@
 				<view class="uni-list">
 					<view class="uni-list-cell uni-list-cell-pd">
 						<view class="uni-flex uni-row" style="width: 100%;">
-							<view class="uni-input" style="margin-right: 20upx;">Date</view>
+							<view class="uni-input" style="margin-right: 20upx;">{{ i18n.reservation.Date }}</view>
 							<view class="title-content">
 								<picker mode="date" name="date" :value="date" :start="startDate" :end="endDate" @change="selectDate">
 									<view class="uni-input">{{ date }}</view>
@@ -17,7 +17,7 @@
 					</view>
 					<view class="uni-list-cell uni-list-cell-pd">
 						<view class="uni-flex uni-row" style="width: 100%;">
-							<view class="uni-input" style="margin-right: 20upx;">Arrival time</view>
+							<view class="uni-input" style="margin-right: 20upx;">{{ i18n.reservation.Arrivaltime }}</view>
 							<view class="title-content">
 								<picker mode="time" name="arrivalTime" :value="arrivalTime" :start="startTime" end="" @change="selectArrivalTime">
 									<view class="uni-input">{{ arrivalTime }}</view>
@@ -28,7 +28,7 @@
 					</view>
 					<view class="uni-list-cell uni-list-cell-pd">
 						<view class="uni-flex uni-row" style="width: 100%;">
-							<view class="uni-input" style="margin-right: 20upx;">Table type</view>
+							<view class="uni-input" style="margin-right: 20upx;">{{ i18n.reservation.Tabletype }}</view>
 							<view class="title-content">
 								<picker @change="selectTableType" name="tableIndex" :value="tableIndex" :range="tableArrayLabel">
 									<view class="uni-input">{{ tableType }}</view>
@@ -39,7 +39,7 @@
 					</view>
 					<view class="uni-list-cell uni-list-cell-pd">
 						<view class="uni-flex uni-row" style="width: 100%;">
-							<view class="uni-input" style="margin-right: 20upx;">Number of People</view>
+							<view class="uni-input" style="margin-right: 20upx;">{{ i18n.reservation.NumberofPeople }}</view>
 							<view class="title-content">
 								<picker @change="selectPeopleNumber" name="peopleNumber" :value="peopleNumber" :range="peopleArray">
 									<view class="uni-input">{{ peopleNumber }}</view>
@@ -53,15 +53,15 @@
 				<!-- 预定消费金额 -->
 				<view>
 					<view class="uni-flex uni-row">
-						<view class="price-name">The minimum consumption</view>
+						<view class="price-name">{{ i18n.reservation.Theminimumconsumption }}</view>
 						<view class="price-value">{{ CURRENCY_SYMBOL }} {{ tableArray[tableIndex].zdCost || '0' }}</view>
 					</view>
 					<view class="uni-flex uni-row">
-						<view class="price-name">Advance payment</view>
+						<view class="price-name">{{ i18n.reservation.Advancepayment }}</view>
 						<view class="price-value">{{ CURRENCY_SYMBOL }} {{ tableArray[tableIndex].fwCost || '0' }}</view>
 					</view>
 					<view class="uni-flex uni-row">
-						<view class="price-name">The service fee</view>
+						<view class="price-name">{{ i18n.reservation.Theservicefee }}</view>
 						<view class="price-value">{{ CURRENCY_SYMBOL }} {{ tableArray[tableIndex].ydCost || '0' }}</view>
 					</view>
 				</view>
@@ -69,25 +69,25 @@
 				<!--用户信息-->
 				<view>
 					<view class="uni-flex uni-row">
-						<view class="input-name">Name</view>
-						<view class="input-value"><input v-model="name" name="name" placeholder="Your name" /></view>
+						<view class="input-name">{{ i18n.common.Name }}</view>
+						<view class="input-value"><input v-model="name" name="name" :placeholder="i18n.common.Name" /></view>
 					</view>
 					<view class="uni-flex uni-row" style="margin-top: 2rpx;">
-						<view class="input-name">Phone</view>
-						<view class="input-value"><input v-model="phone" type="number" name="phone" placeholder="Your phone number" /></view>
+						<view class="input-name">{{ i18n.common.Phone }}</view>
+						<view class="input-value"><input v-model="phone" type="number" name="phone" :placeholder="i18n.common.Phone" /></view>
 					</view>
 				</view>
 
 				<!--注释-->
 				<view class="margin-top-xl">
 					<view class="padding-sm bg-white">
-						<view class="margin-bottom-xs">Remark</view>
-						<view class="uni-textarea"><textarea style="border: 1px solid #DDDEE1;margin-left: 2%;" name="textArea" v-model="remark" placeholder="Remark" /></view>
+						<view class="margin-bottom-xs">{{ i18n.common.Remark }}</view>
+						<view class="uni-textarea"><textarea style="border: 1px solid #DDDEE1;margin-left: 2%;" name="textArea" v-model="remark" :placeholder="i18n.common.Remark" /></view>
 					</view>
 				</view>
 
 				<view class="padding bg-white button-icon">
-					<button type="warn" formType="submit" style="display: block;" v-bind:style="{ backgroundColor: storeColor }">Reservation</button>
+					<button type="warn" formType="submit" style="display: block;" v-bind:style="{ backgroundColor: storeColor }">{{ i18n.reservation.Reservation }}</button>
 					</view>
 			</view>
 		</form>
@@ -212,9 +212,9 @@ export default {
 		},
 		formSubmit(e) {
 			var rule = [
-				{ name: 'name', checkType: 'notnull', checkRule: '', errorMsg: 'please input your name' },
-				{ name: 'phone', checkType: 'notnull', checkRule: '', errorMsg: 'please input your phone num' },
-				{ name: 'phone', checkType: 'int', checkRule: '1,30', errorMsg: 'please input current phone num' }
+				{ name: 'name', checkType: 'notnull', checkRule: '', errorMsg: this.i18n.errorMessage.pleaseinputyourname },
+				{ name: 'phone', checkType: 'notnull', checkRule: '', errorMsg: this.i18n.errorMessage.pleaseinputyourphonenum },
+				{ name: 'phone', checkType: 'int', checkRule: '1,30', errorMsg: this.i18n.errorMessage.pleaseinputcurrentphonenum }
 			];
 			//进行表单检查
 			var formData = e.detail.value;
@@ -270,7 +270,10 @@ export default {
 		...mapGetters({
 			storeColor: 'storeColor',
 			'userInfo': 'userInfo'
-		})
+		}),
+    i18n() {
+      return this.$t('index');
+    }
 	},
 	components: {
 		uniIcon,

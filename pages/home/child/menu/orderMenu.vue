@@ -9,7 +9,7 @@
 					</view>
 					<view class="uni-flex uni-column" style="padding-left: 20upx;">
 						<view class="title-name">{{ storeInfo.name || '--' }}</view>
-						<view class="uni-flex uni-row title-text">announcement: {{ storeInfo.announcement || '--' }}</view>
+						<view class="uni-flex uni-row title-text">{{ i18n.store.Announcement }}: {{ storeInfo.announcement || '--' }}</view>
 					</view>
 				</view>
 			</view>
@@ -123,12 +123,12 @@
         
         <view class="uni-flex uni-row align-center">
           <image src="../../../../static/img/time.png" style="width:15px;height:15px"></image>
-          <view style="margin-left: 20upx;">Open Hours</view>
+          <view style="margin-left: 20upx;">{{ i18n.openHours }}:</view>
         </view>
         
         <view class="uni-flex uni-column">
-          <view>weekday {{storeInfo.weekday}}</view>
-          <view>weekend {{storeInfo.weekend}}</view>
+          <view>{{ i18n.Weekday }} {{storeInfo.weekday}}</view>
+          <view>{{ i18n.Weekend }} {{storeInfo.weekend}}</view>
         </view>
       </view>
       
@@ -151,7 +151,7 @@
        <view class="uni-flex uni-row justify-between align-center detailItem" @click = "enClick">
         <view class="uni-flex uni-rate align-center">
             <image src="../../../../static/img/pic.png" style="width:20px;height:15px"></image>
-          <view style="margin-left: 20upx;">Merchant environment</view>
+          <view style="margin-left: 20upx;">{{ i18n.store.Environment }}</view>
         </view>
               <uni-icon size="20" type="arrowright" color="#80838F" class="arrow-right-icon"></uni-icon>
         
@@ -177,11 +177,6 @@ export default {
       scoreInfo: undefined,
 			storeId: '',
 			reductionList: [],
-			tabList: [
-			  { name: "Order Menu" },
-			  { name: "Reviews" },
-			  { name: "Detail" }
-			],
 			TabCur: 0,
       goods: [],
       height: 0,
@@ -219,46 +214,55 @@ export default {
 		  'userInfo': 'userInfo',
 		  'storeColor': 'storeColor'
 		}),
-			getList() {
-				let result = [];
-				this.goods.forEach((good) => {
-					good.goods.forEach((food) => {
-						if (food.count) {
-							result.push(food)
-						}
-					})
-				})
-				// console.log('result', result);
-				return result
+    i18n() {
+      return this.$t('index');
+    },
+    getList() {
+      let result = [];
+      this.goods.forEach((good) => {
+        good.goods.forEach((food) => {
+          if (food.count) {
+            result.push(food)
+          }
+        })
+      })
+      // console.log('result', result);
+      return result
 
-			},
-			// 获得购物车所有商品数量
-			getAllCount: function(item) {
-				// console.log('item', item)
-				let result = [];
-				let count = 0;
+    },
+    // 获得购物车所有商品数量
+    getAllCount: function(item) {
+      // console.log('item', item)
+      let result = [];
+      let count = 0;
 
-				for (let i = 0; i < this.goods.length; i++) {
-					count = 0;
-					this.goods[i].goods.forEach((food) => {
-						// console.log('food',food);
-						if (food.count >= 0) {
-							count += food.count
-							this.$set(this.goods[i], 'count', count)
-						}
-					})
-					// console.log('result', count);
-					result.push(count)
-				}
+      for (let i = 0; i < this.goods.length; i++) {
+        count = 0;
+        this.goods[i].goods.forEach((food) => {
+          // console.log('food',food);
+          if (food.count >= 0) {
+            count += food.count
+            this.$set(this.goods[i], 'count', count)
+          }
+        })
+        // console.log('result', count);
+        result.push(count)
+      }
 
-				result.sort(function(a, b) {
-					return a - b;
-				})
-				count = result[result.length - 1]
-				// console.log('result', count);
-				return count;
-			},
-
+      result.sort(function(a, b) {
+        return a - b;
+      })
+      count = result[result.length - 1]
+      // console.log('result', count);
+      return count;
+    },
+    tabList() {
+		  return [
+        { name: this.i18n.orderMenu.OrderMenu },
+        { name: this.i18n.orderMenu.Reviews },
+        { name: this.i18n.orderMenu.Detail }
+      ]
+    }
 		},
 	methods: {
 		tabChange(index) {

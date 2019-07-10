@@ -1,25 +1,27 @@
 <template>
 	<view class="container">
 		<view class="coupon_item_no uni-flex uni-row justify-between align-center" v-if="choose" @click="disableCouponsHandle">
-			<label style="font-size: 36upx;font-weight: 800;">No coupons</label>
+			<label style="font-size: 36upx;font-weight: 800;">{{ i18n.more.Nocoupons }}</label>
 			<uni-icon size="20" :type="selectType" color="#68c834"></uni-icon>
 		</view>
 
 		<view class="coupon_item_no uni-flex uni-row justify-between" v-for="(item, index) in coupons" :key="index" @click="itemClickHandle(item)">
-			<view class="uni-flex uni-column justify-center align-center price" style="height: 100%;width: 140upx;">
-				<view class="price"><span class="price-unit">{{CURRENCY_SYMBOL}}</span> {{ item.preferential }}</view>
+			<view class="justify-center align-center price" style="height: 100%;width: 140upx;">
+				<view class="price">
+					<span class="price-unit">{{ CURRENCY_SYMBOL }}</span>
+					{{ item.preferential }}
+				</view>
 
 				<view style="font-size: 26upx; color: lightGray;">{{ checkAvisible(item) ? 'available' : 'unavailable' }}</view>
 			</view>
 
-			<view>
+			<view style="flex: 1;">
 				<view class="store_name">{{ item.storeName }}</view>
 
 				<view class="condition uni-flex uni-row justify-between">
-					<view v-if="item.conditions">up to {{ CURRENCY_SYMBOL }} {{ item.conditions }} is available</view>
-					<view v-else>No threshold</view>
-
-					<view style="color: #de6849;" @click.stop="showDetail(item)">Detail</view>
+					<view v-if="item.conditions">{{ i18n.more.upto }} <span style="padding: 0 10upx">{{ CURRENCY_SYMBOL }} {{ item.conditions }} </span> {{ i18n.more.isavailable }}</view>
+					<view v-else>{{ i18n.more.Nothreshold }}</view>
+					<view style="color: #de6849;text-align:right; flex:1;" @click.stop="showDetail(item)">{{ i18n.common.Detail }}</view>
 				</view>
 
 				<view class="condition uni-flex uni-row justify-between">{{ item.startTime }}-{{ item.endTime }}</view>
@@ -37,12 +39,12 @@
 				</view>
 
 				<view v-if="detailCoupon.conditions">
-					<view>up to {{ CURRENCY_SYMBOL }} {{ detailCoupon.conditions }} is available</view>
+					<view>{{ i18n.more.upto }} <span style="padding: 0 10upx">{{ CURRENCY_SYMBOL }} {{ detailCoupon.conditions }}</span> {{ i18n.more.isavailable }}</view>
 				</view>
-				<view v-else>No threshold</view>
+				<view v-else>{{ i18n.more.Nothreshold }}</view>
 				<view>{{ detailCoupon.startTime }}-{{ detailCoupon.endTime }}</view>
 
-				<view>Instructions: {{ detailCoupon.instruction }}</view>
+				<view>{{ i18n.more.Instructions }}: {{ detailCoupon.instruction }}</view>
 			</view>
 		</popup-layer>
 	</view>
@@ -66,6 +68,9 @@ export default {
 			selfTakingInfo: 'selfTakingInfo',
 			userInfo: 'userInfo'
 		}),
+    i18n() {
+      return this.$t('index');
+    },
 		storeInfo() {
 			return this.selfTakingInfo ? this.selfTakingInfo.storeInfo : {};
 		},
@@ -102,13 +107,13 @@ export default {
 		getCoupons() {
 			const userId = this.userInfo.userId;
 			this.coupons = [];
-      let url1 = '/entry/wxapp/coupons?userId=' + userId
-      let url2 = '/entry/wxapp/voucher?userId=' + userId
-      if (this.choose) {
-        url1 = url1 + '&storeId=' + this.selfTakingInfo.storeInfo.id
-        url2 = url2 + '&storeId=' + this.selfTakingInfo.storeInfo.id  
-      }
-      console.log(url1, url2)
+			let url1 = '/entry/wxapp/coupons?userId=' + userId;
+			let url2 = '/entry/wxapp/voucher?userId=' + userId;
+			if (this.choose) {
+				url1 = url1 + '&storeId=' + this.selfTakingInfo.storeInfo.id;
+				url2 = url2 + '&storeId=' + this.selfTakingInfo.storeInfo.id;
+			}
+			console.log(url1, url2);
 			this.$request
 				.get(url1)
 				.then(res => {
@@ -141,15 +146,15 @@ export default {
 			this.$refs.popupRef.show();
 		},
 		checkAvisible(item) {
-      const avisible = parseFloat(item.preferential) <= this.totalPrice && item.storeId.toString() === this.storeInfo.id.toString();
-      return avisible
+			const avisible = parseFloat(item.preferential) <= this.totalPrice && item.storeId.toString() === this.storeInfo.id.toString();
+			return avisible;
 		},
 		itemClickHandle(item) {
 			if (this.choose === false) {
 				return;
 			}
 			const avisible = this.checkAvisible(item);
-      console.log(avisible)
+			console.log(avisible);
 			if (!avisible) {
 				uni.showToast({
 					title: 'Not available',

@@ -2,7 +2,7 @@
 	<view class="home-container">
 		<!-- picture -->
 		<uni-swiper-dot :info="info" :current="current" field="content">
-			<swiper class="swiper-box" autoplay="true" @change="change">
+			<swiper class="swiper-box" autoplay="true" @change="change" v-if="info.length > 0">
 				<swiper-item v-for="(item, index) in info" :key="index">
 					<view class="swiper-item"><image :src="item" mode="aspectFill"></image></view>
 				</swiper-item>
@@ -14,8 +14,8 @@
 			<view class="text function-item" v-if="storeInfo.isYy == 1" @click="goTableReservation()">
 				<view class="item-content uni-flex uni-row">
 					<view style="flex: 1">
-						<view class="item-title">Reservation</view>
-						<view class="item-detail">Table Reservation</view>
+						<view class="item-title">{{ i18n.Reservation }}</view>
+						<view class="item-detail">{{ i18n.store.TableReservation }}</view>
 					</view>
 					<image src="../../../static/img/reservation.png" class="function-icon"></image>
 				</view>
@@ -23,8 +23,8 @@
 			<view class="text function-item" v-if="storeInfo.isDn == 1" @click="goScan">
 				<view class="item-content uni-flex uni-row">
 					<view style="flex: 1">
-						<view class="item-title">Dined-In</view>
-						<view class="item-detail">Scan QRcode</view>
+						<view class="item-title">{{ i18n.DinedIn }}</view>
+						<view class="item-detail">{{ i18n.store.ScanQRcode }}</view>
 					</view>
 					<image src="../../../static/img/qrcode.png" class="function-icon"></image>
 				</view>
@@ -32,8 +32,8 @@
 			<view class="text function-item" v-if="storeInfo.isWm == 1" @click="goOrderMenu">
 				<view class="item-content uni-flex uni-row">
 					<view style="flex: 1">
-						<view class="item-title">Self-taking</view>
-						<view class="item-detail">Order Menu</view>
+						<view class="item-title">{{ i18n.SelfTaking }}</view>
+						<view class="item-detail">{{ i18n.store.OrderMenu }}</view>
 					</view>
 					<image src="../../../static/img/orderList.png" class="function-icon"></image>
 				</view>
@@ -41,8 +41,8 @@
 			<view class="text function-item" v-if="storeInfo.isPd == 1">
 				<view class="item-content uni-flex uni-row">
 					<view style="flex: 1">
-						<view class="item-title">Payment</view>
-						<view class="item-detail">Payment</view>
+						<view class="item-title">{{ i18n.store.Payment }}</view>
+						<view class="item-detail">{{ i18n.store.Payment }}</view>
 					</view>
 					<image src="../../../static/img/payment.png" class="function-icon"></image>
 				</view>
@@ -54,7 +54,7 @@
 			<view class="uni-list-cell uni-list-cell-pd">
 				<view class="uni-flex uni-column" style="width: 100%;">
 					<view class="flex-item uni-flex uni-row justify-between" style="color: #596071;margin-bottom: 10upx;">
-            <text>Merchants Info </text>
+            <text>Merchants Info</text>
             <view v-bind:style="{backgroundColor: storeColor ? storeColor : '#ce2029', paddingLeft: '10px', paddingRight: '10px', height: '24px',borderRadius: '12px'}">
               <text style="color: #ffffff;lineHeight: 20px;width: '100%';fontSize:14px">{{merchantClosed ? i18n.merchantCloseStatusClose : i18n.merchantCloseStatusOpen}}</text>
             </view>
@@ -66,7 +66,7 @@
 							</view>
 							<view class="uni-flex uni-column" style="padding-left: 20upx;">
 								<view class="title-name">{{ storeInfo.name || '-' }}</view>
-								<view class="uni-flex uni-row title-text">Announcement: {{ storeInfo.announcement || '-' }}</view>
+								<view class="uni-flex uni-row title-text">{{ i18n.store.Announcement }}: {{ storeInfo.announcement || '-' }}</view>
 							</view>
 						</view>
 					</view>
@@ -86,41 +86,41 @@
 			</view>
 			<view class="uni-list-cell uni-list-cell-pd">
 				<view class="uni-flex uni-row">
-					<view class="title-content" style="margin-right: 20upx;">Open Hours</view>
+					<view class="title-content" style="margin-right: 20upx;">{{ i18n.openHours }}:</view>
 					<view class="title-content">
-						<view class="title-time">Weekday {{ storeInfo.weekday || '-' }}</view>
-						<view class="title-time">Weekend {{ storeInfo.weekend || '-' }}</view>
+						<view class="title-time">{{ i18n.Weekday }} {{ storeInfo.weekday || '-' }}</view>
+						<view class="title-time">{{ i18n.Weekend }} {{ storeInfo.weekend || '-' }}</view>
 					</view>
 				</view>
 			</view>
 			<view class="uni-list-cell uni-list-cell-pd">
 				<view class="uni-flex uni-row" style="width: 100%;">
-					<view class="title-content" style="margin-right: 20upx;">Restaurant Category</view>
+					<view class="title-content" style="margin-right: 20upx;">{{ i18n.RestaurantCategory }}:</view>
 					<view class="title-content" style="flex: 1;">{{ storeInfo.categoryDesc || '-' }}</view>
 				</view>
 			</view>
 			<view class="uni-list-cell uni-list-cell-pd">
 				<view class="uni-flex uni-row" style="width: 100%;">
-					<view class="title-content" style="margin-right: 20upx;">Floor,Direction</view>
+					<view class="title-content" style="margin-right: 20upx;">{{ i18n.FloorDirection }}:</view>
 					<view class="title-content" style="flex: 1;">{{ storeInfo.floorDesc || '-' }},{{ storeInfo.directionDesc || '-' }}</view>
 				</view>
 			</view>
 			<view class="uni-list-cell uni-list-cell-pd" @click="clickTel()">
 				<view class="uni-flex uni-row" style="width: 100%;">
-					<view class="title-content" style="margin-right: 20upx;">Telephone</view>
+					<view class="title-content" style="margin-right: 20upx;">{{ i18n.common.Telephone }}:</view>
 					<view class="title-content" style="flex: 1;">{{ storeInfo.tel || '-' }}</view>
 					<uni-icon size="20" type="arrowright" color="#80838F" class="arrow-right-icon"></uni-icon>
 				</view>
 			</view>
 			<view class="uni-list-cell uni-list-cell-pd">
 				<view class="uni-flex uni-row" style="width: 100%;">
-					<view class="title-content" style="margin-right: 20upx;">Address</view>
+					<view class="title-content" style="margin-right: 20upx;">{{ i18n.common.Address }}:</view>
 					<view class="title-content" style="flex: 1;">{{ storeInfo.address || '-' }}</view>
 					<uni-icon size="20" type="arrowright" color="#80838F" class="arrow-right-icon"></uni-icon>
 				</view>
 			</view>
 			<view class="uni-list-cell uni-list-cell-pd" @click="aboutUsClick">
-				<view class="title-content" style="flex: 1;">About Us</view>
+				<view class="title-content" style="flex: 1;">{{ i18n.common.AboutUs }}:</view>
 				<uni-icon size="20" type="arrowright" color="#80838F" class="arrow-right-icon"></uni-icon>
 			</view>
 		</view>
@@ -214,40 +214,52 @@ export default {
 			this.current = e.detail.current;
 		},
 		getCategoryFilter(value) {
-			if (value && value !== undefined && value !== null) {
-				let list = this.categoriesParam.filter(item => {
-					if (item.paramValue === value) {
-						return item;
-					}
-				});
-				return list[0].remark;
-			} else {
-				return '--';
-			}
+      if (value && value !== undefined && value !== null) {
+        let list = this.categoriesParam.filter(item => {
+          if (item.paramValue === value) {
+            return item;
+          }
+        });
+        if (list.length === 0) {
+          return '-';
+        } else {
+          return list[0].remark;
+        }
+      } else {
+        return '-';
+      }
 		},
 		getDirectionFilter(value) {
-			if (value && value !== undefined && value !== null) {
-				let list = this.directionParam.filter(item => {
-					if (item.paramValue === value) {
-						return item;
-					}
-				});
-				return list[0].remark;
-			} else {
-				return '--';
-			}
+      if (value && value !== undefined && value !== null) {
+        let list = this.directionParam.filter(item => {
+          if (item.paramValue === value) {
+            return item;
+          }
+        });
+        if (list.length === 0) {
+          return '-';
+        } else {
+          return list[0].remark;
+        }
+      } else {
+        return '-';
+      }
 		},
 		getFloorFilter(value) {
-			if (value && value !== undefined && value !== null) {
-				let list = this.floorLevelParam.filter(item => {
-					if (item.paramValue === value) {
-						return item;
-					}
-				});
-				return list[0].remark;
-			} else {
-				return '--';
-			}
+      if (value && value !== undefined && value !== null) {
+        let list = this.floorLevelParam.filter(item => {
+          if (item.paramValue === value) {
+            return item;
+          }
+        });
+        if (list.length === 0) {
+          return '-';
+        } else {
+          return list[0].remark;
+        }
+      } else {
+        return '-';
+      }
 		},
 		getConfig() {
 			this.floorLevelParam = [];
@@ -300,6 +312,7 @@ export default {
 				});
 		},
 		queryStoreInfo() {
+		  this.info = []
 			const param = {
 				userId: this.userInfo.userId,
 				storeId: this.storeId

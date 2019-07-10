@@ -1,26 +1,23 @@
 <template>
 	<view>
 		<view class="coupon_item_no uni-flex uni-row justify-between" v-for="(item, index) in coupons" :key="index">
-			<view class="uni-flex uni-column justify-center align-center price" style="height: 100%;width: 140upx;">
+			<view class="justify-center align-center price" style="height: 100%;width: 140upx;">
 				<view class="price">
 					<span class="price-unit">{{ CURRENCY_SYMBOL }}</span>
 					{{ item.preferential }}
 				</view>
-
-				<view style="font-size: 26upx; color: lightGray;">available</view>
+				<view style="font-size: 26upx; color: lightGray;">{{ i18n.more.available }}</view>
 			</view>
 
-			<view>
+			<view style="flex: 1;">
 				<view class="store_name">{{ item.storeName }}</view>
 
-				<view class="condition uni-flex uni-row justify-between">
-					<view v-if="item.conditions">up to {{ CURRENCY_SYMBOL }} {{ item.conditions }} is available</view>
-					<view v-else>No threshold</view>
-
-					<view style="color: #de6849;" @click.stop="showDetail(item)">Detail</view>
+				<view class="condition uni-flex uni-row">
+					<view v-if="item.conditions">{{ i18n.more.upto }} <span style="padding: 0 10upx">{{ CURRENCY_SYMBOL }} {{ item.conditions }} </span> {{ i18n.more.isavailable }}</view>
+					<view v-else>{{ i18n.more.Nothreshold }}</view>
+					<view style="color: #de6849;text-align:right; flex:1;" @click.stop="showDetail(item)">{{ i18n.common.Detail }}</view>
 				</view>
-
-				<view class="condition uni-flex uni-row justify-between">{{ item.startTime }}-{{ item.endTime }}</view>
+				<view class="condition uni-flex uni-row ">{{ item.startTime }}-{{ item.endTime }}</view>
 			</view>
 		</view>
 
@@ -33,13 +30,14 @@
 				</view>
 
 				<view v-if="detailCoupon.conditions">
-					<view>up to {{ CURRENCY_SYMBOL }} {{ detailCoupon.conditions }} is available</view>
+					<view>{{ i18n.more.upto }} <span style="padding: 0 10upx">{{ CURRENCY_SYMBOL }} {{ detailCoupon.conditions }}</span> {{ i18n.more.isavailable }}</view>
 				</view>
-				<view v-else>No threshold</view>
+				<view v-else>{{ i18n.more.Nothreshold }}</view>
 				<view>{{ detailCoupon.startTime }}-{{ detailCoupon.endTime }}</view>
 
-				<view>Instructions: {{ detailCoupon.instruction }}</view>
-				<view class="require-button" @click="requireCoupon">Require Coupon</view>
+				<view>{{ i18n.more.Instructions }}: {{ detailCoupon.instruction }}</view>
+				<view class="require-button" @click="requireCoupon" v-if="detailCoupon.voucherType">{{ i18n.more.RequireVoucher }}</view>
+				<view class="require-button" @click="requireCoupon" v-else>{{ i18n.more.RequireCoupon }}</view>
 			</view>
 		</popup-layer>
 	</view>
@@ -92,7 +90,6 @@ export default {
 		},
 		requireCoupon() {
 			const userId = this.userInfo.userId;
-			debugger;
 			if (this.detailCoupon.voucherType) {
 				this.$request
 					.post('/entry/wxapp/addVoucher?vouchersId=' + this.detailCoupon.id + '&userId=' + userId)
@@ -132,7 +129,10 @@ export default {
 	computed: {
 		...mapGetters({
 			userInfo: 'userInfo'
-		})
+		}),
+    i18n() {
+      return this.$t('index');
+    }
 	},
 	components: {
 		uniIcon,

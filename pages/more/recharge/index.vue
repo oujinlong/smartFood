@@ -1,7 +1,7 @@
 <template>
 	<view>
 		<view class="uni-flex uni-row recharge-title">
-			<view class="recharge-name uni-input">Recharge activity</view>
+			<view class="recharge-name uni-input">{{i18n.more.Rechargeactivity}}</view>
 			<view class="recharge-list">
 				<picker @change="bindPickerChange" :value="rechargeIndex" :range="rechargeArrayLabel">
 					<view class="uni-input">{{ rechargeArrayLabel[rechargeIndex] }}</view>
@@ -12,20 +12,20 @@
 
 		<view style="margin: 40upx 0;">
 			<view class="uni-flex uni-row">
-				<view class="uni-input" style="width: 200upx;">当前余额</view>
+				<view class="uni-input" style="width: 200upx;">{{i18n.more.currentBalance}}</view>
 				<view class="uni-input" style="flex: 1;">{{ walletValue }}</view>
 			</view>
 			<view class="uni-flex uni-row">
-				<view class="uni-input" style="width: 200upx;">充值金额</view>
+				<view class="uni-input" style="width: 200upx;">{{i18n.more.rechargeAmount}}</view>
 				<view class="uni-input" style="flex: 1;">{{ rechargeArray[rechargeIndex].full }}</view>
 			</view>
 			<view class="uni-flex uni-row">
-				<view class="uni-input" style="width: 200upx;">赠送金额</view>
+				<view class="uni-input" style="width: 200upx;">{{i18n.more.giftAmount}}</view>
 				<view class="uni-input" style="flex: 1;">{{ rechargeArray[rechargeIndex].reduction }}</view>
 			</view>
 		</view>
 
-		<view class="submit-button" v-bind:style="{ backgroundColor: systemInfo.color }" @click="submitClick">Submit</view>
+		<view class="submit-button" v-bind:style="{ backgroundColor: systemInfo.color }" @click="submitClick">{{i18n.common.Submit}}</view>
 	</view>
 </template>
 
@@ -44,7 +44,6 @@ export default {
 	props: {},
 	methods: {
 		bindPickerChange(e) {
-			console.log('picker发送选择改变，携带值为', e.target.value);
 			this.rechargeIndex = e.target.value;
 		},
 		czhd() {
@@ -80,7 +79,7 @@ export default {
 				.post('/entry/wxapp/recharge?money=' + this.rechargeArray[this.rechargeIndex].full + '&userId=' + this.userInfo.userId)
 				.then(res => {
 					wx.showToast({
-						title: 'Succeed',
+						title: this.i18n.common.Succeed,
 						icon: 'success',
 						duration: 1000
 					});
@@ -107,7 +106,10 @@ export default {
 		...mapGetters({
 			systemInfo: 'systemInfo',
 			userInfo: 'userInfo'
-		})
+		}),
+    i18n() {
+      return this.$t('index');
+    }
 	},
 	components: {}
 };

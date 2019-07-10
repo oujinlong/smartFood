@@ -2,7 +2,7 @@
 	<view>
 		<view class="search-container">
 			<image :src="backgroundImg" style="width: 100%;height: 100%;"></image>
-			<input class="search-input" confirm-type="search" focus placeholder="Key Search" placeholder-class="search-placeholder-class" @confirm="searchStoreClick" />
+			<input class="search-input" confirm-type="search" focus :placeholder="i18n.store.KeySearch" placeholder-class="search-placeholder-class" @confirm="searchStoreClick" />
 		</view>
 		<view class="bg-white padding text-black">
 			<scroll-view class="search-list" scroll-y @scrolltolower="loadMore()">
@@ -15,21 +15,21 @@
 							<view class="uni-flex uni-column" style="padding-left: 20upx;">
 								<view class="title-name">{{ item.name || '-' }}</view>
 								<view class="uni-flex uni-row">
-									<view class="title-time" style="margin-right: 20upx;">Open Hours:</view>
+									<view class="title-time" style="margin-right: 20upx;">{{ i18n.openHours }}:</view>
 									<view style="flex: 1;">
-										<view class="title-time">Weekday {{ item.weekday || '-' }}</view>
-										<view class="title-time">Weekend {{ item.weekend || '-' }}</view>
+										<view class="title-time">{{ i18n.Weekday }} {{ item.weekday || '-' }}</view>
+										<view class="title-time">{{ i18n.Weekend }} {{ item.weekend || '-' }}</view>
 									</view>
 								</view>
-								<view class="title-time">Restaurant Category: {{ item.categoryDesc || '-' }}</view>
-								<view class="title-time">Floor,Direction: {{ item.floorDesc || '-' }},{{ item.directionDesc || '-' }}</view>
+								<view class="title-time">{{ i18n.RestaurantCategory }}: {{ item.categoryDesc || '-' }}</view>
+								<view class="title-time">{{ i18n.FloorDirection }}: {{ item.floorDesc || '-' }},{{ item.directionDesc || '-' }}</view>
 							</view>
 						</view>
 					</view>
 				</block>
 				<view class="no_data_container uni-flex uni-column" v-if="storeList.length == 0">
 					<image src="../../../static/img/no-data.png" style="width: 300upx;height: 300upx"></image>
-					<view style="justify-content:center;font-size: 40rpx;margin-top: 20rpx ">No data</view>
+					<view style="justify-content:center;font-size: 40rpx;margin-top: 20rpx ">{{ i18n.Nodata }}</view>
 				</view>
 			</scroll-view>
 		</view>
@@ -117,40 +117,52 @@ export default {
 				});
 		},
 		getCategoryFilter(value) {
-			if (value && value !== undefined && value !== null) {
-				let list = this.categoriesParam.filter(item => {
-					if (item.paramValue === value) {
-						return item;
-					}
-				});
-				return list[0].remark;
-			} else {
-				return '--';
-			}
+      if (value && value !== undefined && value !== null) {
+        let list = this.categoriesParam.filter(item => {
+          if (item.paramValue === value) {
+            return item;
+          }
+        });
+        if (list.length === 0) {
+          return '-';
+        } else {
+          return list[0].remark;
+        }
+      } else {
+        return '-';
+      }
 		},
 		getDirectionFilter(value) {
-			if (value && value !== undefined && value !== null) {
-				let list = this.directionParam.filter(item => {
-					if (item.paramValue === value) {
-						return item;
-					}
-				});
-				return list[0].remark;
-			} else {
-				return '--';
-			}
+      if (value && value !== undefined && value !== null) {
+        let list = this.directionParam.filter(item => {
+          if (item.paramValue === value) {
+            return item;
+          }
+        });
+        if (list.length === 0) {
+          return '-';
+        } else {
+          return list[0].remark;
+        }
+      } else {
+        return '-';
+      }
 		},
 		getFloorFilter(value) {
-			if (value && value !== undefined && value !== null) {
-				let list = this.floorLevelParam.filter(item => {
-					if (item.paramValue === value) {
-						return item;
-					}
-				});
-				return list[0].remark;
-			} else {
-				return '--';
-			}
+      if (value && value !== undefined && value !== null) {
+        let list = this.floorLevelParam.filter(item => {
+          if (item.paramValue === value) {
+            return item;
+          }
+        });
+        if (list.length === 0) {
+          return '-';
+        } else {
+          return list[0].remark;
+        }
+      } else {
+        return '-';
+      }
 		},
 		storeDetailClick(item) {
 			uni.navigateTo({
@@ -214,7 +226,10 @@ export default {
 		}),
 		backgroundColor() {
 			return this.systemInfo.color;
-		}
+		},
+    i18n() {
+      return this.$t('index');
+    }
 	},
 	components: {}
 };

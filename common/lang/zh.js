@@ -9,8 +9,23 @@ const lang = {
 		Time: '时间',
 		Detail: '详情',
 		Contactus: '联系我们',
-		Login: '登录'
+		Login: '登录',
+    Submit: '提交',
+    Succeed: '成功',
+    Telephone: '电话',
+    Address: '地址',
+    AboutUs: '关于我们'
 	},
+  errorMessage: {
+    pleaseinputyourname:'请输入你的姓名',
+    pleaseinputyourphonenum: '请输入你的手机号',
+    pleaseinputcurrentphonenum: '请输入正确的手机号'
+  },
+  paymentDialog: {
+    Paymentoptions: '支付方式',
+    Youselected: '您已选择',
+    Confirmpayment: '确认支付'
+  },
 	search: '搜索',
 	more_lang_change_finish: '切换完成 ',
 	location: '方位',
@@ -37,7 +52,7 @@ const lang = {
 	reservation: {
 		Applyforrefund: '申请退款',
 		Delete: '删除订单',
-		Cancel: '关闭订单',
+		Cancel: '取消订单',
 		ReservingFilter: '待审核',
 		ReservedFilter: '已审核',
 		CancelledFilter: '已关闭',
@@ -61,6 +76,15 @@ const lang = {
 		Returnrequestreview: '退款申请审核',
 		Refundsuccessfully: '退款成功',
 		Refundfailed: '退款失败',
+    Reservation: '预约',
+    Date: '日期',
+    Arrivaltime: '到店时间',
+    Tabletype: '餐桌类型',
+    Theminimumconsumption: '最低消费',
+    Advancepayment: '预定费用',
+    Theservicefee: '服务费',
+    Tips:'提醒',
+    Confirmtocancelthisorder: '确定取消该订单?'
 	},
 	more: {
 		Hellotourists: '用户你好，',
@@ -76,8 +100,35 @@ const lang = {
     MyCoupon: '我的优惠劵',
     OnlineService: '在线客服',
     HelpCenter: '帮助中心',
-    ChangeLanguage: '语言切换'
-	}
-  
+    ChangeLanguage: '语言切换',
+    Rechargeactivity: '充值活动',
+    currentBalance: '当前余额',
+    rechargeAmount: '充值金额',
+    giftAmount: '赠送金额',
+    available: '可用',
+    upto: '满',
+    isavailable: '可用',
+    Nothreshold: '无门槛',
+    RequireCoupon:'获取优惠劵',
+    Instructions: '说明',
+    RequireVoucher: '获取代金券',
+    Nocoupons: '暂无优惠'
+	},
+  store: {
+    KeySearch: '关键字搜索',
+    TableReservation: '餐桌预定',
+    ScanQRcode: '扫码点单',
+    OrderMenu: '进入菜单',
+    Payment:'支付',
+    MerchantsInfo: '商店信息',
+    Announcement: '简介',
+    Environment: '环境',
+    Awards: '奖项'
+  },
+  orderMenu: {
+    OrderMenu: '菜单',
+    Reviews: '评价',
+    Detail: '详情'
+  }
 }
 export default lang

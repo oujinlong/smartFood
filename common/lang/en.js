@@ -9,7 +9,22 @@ const lang = {
 		Time: 'Time',
 		Detail: 'Detail',
 		Contactus: 'Contact us',
-    Login: 'Login'
+    Login: 'Login',
+    Submit: 'Submit',
+    Succeed: 'Succeed',
+    Telephone: 'Telephone',
+    Address: 'Address',
+    AboutUs: 'About Us'
+	},
+	errorMessage: {
+    pleaseinputyourname:'please input your name',
+    pleaseinputyourphonenum: 'please input your phone num',
+    pleaseinputcurrentphonenum: 'please input current phone num'
+	},
+	paymentDialog: {
+    Paymentoptions: 'Payment options',
+    Youselected: 'You selected',
+    Confirmpayment: 'Confirm payment'
 	},
 	search: 'Search',
 	more_lang_change_finish: 'Language Changed ',
@@ -59,7 +74,16 @@ const lang = {
 		Returnapplication: 'Return application',
 		Returnrequestreview: 'Return request review',
 		Refundsuccessfully: 'Refund successfully',
-		Refundfailed: 'Refund failed'
+		Refundfailed: 'Refund failed',
+    Reservation: 'Reservation',
+    Date: 'Date',
+    Arrivaltime: 'Arrival time',
+    Tabletype: 'Table type',
+    Theminimumconsumption: 'The minimum consumption',
+    Advancepayment: 'Advance payment',
+    Theservicefee: 'The service fee',
+    Tips:'Tips',
+    Confirmtocancelthisorder: 'Confirm to cancel this order ?'
 	},
 	more: {
     Hellotourists: 'Hello, tourists',
@@ -75,7 +99,35 @@ const lang = {
 	  MyCoupon: 'My Coupon',
     OnlineService: 'Online Service',
     HelpCenter: 'Help Center',
-    ChangeLanguage: 'Change Language'
+    ChangeLanguage: 'Change Language',
+    Rechargeactivity: 'Recharge activity',
+		currentBalance: 'Current Balance',
+		rechargeAmount: 'Recharge Amount',
+		giftAmount: 'Gift Amount',
+    available: 'available',
+    upto: 'up to',
+    isavailable: 'is available',
+    Nothreshold: 'No threshold',
+    RequireCoupon:'Require Coupon',
+    Instructions: 'Instructions',
+    RequireVoucher: 'Require Voucher',
+    Nocoupons: 'No coupons'
+  },
+	store: {
+    KeySearch: 'Key Search',
+    TableReservation: 'Table Reservation',
+    ScanQRcode: 'Scan QRcode',
+    OrderMenu: 'Order Menu',
+    Payment:'Payment',
+    MerchantsInfo: 'Merchants Info',
+    Announcement: 'Announcement',
+    Environment: 'Environment',
+    Awards: 'Awards'
+	},
+	orderMenu: {
+    OrderMenu: 'Order Menu',
+    Reviews: 'Reviews',
+    Detail: 'Detail'
 	}
 }
 export default lang

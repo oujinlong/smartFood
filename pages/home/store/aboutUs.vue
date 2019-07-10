@@ -3,7 +3,7 @@
 		<view class="about-us-content">
 			<view class="about-us-title">
 				<view class="hx"></view>
-				<view class="hxwz">About Us</view>
+				<view class="hxwz">{{ i18n.common.AboutUs }}</view>
 				<view class="hx"></view>
 			</view>
 			<view style="font-size:26upx;color:#666;"><rich-text :nodes="storeInfo.details"></rich-text></view>
@@ -16,13 +16,12 @@
 				<view class="hx"></view>
 			</view>
 			<view><video :src="storeInfo.storeVideo"></video></view>
-			<video :src="src"></video>
 		</view> -->
 
-		<view class="about-us-content">
+		<view class="about-us-content" v-if="environmentList.length > 0">
 			<view class="about-us-title">
 				<view class="hx"></view>
-				<view class="hxwz">Environment</view>
+				<view class="hxwz">{{ i18n.store.Environment }}</view>
 				<view class="hx"></view>
 			</view>
 			<view class="xztpul">
@@ -30,10 +29,10 @@
 			</view>
 		</view>
 
-		<view class="about-us-content">
+		<view class="about-us-content" v-if="awardsList.length > 0">
 			<view class="about-us-title">
 				<view class="hx"></view>
-				<view class="hxwz">Awards</view>
+				<view class="hxwz">{{ i18n.store.Awards }}</view>
 				<view class="hx"></view>
 			</view>
 			<view class="xztpul">
@@ -55,9 +54,7 @@ export default {
 			storeId: '',
 			storeInfo: {},
 			environmentList: [],
-			awardsList: [],
-			src:
-				'https://dcloud-img.oss-cn-hangzhou.aliyuncs.com/guide/uniapp/%E7%AC%AC1%E8%AE%B2%EF%BC%88uni-app%E4%BA%A7%E5%93%81%E4%BB%8B%E7%BB%8D%EF%BC%89-%20DCloud%E5%AE%98%E6%96%B9%E8%A7%86%E9%A2%91%E6%95%99%E7%A8%8B@20181126.mp4'
+			awardsList: []
 		};
 	},
 	props: {},
@@ -98,12 +95,20 @@ export default {
 		}
 	},
 	mounted() {
+    wx.setNavigationBarColor({
+      frontColor: '#ffffff',
+      backgroundColor: this.storeColor
+    });
 		this.queryStoreInfo();
 	},
 	computed: {
 		...mapGetters({
-			'userInfo': 'userInfo'
-		})
+			'userInfo': 'userInfo',
+      storeColor: 'storeColor'
+		}),
+    i18n() {
+      return this.$t('index');
+    },
 	},
 	components: {}
 };

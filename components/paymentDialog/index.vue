@@ -1,7 +1,7 @@
 <template>
 	<uni-popup :show="show" mode="fiexd" @hidePopup="hideHandle" class="pay-dialog">
 		<view style="width: 75vw">
-			<view class="pay-title">Payment options</view>
+			<view class="pay-title">{{i18n.paymentDialog.Paymentoptions}}</view>
 			<view class="uni-list">
 				<radio-group @change="radioChange">
 					<label class="uni-list-cell uni-list-cell-pd" v-for="(item, index) in payItems" :key="item.value">
@@ -12,10 +12,10 @@
 						<view><radio :value="item.value" :checked="index === currentPayIndex" /></view>
 					</label>
 				</radio-group>
-				<view class="uni-list-cell-pd" style="text-align:center;border-top:1upx solid #DDDEE1;margin-top:2upx;">You selected {{ payItems[currentPayIndex].name }}</view>
+				<view class="uni-list-cell-pd" style="text-align:center;border-top:1upx solid #DDDEE1;margin-top:2upx;">{{i18n.paymentDialog.Youselected}} {{ payItems[currentPayIndex].name }}</view>
 			</view>
       <form-button @onPress = "confirmClick">
-          <view  class="confirm-button" :class="{ 'blue-button': payItems[currentPayIndex].name === 'Balance' }">Confirm payment ${{ price || '0' }}</view>
+          <view  class="confirm-button" :class="{ 'blue-button': payItems[currentPayIndex].name === 'Balance' }">{{i18n.paymentDialog.Confirmpayment}} {{CURRENCY_SYMBOL}} {{ price || '0' }}</view>
       </form-button>
 		</view>
 	</uni-popup>
@@ -37,7 +37,7 @@ export default {
 	},
 	data() {
 		return {
-			show: false,
+      show: false,
 			payItems: [
 				{
 					icon: '../../static/img/weixin.png',
@@ -54,6 +54,11 @@ export default {
 			CURRENCY_SYMBOL: CONFIG.common.CURRENCY_SYMBOL
 		};
 	},
+  computed: {
+    i18n() {
+      return this.$t('index');
+    }
+  },
 	watch: {
 		visible(value) {
 			this.show = this.visible;

@@ -8,7 +8,8 @@ const lang = {
 		Remark: 'Remark',
 		Time: 'Time',
 		Detail: 'Detail',
-		Contactus: 'Contact us'
+		Contactus: 'Contact us',
+    Login: 'Login'
 	},
 	search: 'Search',
 	more_lang_change_finish: 'Language Changed ',

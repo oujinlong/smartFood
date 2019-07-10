@@ -11,6 +11,7 @@ const lang = {
 		Contactus: '联系我们'
 	},
 	search: '搜索',
+	more_lang_change_finish: '切换完成 ',
 	location: '方位',
 	Categories: '分类',
 	openHours: '营业时间',
@@ -52,7 +53,7 @@ const lang = {
 		Reservationsuccessfully: '预约成功',
 		Reservationiscancelled: '预订单已取消',
 		Returnapplication: '申请退款',
-		Returnrequestreview:'退款申请审核',
+		Returnrequestreview: '退款申请审核',
 		Refundsuccessfully: '退款成功',
 		Refundfailed: '退款失败'
 	}

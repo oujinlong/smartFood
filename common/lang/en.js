@@ -11,6 +11,7 @@ const lang = {
 		Contactus: 'Contact us'
 	},
 	search: 'Search',
+	more_lang_change_finish: 'Language Changed ',
 	location: 'Location',
 	Categories: 'Categories',
 	openHours: 'Open Hours',
@@ -51,10 +52,9 @@ const lang = {
 		Reservationsuccessfully: 'Reservation successfully',
 		Reservationiscancelled: 'Reservation is cancelled',
 		Returnapplication: 'Return application',
-		Returnrequestreview:'Return request review',
+		Returnrequestreview: 'Return request review',
 		Refundsuccessfully: 'Refund successfully',
 		Refundfailed: 'Refund failed'
 	}
-
 }
 export default lang

@@ -18,7 +18,7 @@ const lang = {
 	promotion: 'Promotion',
 	Weekday: 'Weekday',
 	Weekend: 'Weekend',
-	RestaurantCategory: 'Restaurant Category',
+	RestaurantCategory: 'Store Category',
 	FloorDirection: 'Floor,Direction',
 	Nodata: 'No data',
 	Reservation: 'Reservation',
@@ -29,6 +29,10 @@ const lang = {
 	Countofmeals: 'Count of meals',
 	Detail: 'Detail',
 	Tabletype: 'Table type',
+  adCloseTip: 'Tap To Close',
+  merchantCloseStatusClose: 'Merchant Closed',
+  merchantCloseStatusOpen: 'In Business',
+  merchantCloseTip: 'Merchant Closed',
 	reservation: {
 		Applyforrefund: 'Apply for refund',
 		Delete: 'Delete',
@@ -55,6 +59,7 @@ const lang = {
 		Returnrequestreview: 'Return request review',
 		Refundsuccessfully: 'Refund successfully',
 		Refundfailed: 'Refund failed'
-	}
+	},
+  
 }
 export default lang

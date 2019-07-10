@@ -29,6 +29,10 @@ const lang = {
 	Countofmeals: '用餐人数',
 	Detail: '详情',
 	Tabletype: '餐桌类型',
+  adCloseTip: '点击空白处关闭',
+  merchantCloseStatusClose: '已关店',
+  merchantCloseStatusOpen: '正在营业',
+  merchantCloseTip: '商家已经关店了哦',
 	reservation: {
 		Applyforrefund: '申请退款',
 		Delete: '删除订单',
@@ -57,5 +61,6 @@ const lang = {
 		Refundsuccessfully: '退款成功',
 		Refundfailed: '退款失败'
 	}
+  
 }
 export default lang

@@ -50,7 +50,7 @@ Vue.use(VueI18n)
 Vue.config.productuinTip = false  
 
 const i18n = new VueI18n({  
-  locale: 'cn',  
+  locale: uni.getStorageSync('lang') || 'cn',  
   messages: {  
     'en': {  
       index: en

@@ -1,6 +1,6 @@
 <template>
 	<view class="container">
-		<view class="coupon_item_no uni-flex uni-row justify-between" v-if="choose" @click="disableCouponsHandle">
+		<view class="coupon_item_no uni-flex uni-row justify-between align-center" v-if="choose" @click="disableCouponsHandle">
 			<label style="font-size: 36upx;font-weight: 800;">No coupons</label>
 			<uni-icon size="20" :type="selectType" color="#68c834"></uni-icon>
 		</view>

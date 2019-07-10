@@ -52,8 +52,13 @@
 		<!--Merchants Info-->
 		<view class="uni-list" style="margin-bottom: 20urp;">
 			<view class="uni-list-cell uni-list-cell-pd">
-				<view class="uni-flex uni-column">
-					<view class="flex-item" style="color: #596071;margin-bottom: 10upx;">Merchants Info</view>
+				<view class="uni-flex uni-column" style="width: 100%;">
+					<view class="flex-item uni-flex uni-row justify-between" style="color: #596071;margin-bottom: 10upx;">
+            <text>Merchants Info </text>
+            <view v-bind:style="{backgroundColor: storeColor ? storeColor : '#ce2029', paddingLeft: '10px', paddingRight: '10px', height: '24px',borderRadius: '12px'}">
+              <text style="color: #ffffff;lineHeight: 20px;width: '100%';fontSize:14px">{{merchantClosed ? i18n.merchantCloseStatusClose : i18n.merchantCloseStatusOpen}}</text>
+            </view>
+          </view>
 					<view class="flex-item">
 						<view class="uni-flex uni-row">
 							<view class="text" style="display: flex; justify-content: center;align-items: center;">
@@ -137,8 +142,54 @@ export default {
 	},
 	computed: {
 		...mapGetters({
-			userInfo: 'userInfo'
-		})
+			userInfo: 'userInfo',
+      storeColor: 'storeColor'
+		}),
+    i18n() {
+    	return this.$t('index');
+    },
+    merchantClosed () {
+      const storeInfo = this.storeInfo
+      if (storeInfo.isRest === 1) {
+        return true
+      }
+    
+      const nowDate = new Date()
+      const day =  "7123456".charAt(nowDate.getDay());
+      const isWeekend = day === '7' || day === '6'
+      const timeRangStr = isWeekend ? storeInfo.weekend : storeInfo.weekday
+      
+      if (timeRangStr) {
+         const timeList = timeRangStr.split('-')
+         const startTime = timeList[0]
+         const endTime = timeList[1]
+         
+         const startTimeList = startTime.split(':')
+         const endTimeList = endTime.split(':')
+         
+         const startHour = startTimeList[0]
+         const startMin = startTimeList[1]
+         const endHour = endTimeList[0]
+         const endMin = endTimeList[1]
+         
+         const year = nowDate.getFullYear()
+         const month = nowDate.getMonth()
+         const day = nowDate.getDate()
+        
+         const start = year + '/' + month + '/' + day + ' ' + startHour + ':' + startMin + ':00'
+         const end = year + '/' + month + '/' + day + ' ' + endHour + ':' + endMin + ':00'
+ 
+         let dateTmp = start.replace(/-/g,'/')
+         const startTimeStamp = Date.parse(dateTmp)
+         dateTmp = end.replace(/-/g,'/')   //为了兼容IOS，需先将字符串转换为'2018/9/11 9:11:23'
+         const endTimeStamp = Date.parse(dateTmp)
+         const nowTimeStamp = nowDate.getTime()
+         return (nowTimeStamp < endTimeStamp && nowTimeStamp > startTimeStamp)
+      }
+     
+      
+      return true
+    }
 	},
 	mounted() {
 		// this.queryAd();
@@ -274,11 +325,25 @@ export default {
 			});
 		},
 		goTableReservation() {
+      if (this.merchantClosed) {
+        uni.showToast({
+        	title: this.i18n.merchantCloseTip,
+          icon: 'none'
+        })
+        return
+      }
 			uni.navigateTo({
 				url: '/pages/home/child/tableReservation?storeId=' + this.storeId
 			});
 		},
 		goOrderMenu() {
+      if (this.merchantClosed) {
+        uni.showToast({
+       	title: this.i18n.merchantCloseTip,
+         icon: 'none'
+       })
+        return
+      }
 			uni.navigateTo({
 				url: '../child/menu/orderMenu?storeId=' + this.storeId + '&dishesType=2'
 			});
@@ -289,6 +354,13 @@ export default {
 			});
 		},
     goScan () {
+      if (this.merchantClosed) {
+        uni.showToast({
+       	title: this.i18n.merchantCloseTip,
+         icon: 'none'
+       })
+        return
+      }
       uni.navigateTo({
       	url: '../child/menu/orderMenu?storeId=' + this.storeId + '&dishesType=1&tableId=1'
       });

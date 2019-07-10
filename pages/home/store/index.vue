@@ -70,6 +70,18 @@
 							</view>
 						</view>
 					</view>
+
+          <view class="flex-item"  >
+          	<view class="uni-swiper-msg" style="height: 60upx;" v-if= 'reductionList.length> 0'>
+          		<view class="uni-swiper-msg-icon"><image src="/static/img/sales2.png" mode="widthFix" ></image></view>
+          		<swiper vertical="true" autoplay="true" circular="true" interval="3000">
+          			<swiper-item v-for="(item, index) in reductionList" :key="index">
+          				<navigator  class="title-content">{{ item.name }}</navigator>
+          			</swiper-item>
+          		</swiper>
+          	</view>
+          </view>
+
 				</view>
 			</view>
 			<view class="uni-list-cell uni-list-cell-pd">
@@ -137,7 +149,8 @@ export default {
 			storeInfo: {},
 			floorLevelParam: [],
 			directionParam: [],
-			categoriesParam: []
+			categoriesParam: [],
+      reductionList: []
 		};
 	},
 	computed: {
@@ -181,7 +194,7 @@ export default {
  
          let dateTmp = start.replace(/-/g,'/')
          const startTimeStamp = Date.parse(dateTmp)
-         dateTmp = end.replace(/-/g,'/')   //为了兼容IOS，需先将字符串转换为'2018/9/11 9:11:23'
+         dateTmp = end.replace(/-/g,'/')
          const endTimeStamp = Date.parse(dateTmp)
          const nowTimeStamp = nowDate.getTime()
          return (nowTimeStamp < endTimeStamp && nowTimeStamp > startTimeStamp)
@@ -194,6 +207,7 @@ export default {
 	mounted() {
 		// this.queryAd();
 		this.getConfig();
+    this.queryReduction()
 	},
 	methods: {
 		change(e) {
@@ -364,6 +378,22 @@ export default {
       uni.navigateTo({
       	url: '../child/menu/orderMenu?storeId=' + this.storeId + '&dishesType=1&tableId=1'
       });
+    },
+    queryReduction() {
+    	//店铺满减优惠查询（滚动播放）
+    	const param = {
+    		storeId: this.storeId
+    	};
+    	this.$request
+    		.get('/entry/wxapp/reduction', {
+    			data: param
+    		})
+    		.then(res => {
+    			this.reductionList = res.reductions;
+    		})
+    		.catch(error => {
+    			console.error('error:', error);
+    		});
     }
 	}
 };

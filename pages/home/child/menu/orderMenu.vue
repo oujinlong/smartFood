@@ -13,15 +13,18 @@
 					</view>
 				</view>
 			</view>
-			<view class="flex-item" style="margin-top: 15upx;">
-				<view class="uni-swiper-msg" style="height: 60upx;">
-					<view class="uni-swiper-msg-icon"><image src="/static/img/sales.png" mode="widthFix"></image></view>
+			<view class="flex-item" style="margin-top: 15upx;" >
+				<view class="uni-swiper-msg" style="height: 60upx;" v-if= 'reductionList.length> 0'>
+					<view class="uni-swiper-msg-icon"><image src="/static/img/sales.png" mode="widthFix" ></image></view>
 					<swiper vertical="true" autoplay="true" circular="true" interval="3000">
 						<swiper-item v-for="(item, index) in reductionList" :key="index">
 							<navigator style="color: white;font-size: 25upx;">{{ item.name }}</navigator>
 						</swiper-item>
 					</swiper>
 				</view>
+        
+        <view class="uni-swiper-msg" style="height: 60upx;" v-else>
+        </view>
 			</view>
 		</view>
 		<!-- 功能切换 -->

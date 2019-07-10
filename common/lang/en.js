@@ -8,7 +8,8 @@ const lang = {
 		Remark: 'Remark',
 		Time: 'Time',
 		Detail: 'Detail',
-		Contactus: 'Contact us'
+		Contactus: 'Contact us',
+    Login: 'Login'
 	},
 	search: 'Search',
 	more_lang_change_finish: 'Language Changed ',
@@ -55,6 +56,22 @@ const lang = {
 		Returnrequestreview: 'Return request review',
 		Refundsuccessfully: 'Refund successfully',
 		Refundfailed: 'Refund failed'
+	},
+	more: {
+    Hellotourists: 'Hello, tourists',
+    touristsText :'In order to give you a better shopping experience, we invite you to log in before making a purchase.',
+    Wallet: 'Wallet',
+    piece: 'piece',
+    Coupon: 'Coupon',
+    point: 'point',
+    Score: 'Score',
+    DeliveryAddress: 'Delivery Address',
+    RechargeCenter: 'Recharge Center',
+    CouponCollection: 'Coupon Collection',
+	  MyCoupon: 'My Coupon',
+    OnlineService: 'Online Service',
+    HelpCenter: 'Help Center',
+    ChangeLanguage: 'Change Language'
 	}
 }
 export default lang

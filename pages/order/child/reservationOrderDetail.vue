@@ -51,17 +51,17 @@ export default {
 		cancelPayment() {
 			let that = this;
 			wx.showModal({
-				title: 'Notice',
-				content: 'Cancel the order?',
-				cancelText: 'Cancel',
-				confirmText: 'Yes',
+        title: this.i18n.common.Notice,
+        content: this.i18n.reservation.Cancelthereservation,
+        cancelText: this.i18n.common.Cancel,
+        confirmText: this.i18n.common.Yes,
 				success(res) {
 					if (res.confirm) {
 						that.$request
 							.post('/entry/wxapp/cancelOrder?orderId=' + that.orderId)
 							.then(res => {
 								wx.showToast({
-									title: 'Cancelled',
+                  title: this.i18n.reservation.Cancelled,
 									icon: 'success',
 									duration: 1000
 								});
@@ -74,7 +74,7 @@ export default {
 							.catch(error => {
 								console.error('error:', error);
 								wx.showToast({
-									title: 'Try again later',
+                  title: this.i18n.Tryagainlater,
 									icon: 'loading',
 									duration: 1000
 								});

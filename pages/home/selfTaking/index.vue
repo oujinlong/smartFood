@@ -3,7 +3,7 @@
     
      <view class="uni-flex uni-row bg_white">
        <view class='flag'> </view>
-       <label v-if = "dishesType === 1" class="title">Diend-In </label>
+       <label v-if = "dishesType === 1" class="title">Dined-In </label>
       <label v-else class="title">Self-taking</label>
       
       
@@ -32,7 +32,7 @@
             <label>{{item.name}}</label>
             <view >
               <label>x{{item.count}}</label>
-              <label style="margin-left: 40upx;">${{(item.money * item.count).toFixed(2)}}</label>
+              <label style="margin-left: 40upx;">{{ CURRENCY_SYMBOL }} {{(item.money * item.count).toFixed(2)}}</label>
             </view>
         </view>
       </view>
@@ -41,7 +41,7 @@
         <!-- 优惠券 coupons-->
         <view class="uni-flex uni-row justify-between bottom_border" style="padding: 20upx; min-width: 200upx;" @click='chooseCouponsClickHandle'>
            <label>Coupons</label>
-           <label v-if='coupon'>$ -{{coupon.preferential}}</label>
+           <label v-if='coupon'>{{ CURRENCY_SYMBOL }} -{{coupon.preferential}}</label>
            <view v-else>
               <uni-icon size="20" type="arrowright" color="#80838F" class="arrow-right-icon"></uni-icon>
            </view>
@@ -50,26 +50,26 @@
         <!-- 满减 -->
         <view v-if='reduce' class="uni-flex uni-row justify-between bottom_border" style="padding: 20upx; min-width: 200upx;">
            <label>Online payment discount</label>
-           <label>$ -{{reduce.reduction}}</label>
+           <label>{{ CURRENCY_SYMBOL }} -{{reduce.reduction}}</label>
         </view>
            
         <!-- 新用户立减 -->
          <view v-if='storeInfo.xyhOpen === 1 && isNewUser' class="uni-flex uni-row justify-between bottom_border" style="padding: 20upx; min-width: 200upx;">
            <label>New user discount</label>
-           <label>$ -{{storeInfo.xyhMoney}}</label>
+           <label>{{ CURRENCY_SYMBOL }} -{{storeInfo.xyhMoney}}</label>
         </view>
         
         <!-- 税 -->
         <view v-if='taxEnable' class="uni-flex uni-row justify-between" style="padding: 20upx; min-width: 200upx;">
            <label>Taxes</label>
-           <label>$ {{tax}}</label>
+           <label>{{ CURRENCY_SYMBOL }} {{tax}}</label>
         </view>
       </view>
       
       <!-- 小计 -->
       <view  class="uni-flex uni-row justify-end align-center bg_white" style="padding: 20upx; min-width: 200upx;margin-top: 40upx;">
          <label style="height: 36upx; line-height: 36upx;font-size: 32upx;">Total:</label>
-         <label style="font-size: 36upx; font-weight: 800;margin-left: 30upx;">${{totalAllWithTax}}</label>
+         <label style="font-size: 36upx; font-weight: 800;margin-left: 30upx;">{{ CURRENCY_SYMBOL }} {{totalAllWithTax}}</label>
       </view>
       
       <!-- 备注 -->
@@ -84,13 +84,13 @@
       <view class="bottom_bar uni-flex uni-row justify-between align-center">
         <view>
           <label style="color: #ffffff;font-size: 36upx; margin-left: 48upx;">
-            ${{totalAllWithTax}}   
+            {{ CURRENCY_SYMBOL }} {{totalAllWithTax}}
           </label>
           <label style="margin-left: 30upx; color: #ffffff;font-size: 38upx;">
             |
           </label>
           <label style="color: #ffffff;font-size: 30upx;margin-left: 30upx;">
-            Discount $ -{{totalDiscount}}
+            Discount {{ CURRENCY_SYMBOL }} -{{totalDiscount}}
           </label>
         </view>
         
@@ -109,7 +109,7 @@
   import { uniIcon } from '@dcloudio/uni-ui';
   import CONFIG from '@/utils/config.js';
   import {PaymentDialog} from '@/components/paymentDialog'
- require('../../../tools/DateTool.js')
+
   export default {
     components: {
       uniIcon,
@@ -188,6 +188,7 @@
     },
     data () {
       return {
+        CURRENCY_SYMBOL: CONFIG.common.CURRENCY_SYMBOL,
         chooseTime: '',
         reduce: undefined,
         isNewUser: false,
@@ -211,7 +212,7 @@
         backgroundColor: this.storeColor
        })
       
-      const title = e.dishesType === '1' ? 'Diend-In' : 'Self-Taking'
+      const title = e.dishesType === '1' ? 'Dined-In' : 'Self-Taking'
       uni.setNavigationBarTitle({
       	title
       })

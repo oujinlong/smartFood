@@ -142,7 +142,7 @@ export default {
 			return this.$t('index');
 		},
 		tabList() {
-			return [{ name: this.i18n.Reservation }, { name: this.i18n.SelfTaking }, { name: this.i18n.SelfTaking }];
+			return [{ name: this.i18n.Reservation }, { name: this.i18n.SelfTaking }, { name: this.i18n.DinedIn }];
 		},
 		isNoDate() {
 			if (this.TabCur === 0 && this.reservationList.length === 0) {

@@ -8,7 +8,8 @@ const lang = {
 		Remark: '备注',
 		Time: '时间',
 		Detail: '详情',
-		Contactus: '联系我们'
+		Contactus: '联系我们',
+		Login: '登录'
 	},
 	search: '搜索',
 	more_lang_change_finish: '切换完成 ',
@@ -55,7 +56,23 @@ const lang = {
 		Returnapplication: '申请退款',
 		Returnrequestreview: '退款申请审核',
 		Refundsuccessfully: '退款成功',
-		Refundfailed: '退款失败'
+		Refundfailed: '退款失败',
+	},
+	more: {
+		Hellotourists: '用户你好，',
+		touristsText: '为了给您带来更好的购物体验，我们邀请您在购买前登录。',
+		Wallet: '钱包',
+		piece: '张',
+		Coupon: '优惠劵',
+		point: '点',
+		Score: '积分',
+    DeliveryAddress: '物流地址',
+    RechargeCenter: '充值中心',
+    CouponCollection: '优惠劵领取',
+    MyCoupon: '我的优惠劵',
+    OnlineService: '在线客服',
+    HelpCenter: '帮助中心',
+    ChangeLanguage: '语言切换'
 	}
 }
 export default lang

@@ -8,8 +8,7 @@ const lang = {
 		Remark: 'Remark',
 		Time: 'Time',
 		Detail: 'Detail',
-		Contactus: 'Contact us',
-    Login: 'Login'
+		Contactus: 'Contact us'
 	},
 	search: 'Search',
 	more_lang_change_finish: 'Language Changed ',
@@ -30,6 +29,10 @@ const lang = {
 	Countofmeals: 'Count of meals',
 	Detail: 'Detail',
 	Tabletype: 'Table type',
+  adCloseTip: 'Tap To Close',
+  merchantCloseStatusClose: 'Merchant Closed',
+  merchantCloseStatusOpen: 'In Business',
+  merchantCloseTip: 'Merchant Closed',
 	reservation: {
 		Applyforrefund: 'Apply for refund',
 		Delete: 'Delete',

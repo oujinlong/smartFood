@@ -57,7 +57,7 @@
               <view class="food-info">
                 <text style="font-size: 15px;margin-top: 2px;">{{food.name}}</text>
                 <!-- <text style="font-size: 13px;margin: 2px 0;">{{food.description}}</text> -->
-                <text style="font-size: 13px;margin: 2px 0 4px;">{{food.num}}/Month</text>
+               <!-- <text style="font-size: 13px;margin: 2px 0 4px;">{{food.num}}/Month</text>-->
 
                 <!-- 加减 -->
                 <view class="food-btm">
@@ -187,7 +187,8 @@ export default {
       commentList: [],
       commentPage: 1,
       isLoadAll: false,
-      dishesType: 1
+      dishesType: 1,
+      tableId: ''
 		};
 	},
 	props: {},
@@ -204,6 +205,7 @@ export default {
       this.height = Number(uni.getSystemInfoSync().windowHeight) - 55 - 190;
       this.storeId = e.storeId || '';
       this.dishesType = e.dishesType
+      this.tableId = e.tableId || ''
        wx.setNavigationBarColor({
       	frontColor: '#ffffff',
         backgroundColor: this.storeColor
@@ -390,9 +392,11 @@ export default {
       nextHandle (items) {
         const goodsInfo = items
         const storeInfo = this.storeInfo
+        const tableId = this.tableId
         const selfTakingInfo = {
           storeInfo,
-          goodsInfo
+          goodsInfo,
+          tableId
         }
         this.$store.commit('setSelfTakingInfo', selfTakingInfo)
         uni.navigateTo({
@@ -508,7 +512,7 @@ export default {
 		top: 8px;
 		display: inline-block;
 		padding: 0 4px;
-		font-size: 12px;
+		font-size: 14px;
 		line-height: 16px;
 		font-weight: 400;
 		border-radius: 50%;

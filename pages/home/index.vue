@@ -17,7 +17,7 @@
 				</view>
 			</view>
 
-			<view class="bg-white padding text-black" style="padding-top: 0;">
+
 				<scroll-view class="search-list" scroll-y @scrolltolower="loadMore()">
 					<block v-for="(item, index) in storeList" :key="index">
 						<view class="uni-tab-bar-loading">
@@ -28,6 +28,7 @@
 								<view class="uni-flex uni-column" style="padding-left: 20upx;">
 									<view class="title-name">{{ item.name || '-' }}</view>
 									<view class="uni-flex uni-row">
+
 										<view class="title-time" style="margin-right: 20upx;">{{ i18n.openHours }}:</view>
 										<view style="flex: 1;">
 											<view class="title-time">{{ i18n.Weekday }} {{ item.weekday || '-' }}</view>

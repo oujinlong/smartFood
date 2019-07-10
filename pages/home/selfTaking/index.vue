@@ -316,7 +316,7 @@
             img: good.img,
             money: good.money,
             name: good.name,
-            num: good.count
+            num: good.count,
           }
           sz.push(goodInfo)
         })
@@ -333,7 +333,7 @@
           deliveryTime: this.currentDate + ' ' + this.chooseTime,
           tel: 0,
           sz,
-          tableId: 0
+          tableId: this.selfTakingInfo.tableId | ''
         }
         const coupon = this.selfTakingInfo.coupon
         if (coupon && coupon.couponsId) {

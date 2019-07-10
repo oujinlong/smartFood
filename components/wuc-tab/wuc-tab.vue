@@ -4,20 +4,23 @@
 			<div class="cu-item" :class="index === tabCur ? selectClass + ' cur':''" v-for="(item,index) in tabList" :key="index"
 			 :id="index" @tap="tabSelect(index,$event)">
 				<text :class="item.icon"></text>
-				<span>{{item.name}}</span>
+				<span >{{item.name}}</span>
 			</div>
 		</div>
 
 		<div class="flex text-center" v-if="textFlex">
 			<div class="cu-item flex-sub" :class="index === tabCur ? selectClass + ' cur':''" v-for="(item,index) in tabList"
-			 :key="index" :id="index" @tap="tabSelect(index,$event)">
-				<text :class="item.icon"></text>
-				<span>{{item.name}}</span>
+			 :key="index" :id="index" @tap="tabSelect(index,$event)" v-bind:style="{borderBottomColor: storeColor ? storeColor : '#ce2029'}">
+				<text :class="item.icon"></text> 
+				<span v-if = "index !== tabCur">{{item.name}}</span>
+        <span v-if = "index === tabCur" v-bind:style="{color: storeColor ? storeColor : '#ce2029'}">{{item.name}}</span>
 			</div>
 		</div>
 	</scroll-view>
 </template>
 <script>
+  import { mapGetters } from 'vuex';
+  
 	export default {
 		name: "wuc-tab",
 		data() {
@@ -71,7 +74,10 @@
 		computed: {
 			scrollLeft() {
 				return (this.tabCur - 1) * 60;
-			}
+			},
+      ...mapGetters({
+        'storeColor': 'storeColor'
+      }),
 		}
 	};
 </script>

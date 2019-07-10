@@ -32,7 +32,7 @@
       <scroll-view class="menu-wrapper" scroll-y :style="'height:'+height+'px'">
         <view ref="menuWrapper">
           <!--  :class="{'current': currentIndex == index}" @click="selectMenu(index,$event)" -->
-          <view style="position: relative;" v-for="(item,index) in goods" :key="index" ref="menuList" @click="select(index)"
+          <view style="position: relative;" v-bind:style="{color: storeColor ? storeColor : '#ce2029'}" v-for="(item,index) in goods" :key="index" ref="menuList" @click="select(index)"
            :class="{'current': currentIndex === index}">
 
             <view class="menu-item">
@@ -61,7 +61,7 @@
 
                 <!-- 加减 -->
                 <view class="food-btm">
-                  <text class="food-price" > MYR {{food.money}}</text>
+                  <text class="food-price" v-bind:style="{color: storeColor ? storeColor : '#ce2029'}"> MYR {{food.money}}</text>
                   <cartcontrol :food="food" @add="addCart" @dec="decreaseCart"></cartcontrol>							
                 </view>
               </view>
@@ -400,7 +400,7 @@ export default {
         }
         this.$store.commit('setSelfTakingInfo', selfTakingInfo)
         uni.navigateTo({
-        	url: '/pages/home/selfTaking/index'
+        	url: '/pages/home/selfTaking/index?dishesType=' + this.dishesType
         })
       },
       queryScore () {

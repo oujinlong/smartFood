@@ -58,6 +58,7 @@ class Request {
     
     if (store.state.token) {
       lastConfig.header.accessToken = store.state.token
+      lastConfig.header.lang = store.state.lang
     }
     
     return new Promise((resolve, reject) => {

@@ -1,6 +1,6 @@
 <template>
 	<view class="container">
-		<view class="coupon_item_no uni-flex uni-row justify-between" v-if="this.choose" @click="disableCouponsHandle">
+		<view class="coupon_item_no uni-flex uni-row justify-between" v-if="choose" @click="disableCouponsHandle">
 			<label style="font-size: 36upx;font-weight: 800;">No coupons</label>
 			<uni-icon size="20" :type="selectType" color="#68c834"></uni-icon>
 		</view>
@@ -24,7 +24,7 @@
 
 				<view class="condition uni-flex uni-row justify-between">{{ item.startTime }}-{{ item.endTime }}</view>
 
-				<view class="cover_view" v-if="!checkAvisible(item) && this.choose" />
+				<view class="cover_view" v-if="!checkAvisible(item) && choose" />
 			</view>
 		</view>
 
@@ -102,13 +102,20 @@ export default {
 		getCoupons() {
 			const userId = this.userInfo.userId;
 			this.coupons = [];
+      let url1 = '/entry/wxapp/coupons?userId=' + userId
+      let url2 = '/entry/wxapp/voucher?userId=' + userId
+      if (this.choose) {
+        url1 = url1 + '&storeId=' + this.selfTakingInfo.storeInfo.id
+        url2 = url2 + '&storeId=' + this.selfTakingInfo.storeInfo.id  
+      }
+      console.log(url1, url2)
 			this.$request
-				.get('/entry/wxapp/coupons?userId=' + userId)
+				.get(url1)
 				.then(res => {
 					if (res.code === 0) {
 						this.coupons = [...this.coupons, ...res.myCoupons];
 						this.$request
-							.get('/entry/wxapp/voucher?userId=' + userId)
+							.get(url2)
 							.then(res => {
 								if (res.code === 0) {
 									this.coupons = [...this.coupons, ...res.myVoucher];
@@ -134,14 +141,15 @@ export default {
 			this.$refs.popupRef.show();
 		},
 		checkAvisible(item) {
-			return item.preferential <= this.totalPrice && item.storeId.toString() === this.storeInfo.id.toString();
+      const avisible = parseFloat(item.preferential) <= this.totalPrice && item.storeId.toString() === this.storeInfo.id.toString();
+      return avisible
 		},
 		itemClickHandle(item) {
-			console.log(this.choose);
 			if (this.choose === false) {
 				return;
 			}
 			const avisible = this.checkAvisible(item);
+      console.log(avisible)
 			if (!avisible) {
 				uni.showToast({
 					title: 'Not available',

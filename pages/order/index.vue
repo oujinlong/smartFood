@@ -1,7 +1,7 @@
 <template>
 	<view class="order-main">
 		<!-- 功能切换 -->
-		<wuc-tab :tab-list="tabList" :tabCur.sync="TabCur" @change="tabChange"></wuc-tab>
+		<wuc-tab :tab-list="tabList" :tabCur.sync="TabCur" @change="tabChange" :changeColor="false"></wuc-tab>
 		<view class="order-content bg-white padding-xs text-black">
 			<scroll-view class="search-list" scroll-y @scrolltolower="loadMore()">
 				<!-- 预定页面 -->

@@ -140,8 +140,16 @@ const lang = {
     monthlySale: 'Monthly',
     stock: 'Stock',
     goodDesc: 'Description',
-    tip: 'Warm Tips: Pictures are for reference only, please refer to the real object; Peak hours and bad weather, please place an order in advance.'
-
+    tip: 'Warm Tips: Pictures are for reference only, please refer to the real object; Peak hours and bad weather, please place an order in advance.',
+    Coupons: 'Coupons',
+    Onlinepaymentdiscount: 'Online payment discount',
+    Newuserdiscount: 'New user discount',
+    Taxes: 'Taxes',
+    Total: 'Total',
+    Remark: 'Remark',
+    Discount: 'Discount',
+    PayNow: 'Pay Now',
+    Selftakingtime: 'Self-taking time'
 	}
 }
 export default lang

@@ -141,7 +141,16 @@ const lang = {
     monthlySale: '月售',
     stock: '剩余',
     goodDesc: '商品描述',
-    tip: '温馨提示:图片仅供参考,请以实物为准;高峰时段及恶劣天气,请提前下单.'
+    tip: '温馨提示:图片仅供参考,请以实物为准;高峰时段及恶劣天气,请提前下单.',
+    Coupons: '优惠劵',
+    Onlinepaymentdiscount: '满减',
+    Newuserdiscount: '新用户立减',
+    Taxes: '税收',
+    Total: '总额',
+    Remark: '备注',
+    Discount: '折扣',
+    PayNow: '支付',
+    Selftakingtime: '自取时间'
   }
 }
 export default lang

@@ -10,10 +10,10 @@
 
 		<div class="flex text-center" v-if="textFlex">
 			<div class="cu-item flex-sub" :class="index === tabCur ? selectClass + ' cur':''" v-for="(item,index) in tabList"
-			 :key="index" :id="index" @tap="tabSelect(index,$event)" v-bind:style="{borderBottomColor: storeColor ? storeColor : '#ce2029'}">
+			 :key="index" :id="index" @tap="tabSelect(index,$event)" v-bind:style="{borderBottomColor: (storeColor&&changeColor) ? storeColor : '#ce2029'}">
 				<text :class="item.icon"></text> 
 				<span v-if = "index !== tabCur">{{item.name}}</span>
-        <span v-if = "index === tabCur" v-bind:style="{color: storeColor ? storeColor : '#ce2029'}">{{item.name}}</span>
+        <span v-if = "index === tabCur" v-bind:style="{color: (storeColor&&changeColor) ? storeColor : '#ce2029'}">{{item.name}}</span>
 			</div>
 		</div>
 	</scroll-view>
@@ -27,6 +27,12 @@
 			return {};
 		},
 		props: {
+		  changeColor: {
+		    type: Boolean,
+				default () {
+		      return true
+				}
+      },
 			tabList: {
 				type: Array,
 				default () {

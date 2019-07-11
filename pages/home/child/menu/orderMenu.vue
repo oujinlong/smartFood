@@ -64,7 +64,7 @@
 
                 <!-- 加减 -->
                 <view class="food-btm">
-                  <text class="food-price" v-bind:style="{color: storeColor ? storeColor : '#ce2029'}"> MYR {{food.money}}</text>
+                  <text class="food-price" v-bind:style="{color: storeColor ? storeColor : '#ce2029'}"> {{CURRENCY_SYMBOL}} {{food.money}}</text>
                   <cartcontrol :food="food" @add="addCart" @dec="decreaseCart"></cartcontrol>							
                 </view>
               </view>
@@ -82,7 +82,7 @@
       <view class="uni-flex uni-row align-center" style="background-color: white;border-top: lightGray 1px solid;height:160upx">
         <view class="uni-flex uni-column justify-center align-center" style="width: 40%; padding: 12px">
           <view class="scoreTitle">{{scoreInfo.averageScore}}</view>
-          <view>Total Score</view>
+          <view>{{i18n.orderMenu.TotalScore}}</view>
         </view>
         
         <view style="width: 2upx;border-left: lightGray 1px solid;height: 60%;">
@@ -90,7 +90,7 @@
         
         <view class="uni-flex uni-row justify-center align-center" style="width: 60%; padding: 12px">
           <view style="margin-right: 20upx;">
-             Rate:  
+            {{i18n.orderMenu.Rate}}:
           </view>
           
           <view>
@@ -101,8 +101,8 @@
       </view>
       
        <view class="uni-flex uni-row justify-between align-center" style = "background-color: white;margin-top: 20upx; padding: 30upx;">
-        <view> Score: {{scoreInfo.averageScore}}</view>
-        <view> Comment(s): {{scoreInfo.totalCount}}</view>
+        <view> {{i18n.orderMenu.Score}}: {{scoreInfo.averageScore}}</view>
+        <view> {{i18n.orderMenu.Comment}}: {{scoreInfo.totalCount}}</view>
       </view>
       
        <view style="margin-top: 40upx;">
@@ -121,12 +121,12 @@
     <view v-if = "TabCur === 2">
       <view class="uni-flex uni-row justify-between detailItem">
         
-        <view class="uni-flex uni-row align-center">
+        <view class="uni-flex uni-row align-center" style="padding-right: 40upx">
           <image src="../../../../static/img/time.png" style="width:15px;height:15px"></image>
           <view style="margin-left: 20upx;">{{ i18n.openHours }}:</view>
         </view>
         
-        <view class="uni-flex uni-column">
+        <view class="uni-flex uni-column" style="flex: 1">
           <view>{{ i18n.Weekday }} {{storeInfo.weekday}}</view>
           <view>{{ i18n.Weekend }} {{storeInfo.weekend}}</view>
         </view>
@@ -183,14 +183,13 @@ import ShopCart from './cart/shopcart.vue'
 import Cartcontrol from './cart/cartcontrol.vue'
 import uniRate from "@/components/uni-rate/uni-rate.vue"
 import { uniList, uniListItem, uniIcon } from '@dcloudio/uni-ui';
-import minModal from '@/components/min-modal/min-modal'
-
+import CONFIG from '@/utils/config.js';
 export default {
-	name: '',
   
 	data() {
 		return {
-			storeInfo: {},
+      CURRENCY_SYMBOL: CONFIG.common.CURRENCY_SYMBOL,
+      storeInfo: {},
       scoreInfo: undefined,
 			storeId: '',
 			reductionList: [],

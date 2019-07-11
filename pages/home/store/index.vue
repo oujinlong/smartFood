@@ -54,7 +54,7 @@
 			<view class="uni-list-cell uni-list-cell-pd">
 				<view class="uni-flex uni-column" style="width: 100%;">
 					<view class="flex-item uni-flex uni-row justify-between" style="color: #596071;margin-bottom: 10upx;">
-            <text>Merchants Info</text>
+            <text>{{ i18n.store.MerchantsInfo }}</text>
             <view v-bind:style="{backgroundColor: storeColor ? storeColor : '#ce2029', paddingLeft: '10px', paddingRight: '10px', height: '24px',borderRadius: '12px'}">
               <text style="color: #ffffff;lineHeight: 20px;width: '100%';fontSize:14px">{{merchantClosed ? i18n.merchantCloseStatusClose : i18n.merchantCloseStatusOpen}}</text>
             </view>

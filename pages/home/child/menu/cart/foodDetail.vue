@@ -1,14 +1,16 @@
 <template>
 	<view v-if="detail">
      <image :src= "detail.img" class="detailImg"></image>
-     <view style="width: 100vw;padding: 20upx;">
+     <view style="padding: 20upx;">
        <view style="font-size: 28upx; color: #333333;">{{detail.name}}</view>
        <view style="font-size: 24upx; color: #999999;">{{i18n.orderMenu.monthlySale}} {{detail.xsNum}}      {{i18n.orderMenu.stock}} {{detail.num}}</view>
       <view v-bind:style="{color: storeColor ? storeColor : '#ce2029', fontSize: '18px'}">{{CURRENCY_SYMBOL}} {{detail.money}}</view>
-      <view style="width: calc(100% - 40upx);height: 1upx;background-color: rgba(0,0,0,0.2);"></view>
+      <view style="height: 1upx;background-color: rgba(0,0,0,0.2);"></view>
       <view style="font-size: 18px">{{i18n.orderMenu.goodDesc}}</view>
       <view style="font-size: 26upx; color: #999999;">{{i18n.orderMenu.tip}}</view>
-      <view style="font-size: 28upx; color: #333333;">{{detail.details}}</view>
+      <view style="font-size: 28upx; color: #333333;">
+        <rich-text :nodes="detail.details"></rich-text>
+      </view>
      </view>
 	</view>
 </template>
@@ -26,11 +28,12 @@
        return this.$t('index');
      }
    },
-		props: {
-			
-		},
+		props: {},
     onLoad(e) {
-      
+      wx.setNavigationBarColor({
+        frontColor: '#ffffff',
+        backgroundColor: this.storeColor
+      })
       uni.setNavigationBarTitle({
       	title: this.i18n.orderMenu.FoodDetail
       })

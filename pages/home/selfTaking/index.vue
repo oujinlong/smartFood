@@ -2,19 +2,9 @@
   <view class="container">
     
      <view class="uni-flex uni-row bg_white">
-       <view class='flag'> </view>
-       <label v-if = "dishesType === 2" class="title">Dined-In </label>
-      <label v-else class="title">Self-taking</label>
-      
-      
-     </view>
-     
-     <view v-if = "dishesType === 1" class="uni-flex uni-row bg_white" style="margin-top: 40upx;">
-       <view class="title">
-         Self-taking time
+         {{i18n.orderMenu.Selftakingtime}}
        </view>
        
-       <view class="uni-flex uni-row" style="text-align: right;flex:1;justify-content: flex-end;">
          <picker mode="time" style="width: 300upx;" :start='currentTime'  @change="bindDateChange">
             <view class="uni-input" >{{currentDate}} {{chooseTime}}</view>
          </picker>
@@ -23,7 +13,7 @@
      
       <view class="uni-flex uni-column bg_white" style="margin-top: 40upx;">
         <!-- 餐厅名字 -->
-        <view style="padding: 20upx; text-align: center;font-size: 32upx;font-weight: 800;width: 100%;">
+        <view style="padding: 20upx; text-align: center;font-size: 32upx;font-weight: bold;">
           {{storeInfo.name}}
         </view>
         
@@ -40,7 +30,7 @@
       <view class="uni-flex uni-column bg_white" style="margin-top: 40upx;">
         <!-- 优惠券 coupons-->
         <view class="uni-flex uni-row justify-between bottom_border" style="padding: 20upx; min-width: 200upx;" @click='chooseCouponsClickHandle'>
-           <label>Coupons</label>
+           <label>{{i18n.orderMenu.Coupons}}</label>
            <label v-if='coupon'>{{ CURRENCY_SYMBOL }} -{{coupon.preferential}}</label>
            <view v-else>
               <uni-icon size="20" type="arrowright" color="#80838F" class="arrow-right-icon"></uni-icon>
@@ -49,32 +39,32 @@
         
         <!-- 满减 -->
         <view v-if='reduce' class="uni-flex uni-row justify-between bottom_border" style="padding: 20upx; min-width: 200upx;">
-           <label>Online payment discount</label>
+           <label>{{i18n.orderMenu.Onlinepaymentdiscount}}</label>
            <label>{{ CURRENCY_SYMBOL }} -{{reduce.reduction}}</label>
         </view>
            
         <!-- 新用户立减 -->
          <view v-if='storeInfo.xyhOpen === 1 && isNewUser' class="uni-flex uni-row justify-between bottom_border" style="padding: 20upx; min-width: 200upx;">
-           <label>New user discount</label>
+           <label>{{i18n.orderMenu.Newuserdiscount}}</label>
            <label>{{ CURRENCY_SYMBOL }} -{{storeInfo.xyhMoney}}</label>
         </view>
         
         <!-- 税 -->
         <view v-if='taxEnable' class="uni-flex uni-row justify-between" style="padding: 20upx; min-width: 200upx;">
-           <label>Taxes</label>
+           <label>{{i18n.orderMenu.Taxes}}</label>
            <label>{{ CURRENCY_SYMBOL }} {{tax}}</label>
         </view>
       </view>
       
       <!-- 小计 -->
       <view  class="uni-flex uni-row justify-end align-center bg_white" style="padding: 20upx; min-width: 200upx;margin-top: 40upx;">
-         <label style="height: 36upx; line-height: 36upx;font-size: 32upx;">Total:</label>
-         <label style="font-size: 36upx; font-weight: 800;margin-left: 30upx;">{{ CURRENCY_SYMBOL }} {{totalAllWithTax}}</label>
+         <label style="height: 36upx; line-height: 36upx;font-size: 32upx;">{{i18n.orderMenu.Total}}:</label>
+         <label style="font-size: 36upx; font-weight: bold;margin-left: 30upx;">{{ CURRENCY_SYMBOL }} {{totalAllWithTax}}</label>
       </view>
       
       <!-- 备注 -->
       <view style="font-size: 30upx; font-weight: 600;padding: 10upx 10upx 10upx 24upx;">
-        Remark
+        {{i18n.orderMenu.Remark}}
       </view>
       <view class="uni-flex uni-row align-center bg_white">
         <input placeholder="remark" v-model="remark"  style="margin: 10upx 10upx 10upx 24upx;height: 40upx;"/>
@@ -82,20 +72,20 @@
       
       <!-- bottom bar -->
       <view class="bottom_bar uni-flex uni-row justify-between align-center">
-        <view>
-          <label style="color: #ffffff;font-size: 36upx; margin-left: 48upx;">
+        <view style="flex: 1">
+          <label style="color: #ffffff;font-size: 32upx; margin-left: 30upx;">
             {{ CURRENCY_SYMBOL }} {{totalAllWithTax}}
           </label>
           <label style="margin-left: 30upx; color: #ffffff;font-size: 38upx;">
             |
           </label>
           <label style="color: #ffffff;font-size: 30upx;margin-left: 30upx;">
-            Discount {{ CURRENCY_SYMBOL }} -{{totalDiscount}}
+            {{i18n.orderMenu.Discount}} {{ CURRENCY_SYMBOL }} - {{totalDiscount}}
           </label>
         </view>
         
-        <view class="pay_now_btn uni-flex uni-row justify-center align-center" @click='payClickHandle'>
-          Pay Now
+        <view class="pay_now_btn" @click='payClickHandle'>
+          {{i18n.orderMenu.PayNow}}
         </view>
       </view>
       
@@ -117,6 +107,9 @@
     },
  
     computed: {
+      i18n() {
+        return this.$t('index');
+      },
       currentDate () {
         let date = new Date()
         return date.format('yyyy-MM-dd')
@@ -212,9 +205,9 @@
         backgroundColor: this.storeColor
        })
       
-      const title = e.dishesType === '2' ? 'Dined-In' : 'Self-Taking'
+      const title = e.dishesType === '2' ? this.i18n.DinedIn : this.i18n.SelfTaking
       uni.setNavigationBarTitle({
-      	title
+        title
       })
     },
     methods: {
@@ -340,7 +333,7 @@
           note: this.remark,
           preferential:  this.totalDiscount,
           sellerId: this.selfTakingInfo.storeInfo.id,
-          type: 1,
+          type: this.dishesType,
           userId: this.userInfo.userId,
           deliveryTime: this.currentDate + ' ' + this.chooseTime,
           tel: 0,
@@ -398,17 +391,15 @@
   
   .flag {
     background-color: $theme-color;
-    width: 10upx;
-    height: 60upx;
-    margin: 10upx 10upx 10upx 24upx;
+    width: 6upx;
+    height: 40upx;
+    margin: 20upx 10upx 20upx 20upx;
   }
   
   .title {
-    height: 60upx;
-    line-height: 60upx;
-    margin: 10upx 10upx 10upx 24upx;
-    font-weight: 800;
-    font-size: 34upx
+    line-height: 80upx;
+    margin-right: 10upx;
+    font-size: 36upx
   }
   .bottom_border {
     border-bottom: lightgray 0.6upx solid;
@@ -424,54 +415,10 @@
   .pay_now_btn {
     color: #ffffff;
     font-size: 32upx;
-    width: 300upx;
+    width: 250upx;
     height: 90upx;
+    line-height: 90upx;
     background-color: $theme-color;
     text-align: center;
   }
   </style>
-
-<style lang="scss" type="text/scss" scoped>
-.self-container {
-	display: flex;
-	flex-direction: column;
-}
-
-.bg_white {
-	background-color: #ffffff;
-}
-
-.flag {
-	background-color: $theme-color;
-	width: 10upx;
-	height: 60upx;
-	margin: 10upx 10upx 10upx 24upx;
-}
-
-.title {
-	height: 60upx;
-	line-height: 60upx;
-	margin: 10upx 10upx 10upx 24upx;
-	font-weight: 800;
-	font-size: 34upx;
-}
-.bottom_border {
-	border-bottom: lightgray 0.6upx solid;
-}
-.bottom_bar {
-	background-color: #47464a;
-	height: 90upx;
-	position: fixed;
-	left: 0;
-	bottom: 0;
-	width: 100%;
-}
-.pay_now_btn {
-	color: #ffffff;
-	font-size: 32upx;
-	width: 300upx;
-	height: 90upx;
-	background-color: $theme-color;
-	text-align: center;
-}
-</style>

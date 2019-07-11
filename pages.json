@@ -125,7 +125,7 @@
     {
     	"path": "pages/home/child/menu/cart/foodDetail",
     	"style": {
-    	  "navigationBarTitleText": "Food Datail"
+    	  "navigationBarTitleText": "Food Detail"
     	}
     }
 	],

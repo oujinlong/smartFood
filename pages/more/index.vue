@@ -86,6 +86,9 @@ export default {
 			frontColor: '#ffffff',
 			backgroundColor: this.systemInfo.color
 		});
+    uni.setNavigationBarTitle({
+      title: this.i18n.common.more
+    })
 		this.queryWallet();
 	},
 	methods: {

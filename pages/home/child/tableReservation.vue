@@ -265,6 +265,9 @@ export default {
 			frontColor: '#ffffff',
 			backgroundColor: this.storeColor
 		});
+    uni.setNavigationBarTitle({
+      title: this.i18n.reservation.reservation
+    })
 	},
 	computed: {
 		...mapGetters({

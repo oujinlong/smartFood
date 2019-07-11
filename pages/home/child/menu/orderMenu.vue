@@ -481,6 +481,9 @@ export default {
     this.queryFoods();
     this.queryScore();
     this.queryComments();
+    uni.setNavigationBarTitle({
+      title: this.i18n.orderMenu.OrderMenu
+    })
 	}
 };
 </script>

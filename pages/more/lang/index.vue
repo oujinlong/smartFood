@@ -33,20 +33,21 @@ export default {
     const lang = this.lang
     if (lang !== 'cn' && lang !== 'en') {
       this.$store.commit('setLanguage', 'cn')
-    }    
+    }
+    uni.setNavigationBarTitle({
+      title: this.i18n.more.ChangeLanguage
+    })
 	},
 	methods: {
     changeLang (lang) {
       this.$store.commit('setLanguage', lang)
       this.$i18n.locale = lang
-      
       uni.showToast({
       	title: this.i18n.more_lang_change_finish,
         icon: 'none'
       })
       setTimeout(() => {
         uni.navigateBack({
-        	
         })
       },1000)
     }

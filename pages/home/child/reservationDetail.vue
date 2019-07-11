@@ -120,6 +120,9 @@ export default {
 			frontColor: '#ffffff',
 			backgroundColor: this.storeColor
 		});
+    uni.setNavigationBarTitle({
+      title: this.i18n.common.reservationOrderDetail
+    })
 	},
 	computed: {
 		...mapGetters({

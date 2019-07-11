@@ -2,30 +2,28 @@
 	<view>
 		<view class="order-detail" v-for="(item, index) in selfTakingOrderList" :key="index">
 			<view class="order-name border-bottom">
-				Order：{{ item.orderNum }}
+				{{ i18n.OrderID }}：{{ item.orderNum }}
 				<view class="status-name" :class="'color-' + item.state" style="float:right">{{ item.state | stateFilter }}</view>
 			</view>
 			<view class="order-content-main border-bottom uni-flex uni-row" @click="goOrderDetail(item.id)">
 				<view style="display: flex; justify-content: center;align-items: center;"><image :src="item.logo" style="width: 100upx;height: 100upx;border-radius: 50%;"></image></view>
 				<view class="uni-flex uni-column" style="padding-left: 20upx;">
 					<view class="title-name">{{ item.name }}</view>
-					<view class="title-text">{{ item.goods[0].name }}.etc Total: {{ item.goods.length }}</view>
+					<view class="title-text">{{ item.goods[0].name }} {{ i18n.selfTaking.etc }} {{ i18n.selfTaking.Total }}: {{ item.goods.length }}</view>
 				</view>
 			</view>
 			<view class="order-action uni-flex uni-row">
-				<view class="text" style="line-height: 65upx;flex: 1;">Total: {{ CURRENCY_SYMBOL }} {{ item.money }}</view>
+				<view class="text" style="line-height: 65upx;flex: 1;">{{ i18n.selfTaking.TotalAmount }}: {{ CURRENCY_SYMBOL }} {{ item.money }}</view>
 				<view>
 					<!-- state 1.待付款 2.等待接单 3.等待送达  4.完成  5.取消订单 6.完成评价 7.待退款 8.退款成功 9.退款失败-->
-					<view class="color-gray" v-if="item.state == 1" @click="cancelOrder(item.id)">Cancel</view>
+					<view class="color-gray" v-if="item.state == 1" @click="cancelOrder(item.id)">{{ i18n.common.Cancel }}</view>
 					<!-- <view class="color-blue" v-if="item.state == 1" @click="goOrderDetail(item.id)">Pay Now</view> -->
-					<view class="color-red" v-if="(item.state == 2 && item.isYue == 2) || (item.state == 3 && item.isYue == 2)" @click="refundClick(item.id)">Apply for refund</view>
-					<view class="color-blue" v-if="item.state == 2" @click="remindOrder(item.tel)">Remind</view>
-					<view class="color-gray" v-if="item.state == 3" @click="remindOrder(item.tel)">Remming</view>
-					<view class="color-blue" v-if="item.state == 3" @click="comfirmOrder(item.id)">Confirm</view>
-					<view class="color-blue" v-if="item.state == 4" @click="commentOrder(item.storeId,item.id)">Comment</view>
-					<!-- <view class="color-blue" @click="commentOrder(item.storeId,item.id)">Comment</view> -->
-					<view class="color-blue" v-if="['4', '6'].indexOf(item.state) !== -1" @click="anotherOrder(item.storeId)">Another order</view>
-					<view class="color-red" v-if="['4', '5', '6', '8', '9'].indexOf(item.state) !== -1" @click="deleteOrder(item.id)">Delete</view>
+					<view class="color-red" v-if="(item.state == 2 && item.isYue == 2) || (item.state == 3 && item.isYue == 2)" @click="refundClick(item.id)">{{ i18n.reservation.Applyforrefund }}</view>
+					<view class="color-blue" v-if="item.state == 2 || item.state == 3" @click="remindOrder(item.tel)">{{ i18n.selfTaking.Remind }}</view>
+					<view class="color-blue" v-if="item.state == 3" @click="confirmOrder(item.id)">{{ i18n.selfTaking.Confirm }}</view>
+					<view class="color-blue" v-if="item.state == 4" @click="commentOrder(item.storeId,item.id)">{{ i18n.selfTaking.Comment }}</view>
+					<view class="color-blue" v-if="['4', '6'].indexOf(item.state) !== -1" @click="anotherOrder(item.storeId)">{{ i18n.selfTaking.Anotherorder }}</view>
+					<view class="color-red" v-if="['4', '5', '6', '8', '9'].indexOf(item.state) !== -1" @click="deleteOrder(item.id)">{{ i18n.reservation.Delete }}</view>
 				</view>
 			</view>
 		</view>
@@ -63,7 +61,7 @@ export default {
 				url: url
 			});
 		},
-		comfirmOrder(orderId) {
+		confirmOrder(orderId) {
 			// 确认收货
 			let that = this;
 			wx.showModal({
@@ -106,19 +104,19 @@ export default {
 		},
 		refundClick(orderId) {
 			//申请退款
-			let that = this;
+			let that = confirmOrder;
 			wx.showModal({
-				title: 'Notice',
-				content: 'Do you need to apply for a refund?',
-				cancelText: 'Cancel',
-				confirmText: 'Yes',
+        title: that.i18n.common.Notice,
+        content: that.i18n.reservation.Doyouneedtoapplyforarefund,
+        cancelText: that.i18n.common.Cancel,
+        confirmText: that.i18n.common.Yes,
 				success(res) {
 					if (res.confirm) {
 						that.$request
 							.post('/entry/wxapp/tuik?orderId=' + orderId)
 							.then(res => {
 								wx.showToast({
-									title: 'Refunded',
+									title: that.i18n.Refunded,
 									icon: 'success',
 									duration: 1000
 								});
@@ -129,7 +127,7 @@ export default {
 							.catch(error => {
 								console.error('error:', error);
 								wx.showToast({
-									title: 'Try again later',
+									title: that.i18n.Tryagainlater,
 									icon: 'loading',
 									duration: 1000
 								});
@@ -148,17 +146,17 @@ export default {
 		cancelOrder(orderId) {
 			let that = this;
 			wx.showModal({
-				title: 'Notice',
-				content: 'Cancel the order?',
-				cancelText: 'Cancel',
-				confirmText: 'Yes',
+        title: that.i18n.common.Notice,
+        content: that.i18n.reservation.Cancelthereservation,
+        cancelText: that.i18n.common.Cancel,
+        confirmText: that.i18n.common.Yes,
 				success(res) {
 					if (res.confirm) {
 						that.$request
 							.post('/entry/wxapp/cancelOrder?orderId=' + orderId)
 							.then(res => {
 								wx.showToast({
-									title: 'Cancelled',
+									title: that.i18n.reservation.Cancelled,
 									icon: 'success',
 									duration: 1000
 								});
@@ -169,7 +167,7 @@ export default {
 							.catch(error => {
 								console.error('error:', error);
 								wx.showToast({
-									title: 'Try again later',
+									title: that.i18n.Tryagainlater,
 									icon: 'loading',
 									duration: 1000
 								});
@@ -183,17 +181,17 @@ export default {
 		deleteOrder(orderId) {
 			let that = this;
 			wx.showModal({
-				title: 'Notice',
-				content: 'Delete the order?',
-				cancelText: 'Cancel',
-				confirmText: 'Yes',
+        title: that.i18n.common.Notice,
+        content: that.i18n.reservation.Deletethereservation,
+        cancelText: that.i18n.common.Cancel,
+        confirmText: that.i18n.common.Yes,
 				success(res) {
 					if (res.confirm) {
 						that.$request
 							.post('/entry/wxapp/delOrder?orderId=' + orderId)
 							.then(res => {
 								wx.showToast({
-									title: 'Deleted',
+									title: that.i18n.Deleted,
 									icon: 'success',
 									duration: 1000
 								});
@@ -204,7 +202,7 @@ export default {
 							.catch(error => {
 								console.error('error:', error);
 								wx.showToast({
-									title: 'Try again later',
+									title: that.i18n.Tryagainlater,
 									icon: 'loading',
 									duration: 1000
 								});
@@ -218,7 +216,10 @@ export default {
 	},
 	mounted() {},
 	computed: {
-		...mapGetters({})
+		...mapGetters({}),
+    i18n() {
+      return this.$t('index');
+    }
 	},
 	filters: {
 		stateFilter(state) {
@@ -235,7 +236,7 @@ export default {
 			} else if (state === '6') {
 				return 'Finished';
 			} else if (state === '7') {
-				return 'Pedding refund';
+				return 'Padding refund';
 			} else if (state === '8') {
 				return 'Refund successful';
 			} else if (state === '9') {

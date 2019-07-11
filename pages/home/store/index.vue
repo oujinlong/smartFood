@@ -372,7 +372,7 @@ export default {
         return
       }
 			uni.navigateTo({
-				url: '../child/menu/orderMenu?storeId=' + this.storeId + '&dishesType=2'
+				url: '../child/menu/orderMenu?storeId=' + this.storeId + '&dishesType=1'
 			});
 		},
 		aboutUsClick() {
@@ -389,7 +389,7 @@ export default {
         return
       }
       uni.navigateTo({
-      	url: '../child/menu/orderMenu?storeId=' + this.storeId + '&dishesType=1&tableId=1'
+      	url: '../child/menu/orderMenu?storeId=' + this.storeId + '&dishesType=2&tableId=1'
       });
     },
     queryReduction() {

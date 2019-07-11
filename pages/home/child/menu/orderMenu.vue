@@ -157,6 +157,22 @@
         
       </view>
     </view>
+    
+    <min-modal ref="modal">
+      <view>
+        <view>hello world</view>
+        <view>hello world</view>
+        <view>hello world</view>
+        <view>hello world</view>
+        <view>hello world</view>
+        <view>hello world</view>
+        <view>hello world</view>
+        <view>hello world</view>
+        <view>hello world</view>
+        <view>hello world</view>
+        <view>hello world</view>
+      </view>
+    </min-modal>
   </view>
 </template>
 
@@ -167,6 +183,7 @@ import ShopCart from './cart/shopcart.vue'
 import Cartcontrol from './cart/cartcontrol.vue'
 import uniRate from "@/components/uni-rate/uni-rate.vue"
 import { uniList, uniListItem, uniIcon } from '@dcloudio/uni-ui';
+import minModal from '@/components/min-modal/min-modal'
 
 export default {
 	name: '',
@@ -186,7 +203,8 @@ export default {
       commentPage: 1,
       isLoadAll: false,
       dishesType: 1,
-      tableId: ''
+      tableId: '',
+      foodSpec: []
 		};
 	},
 	props: {},
@@ -197,7 +215,8 @@ export default {
     uniRate,
     uniList, 
     uniListItem,
-    uniIcon
+    uniIcon,
+    minModal
   },
   onLoad(e) {
       this.height = Number(uni.getSystemInfoSync().windowHeight) - 55 - 190;
@@ -359,8 +378,6 @@ export default {
 								food.count = item.count
 						})
 					})
-					// console.log('c++', JSON.stringify(item))
-
 				} else {
 					this.goods.forEach((good) => {
 						good.goods.forEach((food) => {
@@ -371,7 +388,23 @@ export default {
 						})
 					})
 				}
-
+           
+        this.$request.get('/entry/wxapp/dishesGg?goodsId=' + item.id)
+        .then(res => {
+          console.log(res)
+          if (res.code === 0 && res.dishesSpec && res.dishesSpec.length > 0) {
+            console.log('show')
+            this.foodSpec = res.dishesSpec
+            this.$refs.modal.handleShow({
+              success: (res) => {
+                console.log('res', res)
+              }
+            })
+          }
+        }).catch(error => {
+          
+        })
+        
 			},
 			decreaseCart(item) {
 				if (item.count) {

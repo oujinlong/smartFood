@@ -3,13 +3,13 @@
     
      <view class="uni-flex uni-row bg_white">
        <view class='flag'> </view>
-       <label v-if = "dishesType === 1" class="title">Dined-In </label>
+       <label v-if = "dishesType === 2" class="title">Dined-In </label>
       <label v-else class="title">Self-taking</label>
       
       
      </view>
      
-     <view v-if = "dishesType === 2" class="uni-flex uni-row bg_white" style="margin-top: 40upx;">
+     <view v-if = "dishesType === 1" class="uni-flex uni-row bg_white" style="margin-top: 40upx;">
        <view class="title">
          Self-taking time
        </view>
@@ -212,7 +212,7 @@
         backgroundColor: this.storeColor
        })
       
-      const title = e.dishesType === '1' ? 'Dined-In' : 'Self-Taking'
+      const title = e.dishesType === '2' ? 'Dined-In' : 'Self-Taking'
       uni.setNavigationBarTitle({
       	title
       })

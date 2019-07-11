@@ -7,7 +7,7 @@
       <view v-bind:style="{color: storeColor ? storeColor : '#ce2029', fontSize: '18px'}">{{CURRENCY_SYMBOL}} {{detail.money}}</view>
       <view style="width: calc(100% - 40upx);height: 1upx;background-color: rgba(0,0,0,0.2);"></view>
       <view style="font-size: 18px">{{i18n.orderMenu.goodDesc}}</view>
-      <view style="font-size: 26upx; color: #999999;">{{i18n.orderMenu.tip}}</view
+      <view style="font-size: 26upx; color: #999999;">{{i18n.orderMenu.tip}}</view>
       <view style="font-size: 28upx; color: #333333;">{{detail.details}}</view>
      </view>
 	</view>

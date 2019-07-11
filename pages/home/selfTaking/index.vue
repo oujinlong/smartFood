@@ -2,7 +2,7 @@
   <view class="container">
     
      <view class="uni-flex uni-row bg_white">
-       <view class='flag'> </view>
+       <view class='flag' v-bind:style="{ backgroundColor: storeColor }"></view>
        <label v-if = "dishesType === 1" class="title">Dined-In </label>
       <label v-else class="title">Self-taking</label>
       
@@ -398,17 +398,16 @@
   
   .flag {
     background-color: $theme-color;
-    width: 10upx;
-    height: 60upx;
-    margin: 10upx 10upx 10upx 24upx;
+    width: 6upx;
+    height: 40upx;
+    margin: 20upx 10upx 20upx 20upx;
   }
   
   .title {
-    height: 60upx;
-    line-height: 60upx;
-    margin: 10upx 10upx 10upx 24upx;
+    line-height: 80upx;
+    margin-right: 10upx;
     font-weight: 800;
-    font-size: 34upx
+    font-size: 36upx
   }
   .bottom_border {
     border-bottom: lightgray 0.6upx solid;
@@ -430,48 +429,3 @@
     text-align: center;
   }
   </style>
-
-<style lang="scss" type="text/scss" scoped>
-.self-container {
-	display: flex;
-	flex-direction: column;
-}
-
-.bg_white {
-	background-color: #ffffff;
-}
-
-.flag {
-	background-color: $theme-color;
-	width: 10upx;
-	height: 60upx;
-	margin: 10upx 10upx 10upx 24upx;
-}
-
-.title {
-	height: 60upx;
-	line-height: 60upx;
-	margin: 10upx 10upx 10upx 24upx;
-	font-weight: 800;
-	font-size: 34upx;
-}
-.bottom_border {
-	border-bottom: lightgray 0.6upx solid;
-}
-.bottom_bar {
-	background-color: #47464a;
-	height: 90upx;
-	position: fixed;
-	left: 0;
-	bottom: 0;
-	width: 100%;
-}
-.pay_now_btn {
-	color: #ffffff;
-	font-size: 32upx;
-	width: 300upx;
-	height: 90upx;
-	background-color: $theme-color;
-	text-align: center;
-}
-</style>

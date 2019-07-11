@@ -127,7 +127,15 @@ const lang = {
 	orderMenu: {
     OrderMenu: 'Order Menu',
     Reviews: 'Reviews',
-    Detail: 'Detail'
+    Detail: 'Detail',
+    Month: 'Month',
+    Next: 'Next',
+    Cart: 'Cart',
+    Clear: 'Clear',
+    TotalScore: 'Total Score',
+    Rate:'Rate',
+    Score: 'Score',
+    Comment: 'Comment(s)'
 	}
 }
 export default lang

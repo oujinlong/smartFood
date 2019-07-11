@@ -128,7 +128,15 @@ const lang = {
   orderMenu: {
     OrderMenu: '菜单',
     Reviews: '评价',
-    Detail: '详情'
+    Detail: '详情',
+    Month: '月售',
+    Next: '结算',
+    Cart: '已点菜单',
+    Clear: '清空',
+    TotalScore: '总评分',
+    Rate:'星级评分',
+    Score: '评分',
+    Comment: '评论'
   }
 }
 export default lang

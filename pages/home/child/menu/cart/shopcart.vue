@@ -9,26 +9,26 @@
 				</view>
 			</view>
 			<view class="middle">
-				<text class="price" :class="getAllCount ?　'active': ''">MYR {{getAllPrice}}</text>
+				<text class="price" :class="getAllCount ?　'active': ''">{{CURRENCY_SYMBOL}} {{getAllPrice}}</text>
 <!-- 				<text class="deliveryPrice" style="font-size: 12px;">免配送费|支持自取</text>
  -->			</view>
 			<view class="BtnRight" v-bind:class="{'button_disable': getAllCount === 0}" @click.stop="nextClickHandle">
-				<text>Next</text>
+				<text>{{i18n.orderMenu.Next}}</text>
 			</view>
 		</view>
 		<!-- 选择的商品 -->
 		<view class="cartList" v-show="isShowList && getList.length">
 			<scroll-view scroll-y style="max-height: 200px;">
 				<view class="title">
-					<text>Cart</text>
+					<text>{{i18n.orderMenu.Cart}}</text>
 					<view class="clear" @click="delShopcart">
-						Clear
+						{{i18n.orderMenu.Clear}}
 					</view>
 				</view>
 				<view class="list">
 					<view class="list-text" v-for="(item,index) in getList" :key="index">
 						<text style="flex:1">{{item.name}}</text>
-						<text style="flex:1">MYR {{item.money}}</text>
+						<text style="flex:1">{{CURRENCY_SYMBOL}} {{item.money}}</text>
 						<cartcontrol :food="item" @add="addCart" @dec="decreaseCart"></cartcontrol>
 					</view>
 				</view>
@@ -41,7 +41,8 @@
 
 <script>
 	import cartcontrol from './cartcontrol.vue'
-	// import {mul} from '@/utils/lib'
+  import CONFIG from '@/utils/config.js';
+  // import {mul} from '@/utils/lib'
 	export default {
 		props: {
 			goods: {
@@ -50,13 +51,17 @@
 		},
 		data() {
 			return {
-				isShowList: false,
+        CURRENCY_SYMBOL: CONFIG.common.CURRENCY_SYMBOL,
+        isShowList: false,
 			};
 		},
 		components: {
 			cartcontrol
 		},
 		computed: {
+      i18n() {
+        return this.$t('index');
+      },
 			getList() {
 				let result = [];
 				this.goods.forEach((good) => {
@@ -77,9 +82,6 @@
 				})
 				return result
 			},
-
-
-
 			// 总价
 			getAllPrice() {
 				let result = 0;

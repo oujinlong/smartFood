@@ -135,7 +135,13 @@ const lang = {
     TotalScore: 'Total Score',
     Rate:'Rate',
     Score: 'Score',
-    Comment: 'Comment(s)'
+    Comment: 'Comment(s)',
+    FoodDetail: 'Food Detail',
+    monthlySale: 'Monthly',
+    stock: 'Stock',
+    goodDesc: 'Description',
+    tip: 'Warm Tips: Pictures are for reference only, please refer to the real object; Peak hours and bad weather, please place an order in advance.'
+
 	}
 }
 export default lang

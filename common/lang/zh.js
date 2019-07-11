@@ -136,7 +136,12 @@ const lang = {
     TotalScore: '总评分',
     Rate:'星级评分',
     Score: '评分',
-    Comment: '评论'
+    Comment: '评论',
+    FoodDetail: '商品详情',
+    monthlySale: '月售',
+    stock: '剩余',
+    goodDesc: '商品描述',
+    tip: '温馨提示:图片仅供参考,请以实物为准;高峰时段及恶劣天气,请提前下单.'
   }
 }
 export default lang

@@ -127,7 +127,13 @@ const lang = {
 	orderMenu: {
     OrderMenu: 'Order Menu',
     Reviews: 'Reviews',
-    Detail: 'Detail'
+    Detail: 'Detail',
+    FoodDetail: 'Food Detail',
+    monthlySale: 'Monthly',
+    stock: 'Stock',
+    goodDesc: 'Description',
+    tip: 'Warm Tips: Pictures are for reference only, please refer to the real object; Peak hours and bad weather, please place an order in advance.'
+    
 	}
 }
 export default lang

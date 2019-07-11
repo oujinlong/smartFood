@@ -40,7 +40,7 @@
 
             <view class="menu-item">
               <view>{{item.typeName}}</view>
-              <view>{{item.typeNameCn}}</view>
+              <!-- <view>{{item.typeNameCn}}</view> -->
             </view>
             <text class="allcount" v-if="getAllCount>=item.count&&item.count>0">{{item.count}}</text>
             <!-- <text class="allcount">1</text> -->
@@ -55,12 +55,12 @@
             <view class="food-title" style="background: #f3f5f7">
               {{item.typeName}}
             </view>
-            <view class="food" v-for="(food, index) in item.goods" :key="index">
+            <view class="food" v-for="(food, index) in item.goods" :key="index" @click="foodClick(food)">
               <image :src="food.img" mode="" style="width: 75px;height: 75px;margin-top: 6px;"></image>
               <view class="food-info">
                 <text style="font-size: 15px;margin-top: 2px;">{{food.name}}</text>
                 <!-- <text style="font-size: 13px;margin: 2px 0;">{{food.description}}</text> -->
-               <!-- <text style="font-size: 13px;margin: 2px 0 4px;">{{food.num}}/Month</text>-->
+               <text style="font-size: 13px;margin: 2px 0 4px;"> {{i18n.orderMenu.monthlySale}} {{food.xsNum}}</text>
 
                 <!-- 加减 -->
                 <view class="food-btm">
@@ -72,7 +72,7 @@
           </view>
         </view>
       </scroll-view>
-      <shop-cart :goods="goods" @add="addCart" @dec="decreaseCart" @delAll="delAll" @next='nextHandle'></shop-cart>
+      <shop-cart  :goods="goods" @add="addCart" @dec="decreaseCart" @delAll="delAll" @next='nextHandle'></shop-cart>
       </view>
     </view>
 	
@@ -445,6 +445,11 @@ export default {
         uni.navigateTo({
         	url: '/pages/home/store/aboutUs?storeId=' + this.storeId
         });
+      },
+      foodClick (item) {
+        uni.navigateTo({
+        	url: '/pages/home/child/menu/cart/foodDetail?goodsId=' + item.id
+        })
       }
 	},
 	mounted() {

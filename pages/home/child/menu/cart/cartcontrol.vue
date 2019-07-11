@@ -1,12 +1,12 @@
 <template>
 	<view style="display: flex;flex-direction: row;height: 27px;">
 		<view class="food-control">
-			<view class="cont" style="margin-top: 2px;" @click="decreaseCart(food)" v-show="food.count>0">
+			<view class="cont" style="margin-top: 2px;" @click.stop="decreaseCart(food)" v-show="food.count>0">
 				<image src="/static/des.png" mode="" style="width: 20px;height: 20px;"></image>
 			</view>
 			<text style="padding: 0 4px;" v-show="food.count>0">{{food.count}}</text>
 		</view>
-		<view style="flex: 1;margin-top: 2px; " class="cont" @click="addCart(food)">
+		<view style="flex: 1;margin-top: 2px; " class="cont" @click.stop="addCart(food)">
 			<image src="/static/add2.png" style="width: 20px;height: 20px;color: #CCCCCC;" mode=""></image>
 		</view>
 	</view>

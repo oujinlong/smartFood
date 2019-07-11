@@ -128,7 +128,12 @@ const lang = {
   orderMenu: {
     OrderMenu: '菜单',
     Reviews: '评价',
-    Detail: '详情'
+    Detail: '详情',
+    FoodDetail: '商品详情',
+    monthlySale: '月售',
+    stock: '剩余',
+    goodDesc: '商品描述',
+    tip: '温馨提示:图片仅供参考,请以实物为准;高峰时段及恶劣天气,请提前下单.'
   }
 }
 export default lang

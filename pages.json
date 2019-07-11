@@ -121,6 +121,12 @@
       "style": {
         "navigationBarTitleText": "Change Language"
       }
+    },
+    {
+    	"path": "pages/home/child/menu/cart/foodDetail",
+    	"style": {
+    	  "navigationBarTitleText": "Food Datail"
+    	}
     }
 	],
 	"tabBar": {
@@ -145,6 +151,7 @@
 				"iconPath": "static/img/tab_more.png",
 				"selectedIconPath": "static/img/tab_more_s.png"
 			}
+      
 		]
 	},
 	"globalStyle": {

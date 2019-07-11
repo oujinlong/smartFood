@@ -134,7 +134,6 @@
         if (this.getAllCount === 0) return
         this.$emit('next', this.getList)
       }
-
 		},
 	}
 </script>

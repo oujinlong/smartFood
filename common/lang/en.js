@@ -19,7 +19,8 @@ const lang = {
     Order: 'Order',
     OrderDetail: 'Order Detail',
     reservationOrderDetail: 'Order Detail',
-    more: 'More'
+    more: 'More',
+    Home: 'Home'
 	},
 	errorMessage: {
     pleaseinputyourname:'please input your name',

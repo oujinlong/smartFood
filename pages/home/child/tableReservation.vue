@@ -58,11 +58,11 @@
 					</view>
 					<view class="uni-flex uni-row">
 						<view class="price-name">{{ i18n.reservation.Advancepayment }}</view>
-						<view class="price-value">{{ CURRENCY_SYMBOL }} {{ tableArray[tableIndex].fwCost || '0' }}</view>
+						<view class="price-value">{{ CURRENCY_SYMBOL }} {{ tableArray[tableIndex].fwCost || '0.00' }}</view>
 					</view>
 					<view class="uni-flex uni-row">
 						<view class="price-name">{{ i18n.reservation.Theservicefee }}</view>
-						<view class="price-value">{{ CURRENCY_SYMBOL }} {{ tableArray[tableIndex].ydCost || '0' }}</view>
+						<view class="price-value">{{ CURRENCY_SYMBOL }} {{ tableArray[tableIndex].ydCost || '0.00' }}</view>
 					</view>
 				</view>
 
@@ -91,7 +91,6 @@
 					</view>
 			</view>
 		</form>
-		<payment-dialog :visible="isShowDialog" :price="tableArray[tableIndex].ydCost" @confirm="confirmClick" @hideHandle="hideHandle"></payment-dialog>
 	</view>
 </template>
 
@@ -123,9 +122,8 @@ function formatTime() {
 	return h + ':' + minute;
 }
 import { mapGetters } from 'vuex';
-import { uniIcon, uniPopup } from '@dcloudio/uni-ui';
+import { uniIcon } from '@dcloudio/uni-ui';
 import CONFIG from '@/utils/config.js';
-import { PaymentDialog } from '@/components/paymentDialog';
 var graceChecker = require('@/common/graceChecker.js');
 
 export default {
@@ -152,7 +150,6 @@ export default {
 			remark: '',
 			phone: '',
 			name: '',
-			isShowDialog: false,
 			CURRENCY_SYMBOL: CONFIG.common.CURRENCY_SYMBOL
 		};
 	},
@@ -169,9 +166,6 @@ export default {
 		}
 	},
 	methods: {
-		hideHandle() {
-			this.isShowDialog = false;
-		},
 		selectDate(e) {
 			//选择到店日期
 			this.date = e.target.value;
@@ -220,19 +214,18 @@ export default {
 			var formData = e.detail.value;
 			var checkRes = graceChecker.check(formData, rule);
 			if (checkRes) {
-				this.isShowDialog = true;
+				this.confirmClick()
 			} else {
 				uni.showToast({ title: graceChecker.error, icon: 'none' });
 			}
 		},
-		confirmClick(item) {
-			const {payIndex} = item
+		confirmClick() {
 			const param = {
-				isYue: payIndex, //余额支付=1，直接支付=2
+				isYue: 2, //余额支付=1，直接支付=2
 				jcNum: this.peopleNumber, //就餐人数
 				linkName: this.name, //预约姓名
 				linkTel: this.phone, //预约电话
-				money: this.tableArray[this.tableIndex].ydCost, //预定费用
+				money: 0, //预定费用
 				remark: this.remark, //备注
 				storeId: this.storeId, //店铺id
 				tableTypeId: this.tableArray[this.tableIndex].id, //桌位类型
@@ -241,20 +234,18 @@ export default {
 				xzDate: this.date, //预定日期
 				ydCode: '', //预定编码（不需要填写，可为空）
 				yjddDate: this.arrivalTime, //预定到店时间
-				zdCost: this.tableArray[this.tableIndex].zdCost //最低消费
+				zdCost: 0 //最低消费
 			};
 			this.$request
 				.post('/entry/wxapp/reservation', {
 					data: param
 				})
 				.then(res => {
-					this.isShowDialog = false;
 					uni.navigateTo({
 						url: '/pages/home/child/reservationDetail?ydOrderId=' + res.ydOrderId
 					});
 				})
 				.catch(error => {
-					this.isShowDialog = false;
 					console.error('error:', error);
 				});
 		}
@@ -279,9 +270,7 @@ export default {
     }
 	},
 	components: {
-		uniIcon,
-		uniPopup,
-		PaymentDialog
+		uniIcon
 	}
 };
 </script>

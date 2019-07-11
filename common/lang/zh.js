@@ -19,7 +19,8 @@ const lang = {
     Order: '我的订单',
     OrderDetail: '订单详情',
     reservationOrderDetail: '预订单详情',
-    more: '个人中心'
+    more: '个人中心',
+    Home: '首页'
 	},
   errorMessage: {
     pleaseinputyourname:'请输入你的姓名',

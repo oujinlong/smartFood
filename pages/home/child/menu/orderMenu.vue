@@ -159,18 +159,8 @@
     </view>
     
     <min-modal ref="modal">
-      <view>
-        <view>hello world</view>
-        <view>hello world</view>
-        <view>hello world</view>
-        <view>hello world</view>
-        <view>hello world</view>
-        <view>hello world</view>
-        <view>hello world</view>
-        <view>hello world</view>
-        <view>hello world</view>
-        <view>hello world</view>
-        <view>hello world</view>
+      <view class="uni-flex uni-row justify-center">
+        {{select}}
       </view>
     </min-modal>
   </view>
@@ -184,6 +174,7 @@ import Cartcontrol from './cart/cartcontrol.vue'
 import uniRate from "@/components/uni-rate/uni-rate.vue"
 import { uniList, uniListItem, uniIcon } from '@dcloudio/uni-ui';
 import CONFIG from '@/utils/config.js';
+import minModal from '@/components/min-modal/min-modal'
 export default {
   
 	data() {
@@ -392,9 +383,9 @@ export default {
         .then(res => {
           console.log(res)
           if (res.code === 0 && res.dishesSpec && res.dishesSpec.length > 0) {
-            console.log('show')
             this.foodSpec = res.dishesSpec
             this.$refs.modal.handleShow({
+              title: item.name,
               success: (res) => {
                 console.log('res', res)
               }

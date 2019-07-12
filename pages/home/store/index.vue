@@ -112,7 +112,7 @@
 					<uni-icon size="20" type="arrowright" color="#80838F" class="arrow-right-icon"></uni-icon>
 				</view>
 			</view>
-			<view class="uni-list-cell uni-list-cell-pd">
+			<view class="uni-list-cell uni-list-cell-pd" @click="addressHandle">
 				<view class="uni-flex uni-row" style="width: 100%;">
 					<view class="title-content" style="margin-right: 20upx;">{{ i18n.common.Address }}:</view>
 					<view class="title-content" style="flex: 1;">{{ storeInfo.address || '-' }}</view>
@@ -407,6 +407,15 @@ export default {
     		.catch(error => {
     			console.error('error:', error);
     		});
+    },
+    addressHandle () {
+      // https://www.google.com/maps/search/?api=1&query=47.5951518,-122.3316393
+      
+      // const addresUrl = 'https://www.google.com/maps/search/?api=1&query=47.5951518,-122.3316393'
+      const list = this.storeInfo.coordinates.split(',')
+      uni.navigateTo({
+      	url: '/pages/map/index?lat=' + list[0] + '&lon=' + list[1] + '&name=' + this.storeInfo.name + '&address=' + this.storeInfo.address
+      })
     }
 	}
 };

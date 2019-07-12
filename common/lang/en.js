@@ -15,6 +15,7 @@ const lang = {
     Telephone: 'Telephone',
     Address: 'Address',
     AboutUs: 'About Us',
+    OK: 'OK',
     Successful: 'Successful',
     Order: 'Order',
     OrderDetail: 'Order Detail',
@@ -55,6 +56,7 @@ const lang = {
   merchantCloseStatusClose: 'Merchant Closed',
   merchantCloseStatusOpen: 'In Business',
   merchantCloseTip: 'Merchant Closed',
+  map: 'Map',
 	reservation: {
     reservation: 'Reservation',
 		Applyforrefund: 'Apply for refund',
@@ -157,7 +159,8 @@ const lang = {
     Remark: 'Remark',
     Discount: 'Discount',
     PayNow: 'Pay Now',
-    Selftakingtime: 'Self-taking time'
+    Selftakingtime: 'Self-taking time',
+    Spec: 'Specifications'
 	},
   selfTaking: {
     etc: '.etc',

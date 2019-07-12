@@ -60,7 +60,7 @@
               <view class="food-info">
                 <text style="font-size: 15px;margin-top: 2px;">{{food.name}}</text>
                 <!-- <text style="font-size: 13px;margin: 2px 0;">{{food.description}}</text> -->
-               <text style="font-size: 13px;margin: 2px 0 4px;"> {{i18n.orderMenu.monthlySale}} {{food.xsNum}}</text>
+               <!-- <text style="font-size: 13px;margin: 2px 0 4px;"> {{i18n.orderMenu.monthlySale}} {{food.xsNum}}</text> -->
 
                 <!-- 加减 -->
                 <view class="food-btm">
@@ -158,11 +158,7 @@
       </view>
     </view>
     
-    <min-modal ref="modal">
-      <view class="uni-flex uni-row justify-center">
-        {{select}}
-      </view>
-    </min-modal>
+    <min-modal ref="modal" :specs= "foodSpec"/>
   </view>
 </template>
 
@@ -194,7 +190,9 @@ export default {
       isLoadAll: false,
       dishesType: 1,
       tableId: '',
-      foodSpec: []
+      foodSpec: [],
+      canAdd: true,
+      selectedFood: []
 		};
 	},
 	props: {},
@@ -359,43 +357,58 @@ export default {
 			},
 			
 			addCart: function(item) {
+        if (!this.canAdd) {
+          return
+        }
+        this.canAdd = false
 				// console.log('ev', JSON.stringify(item))
-				if (item.count >= 0) {
-					item.count++
-					this.goods.forEach((good) => {
-						good.goods.forEach((food) => {
-							if (item.name == food.name)
-								food.count = item.count
-						})
-					})
-				} else {
-					this.goods.forEach((good) => {
-						good.goods.forEach((food) => {
-							if (item.name === food.name)
-								this.$set(food, 'count', 1)
-							// food.count = 1
-							// console.log('add-shop', JSON.stringify(food))
-						})
-					})
-				}
+				
            
         this.$request.get('/entry/wxapp/dishesGg?goodsId=' + item.id)
         .then(res => {
+          setTimeout(() => {
+            this.canAdd = true
+          },500)
           console.log(res)
           if (res.code === 0 && res.dishesSpec && res.dishesSpec.length > 0) {
-            this.foodSpec = res.dishesSpec
+            this.foodSpec = [...res.dishesSpec]
             this.$refs.modal.handleShow({
               title: item.name,
               success: (res) => {
-                console.log('res', res)
+                if (res.id === 1) {
+                  
+                  this.addToData(item)
+                }
               }
             })
+          } else {
+            this.addToData(item)
           }
         }).catch(error => {
+              this.canAdd = true
           
         })
         
 			},
+      
+      addToData (item) {
+        if (item.count >= 0) {
+        	item.count++
+        	this.goods.forEach((good) => {
+        		good.goods.forEach((food) => {
+        			if (item.name == food.name)
+        				food.count = item.count
+        		})
+        	})
+        } else {
+        	this.goods.forEach((good) => {
+        		good.goods.forEach((food) => {
+        			if (item.name === food.name)
+        				this.$set(food, 'count', 1)     	
+        		})
+        	})
+        }
+      },
 			decreaseCart(item) {
 				if (item.count) {
 					item.count--

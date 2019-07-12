@@ -127,6 +127,12 @@
     	"style": {
     	  "navigationBarTitleText": "Food Detail"
     	}
+    },
+    {
+    	"path": "pages/map/index",
+    	"style": {
+    	  "navigationBarTitleText": "Map"
+    	}
     }
 	],
 	"tabBar": {

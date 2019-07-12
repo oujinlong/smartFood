@@ -15,6 +15,7 @@ const lang = {
     Telephone: '电话',
     Address: '地址',
     AboutUs: '关于我们',
+    OK: '确认',
     Successful: '操作成功',
     Order: '我的订单',
     OrderDetail: '订单详情',
@@ -55,6 +56,7 @@ const lang = {
   merchantCloseStatusClose: '已关店',
   merchantCloseStatusOpen: '正在营业',
   merchantCloseTip: '商家已经关店了哦',
+  map: '地图',
 	reservation: {
     reservation: '预定',
 		Applyforrefund: '申请退款',
@@ -158,7 +160,8 @@ const lang = {
     Remark: '备注',
     Discount: '折扣',
     PayNow: '支付',
-    Selftakingtime: '自取时间'
+    Selftakingtime: '自取时间',
+    Spec: '规格:'
   },
   selfTaking: {
     etc: '等',

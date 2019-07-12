@@ -5,7 +5,58 @@
       <view class="min-modal-content">
         <view class="min-modal-title" v-if="title">{{title}}</view>
         <view class="min-modal-body" v-if="content">{{content}}</view>
-        <view class="min-modal-body" v-else><slot></slot></view>
+        <view class="min-modal-body" v-else>
+          <view class="uni-flex justify-start uni-row" style="width: 100%;">
+            <text style="color: #888888; font-size: 28upx;width: 100%;text-align: left;">
+              {{i18n.orderMenu.Spec}}
+            </text>
+          </view>
+          <view class="uni-flex uni-row flex-wrap"  style="width: 100%;">
+              <text v-for="(item, index) in specs" :key="index"
+              v-if= "storeColor"
+              v-bind:style="{
+              marginTop: '10px',
+              backgroundColor: (selectedSpec.id === item.id) ? storeColor : '#ffffff', 
+              color: (selectedSpec.id === item.id) ? '#ffffff' : storeColor, 
+              borderColor: storeColor,            
+              borderWidth: '1px', 
+              borderStyle: 'solid',
+              fontSize: '15px',
+              paddingLeft: '12px',
+              paddingRight: '12px',
+              paddingTop: '5px',
+              paddingBottom: '5px',
+              borderRadius: '10px',
+              marginLeft: index > 0 ? '15px' : '0px'
+              }" 
+              @click="itemClick(item)"
+              >
+                  {{item.name}}
+              </text>
+              
+              <text v-for="(item, index) in specs" :key="index"
+              v-else
+              v-bind:style="{
+              marginTop: '10px', 
+              backgroundColor: (selectedSpec.id === item.id) ? '#ce2029' : '#ffffff', 
+              color: (selectedSpec.id === item.id) ? '#ffffff' : '#ce2029', 
+              borderColor: '#ce2029',            
+              borderWidth: '1px', 
+              borderStyle: 'solid',
+              fontSize: '15px',
+              paddingLeft: '12px',
+              paddingRight: '12px',
+              paddingTop: '5px',
+              paddingBottom: '5px',
+              borderRadius: '10px',
+              marginLeft: index > 0 ? '15px' : '0px'
+              }" 
+              @click="itemClick(item)"
+              >
+                  {{item.name}}
+              </text>
+          </view>
+        </view>
         <view class="min-modal-actions min-modal-line-top" v-if="actions.length">
           <view :class="{'min-modal-flex': actionMode}">
             <view class="min-modal-item min-modal-flex" 
@@ -24,18 +75,15 @@
         </view>
         <view class="min-modal-actions min-modal-line-top" v-else>
           <view class="min-modal-flex">
-            <view class="min-modal-item min-modal-flex min-modal-line-right"
-              v-if="showCancel"
-              @click="handleClick(0)"
-              :style="[cancelColor ? {color: cancelColor} : '']"
+            <view class="min-modal-item min-modal-flex"
             >
-              {{cancelText}}
+              {{CURRENCY_SYMBOL}} {{selectedSpec.cost}}
             </view>
             <view class="min-modal-item min-modal-item-last min-modal-flex"
               @click="handleClick(1)"
-              :style="[confirmColor ? {color: confirmColor} : '']"
+              :style="[storeColor ? {color: storeColor} : '#ce2029']"
             >
-              {{confirmText}}
+              {{i18n.common.OK}}
             </view>
           </view>
         </view>
@@ -45,10 +93,25 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+import CONFIG from '@/utils/config.js';
+
 export default {
   name: 'min-modal',
+  props: {
+  	specs: []
+  },
+  computed: {
+    ...mapGetters({
+      storeColor: 'storeColor'
+    }),
+    i18n() {
+      return this.$t('index');
+    }
+  },
   data () {
     return {
+      CURRENCY_SYMBOL: CONFIG.common.CURRENCY_SYMBOL,
       modalID: 'modal',
       show: false,
       maskClose: false,
@@ -63,7 +126,8 @@ export default {
       actionMode: true,
       isClick: true,
       success: null,
-      timer: null
+      timer: null,
+      selectedSpec: undefined
     }
   },
   methods: {
@@ -86,6 +150,7 @@ export default {
       this.maskClose = maskClose
       this.show = true
       this.success = success
+      this.selectedSpec = this.specs[0]
     },
     handleHide () {
       this.show = false
@@ -118,9 +183,23 @@ export default {
           return
         }
       }
-      this.success({modalID: this.modalID, id})
+      this.success({modalID: this.modalID, id, item: this.selectedSpec})
       this.handleHide()
+    },
+    itemClick (item) {
+      this.selectedSpec = item
     }
+  },
+  watch: {
+    specs: {
+    handler(newName, oldName) {
+       console.log('valu',newName)
+      this.selectedSpec = newName[0]
+    },
+    immediate: true,
+    deep: true
+  }
+
   }
 }
 </script>

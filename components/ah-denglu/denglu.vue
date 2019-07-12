@@ -8,11 +8,11 @@
 				</view>
 			</view> -->
 			<view style="margin-top: 40upx;margin-left: 40upx;margin-right: 40upx;">
-          In order to give you a better shopping experience, we invite you to log in before making a purchase.
+				{{ i18n.more.touristsText }}
 				<!-- <image src="https://img-cdn-qiniu.dcloud.net.cn/uniapp/images/shuijiao.jpg" style="width:100%;" mode="widthFix"></image> -->
 			</view>
 			<view style="padding:50upx 0; padding-bottom:68upx;">
-				<button type='warn' open-type="getUserInfo" @getuserinfo="mpGetUserInfo" style="background:#F6644D; margin:0 80upx;">Login</button>
+				<button type='warn' open-type="getUserInfo" @getuserinfo="mpGetUserInfo" style="background:#F6644D; margin:0 80upx;">{{ i18n.common.Login }}</button>
 			</view>
 		</view>
 		<view class="uni-mask" v-if="bannerShow"></view>
@@ -54,6 +54,11 @@
 				});
 			}
 		},
+    computed: {
+      i18n() {
+        return this.$t('index');
+      }
+    },
 		methods: {
 			closeBanner: function() {
 				uni.reLaunch({

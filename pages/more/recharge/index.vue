@@ -99,6 +99,9 @@ export default {
 			frontColor: '#ffffff',
 			backgroundColor: this.systemInfo.color
 		});
+    uni.setNavigationBarTitle({
+      title: this.i18n.more.RechargeCenter
+    })
 		this.czhd();
 		this.queryWallet();
 	},

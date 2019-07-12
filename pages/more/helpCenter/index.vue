@@ -37,13 +37,19 @@ export default {
 			frontColor: '#ffffff',
 			backgroundColor: this.systemInfo.color
 		});
+    uni.setNavigationBarTitle({
+      title: this.i18n.more.HelpCenter
+    })
 		this.getHelp();
 	},
 	computed: {
 		...mapGetters({
 			systemInfo: 'systemInfo'
-		})
-	},
+		}),
+    i18n () {
+      return this.$t('index')
+    }
+  },
 	components: {
 		uniCollapse,
 		uniCollapseItem

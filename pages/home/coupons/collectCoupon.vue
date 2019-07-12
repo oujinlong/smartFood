@@ -125,6 +125,9 @@ export default {
 	},
 	mounted() {
 		this.getCoupons();
+    uni.setNavigationBarTitle({
+      title: this.i18n.more.CouponCollection
+    })
 	},
 	computed: {
 		...mapGetters({
@@ -132,7 +135,7 @@ export default {
 		}),
     i18n() {
       return this.$t('index');
-    }
+    },
 	},
 	components: {
 		uniIcon,

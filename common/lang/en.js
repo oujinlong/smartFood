@@ -8,15 +8,20 @@ const lang = {
 		Remark: 'Remark',
 		Time: 'Time',
 		Detail: 'Detail',
-		Contactus: 'Contact us',
+		Contactus: 'Contact Us',
     Login: 'Login',
     Submit: 'Submit',
     Succeed: 'Succeed',
     Telephone: 'Telephone',
     Address: 'Address',
     AboutUs: 'About Us',
-    OK: 'OK'
-
+    OK: 'OK',
+    Successful: 'Successful',
+    Order: 'Order',
+    OrderDetail: 'Order Detail',
+    reservationOrderDetail: 'Order Detail',
+    more: 'More',
+    Home: 'Home'
 	},
 	errorMessage: {
     pleaseinputyourname:'please input your name',
@@ -53,6 +58,7 @@ const lang = {
   merchantCloseTip: 'Merchant Closed',
   map: 'Map',
 	reservation: {
+    reservation: 'Reservation',
 		Applyforrefund: 'Apply for refund',
 		Delete: 'Delete',
 		Cancel: 'Cancel',
@@ -117,6 +123,7 @@ const lang = {
     Nocoupons: 'No coupons'
   },
 	store: {
+	  SearchStore: 'Search Store',
     KeySearch: 'Key Search',
     TableReservation: 'Table Reservation',
     ScanQRcode: 'Scan QRcode',
@@ -154,6 +161,27 @@ const lang = {
     PayNow: 'Pay Now',
     Selftakingtime: 'Self-taking time',
     Spec: 'Specifications'
-	}
+	},
+  selfTaking: {
+    etc: '.etc',
+    Total: 'Total',
+    TotalAmount: 'Total',
+    Remind: 'Remind',
+    Confirm: 'Confirm',
+    Comment: 'Comment',
+    Anotherorder: 'Another order',
+    ConfirmReceipt: 'Confirm Receipt',
+    Type: 'Type',
+    OrderID: 'Order ID',
+    OrderTime: 'Order Time',
+    Discount: 'Discount',
+    Tax: 'Tax',
+    Contract: 'Contract',
+    Actualpayment: 'Actual payment',
+    Confirmtheorder: 'Confirm the order?',
+    Payment: 'Payment',
+    TableName: 'Table Name',
+    TableNameType: 'Table Name Type'
+  }
 }
 export default lang

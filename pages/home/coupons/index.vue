@@ -102,6 +102,9 @@ export default {
 	onLoad(e) {
 		this.choose = e.choose === 'true' ? true : false;
 		this.getCoupons();
+    uni.setNavigationBarTitle({
+      title: this.i18n.more.MyCoupon
+    })
 	},
 	methods: {
 		getCoupons() {

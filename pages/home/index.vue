@@ -396,6 +396,18 @@ export default {
 	},
 	mounted() {
 		this.querySystem();
+    wx.setTabBarItem({
+			index: 0,
+			text: this.i18n.common.Home
+		})
+    wx.setTabBarItem({
+      index: 1,
+      text: this.i18n.common.Order
+    })
+    wx.setTabBarItem({
+      index: 2,
+      text: this.i18n.common.more
+    })
 	},
 	computed: {
 		...mapGetters({

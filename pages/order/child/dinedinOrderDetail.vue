@@ -10,8 +10,8 @@
 				<view class="blue-button" @click="payClick">Pay Now</view>
 			</view> -->
 			<view class="uni-flex uni-row" style="justify-content: center;" v-if="orderInfo.dnState !== 1">
-				<view class="blue-button" @click="anotherOrder">Anohter Order</view>
-				<view class="red-button" v-if="orderInfo.dnState === 2" @click="commentOrder">Comment</view>
+				<view class="blue-button" @click="anotherOrder">{{ i18n.selfTaking.Anotherorder }}</view>
+				<view class="red-button" v-if="orderInfo.dnState === 2" @click="commentOrder">{{ i18n.selfTaking.Comment }}</view>
 				<!-- <view class="red-button" v-if="orderInfo.dnState === 3">Contract Us</view> -->
 			</view>
 		</view>
@@ -25,37 +25,37 @@
 			</view>
 			<view class="uni-list-cell uni-list-cell-pd">
 				<view class="uni-flex uni-row" style="width: 100%;">
-					<view class="text" style="flex: 1;">Type</view>
-					<view class="text" style="width: 150upx;text-align: right;">Dined-In</view>
+					<view class="text" style="flex: 1;">{{ i18n.selfTaking.Type }}</view>
+					<view class="text" style="width: 150upx;text-align: right;">{{i18n.DinedIn}}</view>
 				</view>
 			</view>
 			<view class="uni-list-cell uni-list-cell-pd">
 				<view class="uni-flex uni-row" style="width: 100%;">
-					<view class="text" style="flex: 1;">Order ID</view>
+					<view class="text" style="flex: 1;">{{ i18n.selfTaking.OrderID }}</view>
 					<view class="text" style="width: 400upx;text-align: right;">{{ orderInfo.orderNum }}</view>
 				</view>
 			</view>
 			<view class="uni-list-cell uni-list-cell-pd">
 				<view class="uni-flex uni-row" style="width: 100%;">
-					<view class="text" style="flex: 1;">Order Time</view>
+					<view class="text" style="flex: 1;">{{ i18n.selfTaking.OrderTime }}</view>
 					<view class="text" style="width: 400upx;text-align: right;">{{ orderInfo.time }}</view>
 				</view>
 			</view>
 			<view class="uni-list-cell uni-list-cell-pd">
 				<view class="uni-flex uni-row" style="width: 100%;">
-					<view class="text" style="flex: 1;">Payment</view>
+					<view class="text" style="flex: 1;">{{ i18n.selfTaking.Payment }}</view>
 					<view class="text" style="width: 150upx;text-align: right;">{{ orderInfo.isYue | payMethodFilter }}</view>
 				</view>
 			</view>
 			<view class="uni-list-cell uni-list-cell-pd">
 				<view class="uni-flex uni-row" style="width: 100%;">
-					<view class="text" style="flex: 1;">Table Name</view>
+					<view class="text" style="flex: 1;">{{ i18n.selfTaking.TableName }}</view>
 					<view class="text" style="width: 150upx;text-align: right;">{{ orderInfo.tableName }}</view>
 				</view>
 			</view>
 			<view class="uni-list-cell uni-list-cell-pd">
 				<view class="uni-flex uni-row" style="width: 100%;">
-					<view class="text" style="flex: 1;">Table Name Type</view>
+					<view class="text" style="flex: 1;">{{ i18n.selfTaking.TableNameType }}</view>
 					<view class="text" style="width: 150upx;text-align: right;">{{ orderInfo.tableNameType }}</view>
 				</view>
 			</view>
@@ -68,19 +68,19 @@
 			</view>
 			<view class="uni-list-cell uni-list-cell-pd">
 				<view class="uni-flex uni-row" style="width: 100%;">
-					<view class="text" style="flex: 1;">Discount</view>
+					<view class="text" style="flex: 1;">{{ i18n.selfTaking.Discount }}</view>
 					<view class="text" style="width: 400upx;text-align: right;">-{{ CURRENCY_SYMBOL }} {{ orderInfo.preferential }}</view>
 				</view>
 			</view>
 			<view class="uni-list-cell uni-list-cell-pd" v-if="orderInfo.taxMoney">
 				<view class="uni-flex uni-row" style="width: 100%;">
-					<view class="text" style="flex: 1;">Tax</view>
+					<view class="text" style="flex: 1;">{{ i18n.selfTaking.Tax }}</view>
 					<view class="text" style="width: 400upx;text-align: right;">{{ CURRENCY_SYMBOL }} {{ orderInfo.taxMoney }}</view>
 				</view>
 			</view>
 			<view class="uni-list-cell uni-list-cell-pd">
 				<view class="uni-flex uni-row" style="width: 100%;">
-					<view class="text" style="flex: 1;">Actual payment</view>
+					<view class="text" style="flex: 1;">{{ i18n.selfTaking.Actualpayment }}</view>
 					<view class="text" style="width: 400upx;text-align: right;">{{ CURRENCY_SYMBOL }} {{ orderInfo.money }}</view>
 				</view>
 			</view>
@@ -163,6 +163,9 @@ export default {
 			frontColor: '#ffffff',
 			backgroundColor: this.systemInfo.color
 		});
+    uni.setNavigationBarTitle({
+      title: this.i18n.common.OrderDetail
+    })
 	},
 	computed: {
 		...mapGetters({ systemInfo: 'systemInfo' })

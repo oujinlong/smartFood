@@ -7,15 +7,15 @@
 			<view class="order-status">{{ orderInfo.state | tipFilter }}</view>
 			<view class="order-status-name">{{ orderInfo.state | titleFilter }}</view>
 			<view class="uni-flex uni-row" style="justify-content: center;" v-if="orderInfo.state === '1'">
-				<view class="blue-button" @click="cancelPayment">Cancel</view>
+				<view class="blue-button" @click="cancelPayment">{{ i18n.common.Cancel }}</view>
 				<!-- <view class="red-button" @click="payClick">Pay Now</view> -->
 			</view>
-			<view class="uni-flex uni-row" style="justify-content: center;" v-else-if="orderInfo.state === '2'"><view class="blue-button" @click="contactStore">Remind Us</view></view>
+			<view class="uni-flex uni-row" style="justify-content: center;" v-else-if="orderInfo.state === '2'"><view class="blue-button" @click="contactStore">{{ i18n.selfTaking.Remind }}</view></view>
 			<view class="uni-flex uni-row" style="justify-content: center;" v-else>
-				<view class="blue-button" v-if="orderInfo.state === '3'" @click="comfirmOrder">Confirm Receipt</view>
-				<view class="blue-button" v-if="['4', '5', '6', '7'].indexOf(orderInfo.state) !== -1" @click="anotherOrder">Anohter Order</view>
-				<view class="red-button" v-if="['3', '5', '7'].indexOf(orderInfo.state) !== -1" @click="contactStore">Contac Us</view>
-				<view class="red-button" v-if="orderInfo.state === '4'" @click="commentOrder">Comment</view>
+				<view class="blue-button" v-if="orderInfo.state === '3'" @click="confirmOrder">Confirm Receipt</view>
+				<view class="blue-button" v-if="['4', '5', '6', '7'].indexOf(orderInfo.state) !== -1" @click="anotherOrder">{{ i18n.selfTaking.Anotherorder }}</view>
+				<view class="red-button" v-if="['3', '5', '7'].indexOf(orderInfo.state) !== -1" @click="contactStore">{{ i18n.common.Contactus }}</view>
+				<view class="red-button" v-if="orderInfo.state === '4'" @click="commentOrder">{{ i18n.selfTaking.Comment }}</view>
 			</view>
 		</view>
 		<view class="uni-list" style="margin-top: 20upx;">
@@ -27,19 +27,19 @@
 			</view>
 			<view class="uni-list-cell uni-list-cell-pd">
 				<view class="uni-flex uni-row" style="width: 100%;">
-					<view class="text" style="flex: 1;">Type</view>
-					<view class="text" style="width: 150upx;text-align: right;">Self-taking</view>
+					<view class="text" style="flex: 1;">{{ i18n.selfTaking.Type }}</view>
+					<view class="text" style="width: 150upx;text-align: right;">{{i18n.SelfTaking}}</view>
 				</view>
 			</view>
 			<view class="uni-list-cell uni-list-cell-pd">
 				<view class="uni-flex uni-row" style="width: 100%;">
-					<view class="text" style="flex: 1;">Order ID</view>
+					<view class="text" style="flex: 1;">{{ i18n.selfTaking.OrderID }}</view>
 					<view class="text" style="width: 400upx;text-align: right;">{{ orderInfo.orderNum }}</view>
 				</view>
 			</view>
 			<view class="uni-list-cell uni-list-cell-pd">
 				<view class="uni-flex uni-row" style="width: 100%;">
-					<view class="text" style="flex: 1;">Order Time</view>
+					<view class="text" style="flex: 1;">{{ i18n.selfTaking.OrderTime }}</view>
 					<view class="text" style="width: 400upx;text-align: right;">{{ orderInfo.time }}</view>
 				</view>
 			</view>
@@ -52,13 +52,13 @@
 			</view>
 			<view class="uni-list-cell uni-list-cell-pd">
 				<view class="uni-flex uni-row" style="width: 100%;">
-					<view class="text" style="flex: 1;">Discount</view>
+					<view class="text" style="flex: 1;">{{ i18n.selfTaking.Discount }}</view>
 					<view class="text" style="width: 150upx;text-align: right;">-{{ CURRENCY_SYMBOL }} {{ orderInfo.preferential }}</view>
 				</view>
 			</view>
 			<view class="uni-list-cell uni-list-cell-pd">
 				<view class="uni-flex uni-row" style="width: 100%;">
-					<view class="text" style="flex: 1;">Tax</view>
+					<view class="text" style="flex: 1;">{{ i18n.selfTaking.Tax }}</view>
 					<view class="text" style="width: 150upx;text-align: right;">-{{ CURRENCY_SYMBOL }} {{ orderInfo.taxMoney }}</view>
 				</view>
 			</view>
@@ -66,9 +66,9 @@
 				<view class="uni-flex uni-row" style="width: 100%;">
 					<view class="text" style="flex: 1; display: flex;align-items: center;" @click="contactStore">
 						<image src="../../../static/img/telephone.png" style="width: 35upx;height: 35upx;"></image>
-						<view style="color:#0097FF;margin-left: 10upx;">Contract</view>
+						<view style="color:#0097FF;margin-left: 10upx;">{{ i18n.selfTaking.Contract }}</view>
 					</view>
-					<view class="text" style="width: 400upx;text-align: right;">Actual payment {{ CURRENCY_SYMBOL }} {{ orderInfo.money }}</view>
+					<view class="text" style="width: 400upx;text-align: right;">{{ i18n.selfTaking.Actualpayment }} {{ CURRENCY_SYMBOL }} {{ orderInfo.money }}</view>
 				</view>
 			</view>
 		</view>
@@ -86,7 +86,6 @@ export default {
 	onLoad(e) {
 		this.orderId = e.orderId || '';
     this.returnHome = e.returnHome || ''
-    console.log('onload')
 	},
 	data() {
 		return {
@@ -179,17 +178,17 @@ export default {
 		cancelPayment() {
 			let that = this;
 			wx.showModal({
-				title: 'Notice',
-				content: 'Cancel the order?',
-				cancelText: 'Cancel',
-				confirmText: 'Yes',
+        title: that.i18n.common.Notice,
+        content: that.i18n.reservation.Cancelthereservation,
+        cancelText: that.i18n.common.Cancel,
+        confirmText: that.i18n.common.Yes,
 				success(res) {
 					if (res.confirm) {
 						that.$request
 							.post('/entry/wxapp/cancelOrder?orderId=' + that.orderId)
 							.then(res => {
 								wx.showToast({
-									title: 'Cancelled',
+									title: that.i18n.reservation.Cancelled,
 									icon: 'success',
 									duration: 1000
 								});
@@ -202,7 +201,7 @@ export default {
 							.catch(error => {
 								console.error('error:', error);
 								wx.showToast({
-									title: 'Try again later',
+									title: that.i18n.Tryagainlater,
 									icon: 'loading',
 									duration: 1000
 								});
@@ -213,21 +212,21 @@ export default {
 				}
 			});
 		},
-		comfirmOrder() {
+		confirmOrder() {
 			// 确认收货
 			let that = this;
 			wx.showModal({
-				title: 'Notice',
-				content: 'Confirm the order?',
-				cancelText: 'Cancel',
-				confirmText: 'Yes',
+        title: that.i18n.common.Notice,
+				content: that.i18n.selfTaking.Confirmtheorder,
+        cancelText: that.i18n.common.Cancel,
+        confirmText: that.i18n.common.Successful,
 				success(res) {
 					if (res.confirm) {
 						that.$request
 							.post('/entry/wxapp/complete?orderId=' + that.orderId)
 							.then(res => {
 								wx.showToast({
-									title: 'Successful',
+									title: that.i18n.common.Yes,
 									icon: 'success',
 									duration: 1000
 								});
@@ -240,7 +239,7 @@ export default {
 							.catch(error => {
 								console.error('error:', error);
 								wx.showToast({
-									title: 'Try again later',
+									title: that.i18n.Tryagainlater,
 									icon: 'loading',
 									duration: 1000
 								});
@@ -258,11 +257,17 @@ export default {
 			frontColor: '#ffffff',
 			backgroundColor: this.systemInfo.color
 		});
+    uni.setNavigationBarTitle({
+      title: this.i18n.common.OrderDetail
+    })
 	},
 	computed: {
 		...mapGetters({
 			systemInfo: 'systemInfo'
-		})
+		}),
+    i18n() {
+      return this.$t('index');
+    }
 	},
 	components: {
 		PaymentDialog

@@ -15,7 +15,13 @@ const lang = {
     Telephone: '电话',
     Address: '地址',
     AboutUs: '关于我们',
-    OK: '确认'
+    OK: '确认',
+    Successful: '操作成功',
+    Order: '我的订单',
+    OrderDetail: '订单详情',
+    reservationOrderDetail: '预订单详情',
+    more: '个人中心',
+    Home: '首页'
 	},
   errorMessage: {
     pleaseinputyourname:'请输入你的姓名',
@@ -52,6 +58,7 @@ const lang = {
   merchantCloseTip: '商家已经关店了哦',
   map: '地图',
 	reservation: {
+    reservation: '预定',
 		Applyforrefund: '申请退款',
 		Delete: '删除订单',
 		Cancel: '取消订单',
@@ -96,7 +103,7 @@ const lang = {
 		Coupon: '优惠劵',
 		point: '点',
 		Score: '积分',
-    DeliveryAddress: '物流地址',
+    DeliveryAddress: '收货地址',
     RechargeCenter: '充值中心',
     CouponCollection: '优惠劵领取',
     MyCoupon: '我的优惠劵',
@@ -117,6 +124,7 @@ const lang = {
     Nocoupons: '暂无优惠'
 	},
   store: {
+    SearchStore: '商店搜索',
     KeySearch: '关键字搜索',
     TableReservation: '餐桌预定',
     ScanQRcode: '扫码点单',
@@ -154,6 +162,27 @@ const lang = {
     PayNow: '支付',
     Selftakingtime: '自取时间',
     Spec: '规格:'
+  },
+  selfTaking: {
+    etc: '等',
+    Total: '总数',
+    TotalAmount: '总金额',
+    Remind: '提醒',
+    Confirm: '确认收货',
+    Comment: '评论',
+    Anotherorder: '再来一单',
+    ConfirmReceipt: '确认收货',
+    Type: '类型',
+    OrderID: '订单号',
+    OrderTime: '订单时间',
+    Discount: '折扣',
+    Tax: '税收',
+    Contract: '联系我们',
+    Actualpayment: '实际支付',
+    Confirmtheorder: '是否确认收货?',
+    Payment: '支付方式',
+    TableName: '桌号',
+    TableNameType: '桌号类型'
   }
 }
 export default lang

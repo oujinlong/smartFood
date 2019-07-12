@@ -1,14 +1,11 @@
 <template>
 	<view class="lang_container">
-			<uni-list class="list" style="margin-bottom: 60upx;display: flex;">
-       
-          <uni-list-item @click="changeLang('cn')" style = "color: lightGray" v-bind:class = "{'colorRed' : lang === 'cn'}" title="简体中文" show-arrow="false" >
-          </uni-list-item>
-          
-           <uni-list-item @click="changeLang('en')" style = "color: lightGray" v-bind:class = "{'colorRed' : lang === 'en'}" title="English" show-arrow="false" >
-          </uni-list-item>
-			</uni-list>
-  </view>
+		<uni-list class="list" style="margin-bottom: 60upx;display: flex;">
+			<uni-list-item @click="changeLang('cn')" style="color: lightGray" v-bind:class="{ colorRed: lang === 'cn' }" title="简体中文" show-arrow="false"></uni-list-item>
+
+			<uni-list-item @click="changeLang('en')" style="color: lightGray" v-bind:class="{ colorRed: lang === 'en' }" title="English" show-arrow="false"></uni-list-item>
+		</uni-list>
+	</view>
 </template>
 
 <script>
@@ -18,39 +15,39 @@ import CONFIG from '@/utils/config.js';
 export default {
 	computed: {
 		...mapGetters({
-      lang: 'lang'
-    }),
-    i18n () {  
-     return this.$t('index')  
-    }  
+			lang: 'lang'
+		}),
+		i18n() {
+			return this.$t('index');
+		}
 	},
 	components: { uniList, uniListItem },
 	data() {
-		return {
-		};
+		return {};
 	},
 	mounted() {
-    const lang = this.lang
-    if (lang !== 'cn' && lang !== 'en') {
-      this.$store.commit('setLanguage', 'cn')
-    }
-    uni.setNavigationBarTitle({
-      title: this.i18n.more.ChangeLanguage
-    })
+		const lang = this.lang;
+		if (lang !== 'cn' && lang !== 'en') {
+			this.$store.commit('setLanguage', 'cn');
+		}
+		uni.setNavigationBarTitle({
+			title: this.i18n.more.ChangeLanguage
+		});
 	},
 	methods: {
-    changeLang (lang) {
-      this.$store.commit('setLanguage', lang)
-      this.$i18n.locale = lang
-      uni.showToast({
-      	title: this.i18n.more_lang_change_finish,
-        icon: 'none'
-      })
-      setTimeout(() => {
-        uni.navigateBack({
-        })
-      },1000)
-    }
+		changeLang(lang) {
+			this.$store.commit('setLanguage', lang);
+			this.$i18n.locale = lang;
+			uni.showToast({
+				title: this.i18n.more_lang_change_finish,
+				icon: 'none'
+			});
+			setTimeout(() => {
+        uni.reLaunch({
+          url: '/pages/more/index'
+        });
+			}, 1000);
+		}
 	}
 };
 </script>
@@ -63,6 +60,6 @@ export default {
 }
 
 .colorRed {
-  color: red !important;
+	color: red !important;
 }
 </style>

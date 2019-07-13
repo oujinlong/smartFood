@@ -323,7 +323,11 @@ export default {
 				})
 				.then(res => {
 					this.storeInfo = res.store;
-					this.info = this.storeInfo.img.split(',');
+			var imgTemp = [];
+			if (this.storeInfo.img != '' && this.storeInfo.img !=null) {
+				imgTemp = this.storeInfo.img.split(',');
+			}
+			this.info = imgTemp;
 					this.info = compact(this.info);
 					let cate = this.getCategoryFilter(this.storeInfo.categories);
 					let floor = this.getFloorFilter(this.storeInfo.floorLevel);

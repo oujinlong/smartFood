@@ -182,6 +182,14 @@ const lang = {
     Payment: 'Payment',
     TableName: 'Table Name',
     TableNameType: 'Table Name Type'
+  },
+  comment: {
+    Score: 'Score',
+    start: 'start(s)',
+    Commentget: 'Comment get',
+    point: 'point(s)',
+    Submit: 'Submit',
+    Giveusyouradvice: 'Give us your advice'
   }
 }
 export default lang

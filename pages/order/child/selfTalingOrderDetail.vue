@@ -59,7 +59,7 @@
 			<view class="uni-list-cell uni-list-cell-pd">
 				<view class="uni-flex uni-row" style="width: 100%;">
 					<view class="text" style="flex: 1;">{{ i18n.selfTaking.Tax }}</view>
-					<view class="text" style="width: 150upx;text-align: right;">-{{ CURRENCY_SYMBOL }} {{ orderInfo.taxMoney }}</view>
+					<view class="text" style="width: 150upx;text-align: right;">{{ CURRENCY_SYMBOL }} {{ orderInfo.taxMoney }}</view>
 				</view>
 			</view>
 			<view class="uni-list-cell uni-list-cell-pd">

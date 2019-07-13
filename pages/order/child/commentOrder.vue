@@ -5,18 +5,18 @@
 			<view style="line-height: 100upx;margin-left: 20upx;font-size: 30upx;">{{ storeInfo.name }}</view>
 		</view>
 		<view class="comment-star uni-flex uni-row">
-			<view class="text" style="margin: 0upx 20upx;line-height: 100upx;">Score</view>
+			<view class="text" style="margin: 0upx 20upx;line-height: 100upx;">{{ i18n.comment.Score }}</view>
 			<uni-rate :value="starValue" margin="5" @change="onChange" class="comment-rate"></uni-rate>
-			<view class="start-value">{{ starValue }} start(s)</view>
+			<view class="start-value">{{ starValue }} {{ i18n.comment.start }}</view>
 		</view>
-		<view class="comment-text"><textarea class="text-area" name="textArea" v-model="commentText" placeholder="Give us your advice" /></view>
+		<view class="comment-text"><textarea class="text-area" name="textArea" v-model="commentText" :placeholder="i18n.comment.Giveusyouradvice" /></view>
 		<view class="comment-button uni-flex uni-row">
 			<view class="store-name">
-				Comment get
+        {{ i18n.comment.Commentget }}
 				<span v-bind:style="{ color: storeColor }" style="font-size: 40upx;padding: 0 10upx;">{{ point }}</span>
-				point(s)
+        {{ i18n.comment.point }}
 			</view>
-			<view class="comment-button-text" @click="submitComment" v-bind:style="{ backgroundColor: storeColor }">Submit</view>
+			<view class="comment-button-text" @click="submitComment" v-bind:style="{ backgroundColor: storeColor }">{{ i18n.comment.Submit }}</view>
 		</view>
 	</view>
 </template>
@@ -143,7 +143,10 @@ export default {
 		this.queryOrderInfo();
 	},
 	computed: {
-		...mapGetters({})
+		...mapGetters({}),
+    i18n() {
+      return this.$t('index');
+    }
 	},
 	components: {
 		uniRate

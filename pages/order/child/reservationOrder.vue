@@ -3,7 +3,7 @@
 		<view class="reservation-detail" v-for="(item, index) in reservationList" :key="index">
 			<view class="order-name border-bottom">
 				{{ i18n.OrderID }}：{{ item.orderNum }}
-				<view class="status-name" :class="'color-' + item.state" style="float:right">{{ item.state | stateFilter }}</view>
+				<view class="status-name" :class="'color-' + item.state" style="float:right">{{ item.state | stateFilter(this) }}</view>
 			</view>
 			<view class="order-content-main border-bottom uni-flex uni-row" @click="queryOrderDetail(item.id)">
 				<view style="display: flex; justify-content: center;align-items: center;"><image :src="item.logo" style="width: 150upx;height: 150upx;border-radius: 50%;"></image></view>
@@ -179,8 +179,10 @@ export default {
 		}
 	},
 	filters: {
-		stateFilter(state) {
-			if (state === 1) {
+		stateFilter(state, _this) {
+		  console.log(state)
+      console.log(_this)
+      if (state === 1) {
 				return 'Reserving';
 			} else if (state === 2) {
 				return 'Reserved';

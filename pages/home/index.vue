@@ -1,24 +1,23 @@
 <template>
 	<view class="search-main">
-		<view class="search-container">
-			<image :src="backgroundImg" style="width: 100%;height: 100%;"></image>
-			<view class="search-button uni-flex uni-row" style="position: absolute;" @click="searchClick()">
-				<image src="../../static/img/searchIcon.png" class="search-icon"></image>
-				<view class="search-text">{{ i18n.search }}</view>
-			</view>
-		</view>
-		<!-- menu -->
-		<view class="choose-content" :class="{ 'choose-top': isClick }">
-			<view style="position: relative;height: 104upx;background-color: white;">
-				<choose-cade class="choose-cade" :list="list" @chooseLike="chooseLike()" @clickTop="clickTop" @close="cancelTop" :isPromotion="isPromotion"></choose-cade>
-				<view class="promotion-title" @click="clickPromotion" :class="{ 'promotion-click': isPromotion }">
-					{{ i18n.promotion }}
-					<image src="../../static/img/promotion.png" class="promotion-icon"></image>
+		<scroll-view class="search-list" scroll-y @scrolltolower="loadMore()" upper-threshold="200" @scroll="upperClick">
+			<view class="search-container" v-if="isShowTop">
+				<image :src="backgroundImg" style="width: 100%;height: 100%;"></image>
+				<view class="search-button uni-flex uni-row" style="position: absolute;" @click="searchClick()">
+					<image src="../../static/img/searchIcon.png" class="search-icon"></image>
+					<view class="search-text">{{ i18n.search }}</view>
 				</view>
 			</view>
-
-			<view class="bg-white padding text-black" style="padding-top: 0;">
-				<scroll-view class="search-list" scroll-y @scrolltolower="loadMore()">
+			<!-- menu -->
+			<view class="choose-content" :class="{ 'choose-top': isClick }">
+				<view style="position: relative;height: 104upx;background-color: white;" :class="{'is-choose-top': !isShowTop}">
+					<choose-cade class="choose-cade" :list="list" @chooseLike="chooseLike()" @clickTop="clickTop" @close="cancelTop" :isPromotion="isPromotion"></choose-cade>
+					<view class="promotion-title" @click="clickPromotion" :class="{ 'promotion-click': isPromotion }">
+						{{ i18n.promotion }}
+						<image src="../../static/img/promotion.png" class="promotion-icon"></image>
+					</view>
+				</view>
+				<view class="bg-white padding text-black" style="padding-top: 0;" :class="{'is-content-top': !isShowTop}">
 					<block v-for="(item, index) in storeList" :key="index">
 						<view class="uni-tab-bar-loading">
 							<view class="uni-flex uni-row" @click="storeDetailClick(item)">
@@ -44,10 +43,9 @@
 						<image src="../../static/img/no-data.png" style="width: 300upx;height: 300upx"></image>
 						<view style="justify-content:center;font-size: 40upx;margin-top: 20upx ">{{ i18n.Nodata }}</view>
 					</view>
-				</scroll-view>
+				</view>
 			</view>
-		</view>
-
+		</scroll-view>
 		<!-- 登录 -->
 		<deng-lu v-if="openId.length === 0"></deng-lu>
     
@@ -96,7 +94,8 @@ export default {
 					indicator_active_color: '#fff'
 				},
 			ads: [],
-      showAds: false
+      showAds: false,
+      isShowTop: true
 		};
 	},
 	props: {},
@@ -104,6 +103,16 @@ export default {
 		uni.startPullDownRefresh();
 	},
 	methods: {
+    upperClick(event) {
+			if(event.detail.scrollTop > 150) {
+			  this.isShowTop = false
+        console.log(event)
+        console.log(event.detail.scrollTop)
+      }else {
+        this.isShowTop = true
+        console.log(event.detail.scrollTop)
+      }
+		},
     openMaskAndContent() {
 				this.$refs.maskAndContent.show();
 			},
@@ -488,6 +497,15 @@ export default {
 		top: 0;
 	}
 	.choose-content {
+	  .is-choose-top {
+			position: fixed !important;
+			top:0 !important;
+			width: 100vw !important;
+			z-index: 9999;
+		}
+		.is-content-top {
+			margin-top: 104upx !important;
+		}
 		.choose-cade {
 			position: absolute;
 			top: 0;
@@ -510,7 +528,7 @@ export default {
 		}
 	}
 	.search-list {
-		height: calc(100vh - 134rpx);
+		height: 100vh;
 	}
 
 	.title-name {

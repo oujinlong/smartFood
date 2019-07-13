@@ -183,6 +183,14 @@ const lang = {
     Payment: '支付方式',
     TableName: '桌号',
     TableNameType: '桌号类型'
+  },
+  comment: {
+    Score: '评分',
+    start: '颗星',
+    Commentget: '该评论获得',
+    point: '积分',
+    Submit: '提交',
+    Giveusyouradvice: '请填写您的建议'
   }
 }
 export default lang

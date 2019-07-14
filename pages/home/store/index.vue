@@ -4,7 +4,7 @@
 		<uni-swiper-dot :info="info" :current="current" field="content">
 			<swiper class="swiper-box" autoplay="true" @change="change" v-if="info.length > 0">
 				<swiper-item v-for="(item, index) in info" :key="index">
-					<view class="swiper-item"><image :src="item" mode="aspectFill"></image></view>
+					<view class="swiper-item"><image :src="item" mode="scaleToFill"></image></view>
 				</swiper-item>
 			</swiper>
 		</uni-swiper-dot>

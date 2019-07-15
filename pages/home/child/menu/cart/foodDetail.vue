@@ -67,6 +67,6 @@
 <style scoped>
 	.detailImg {
     width: 100vw;
-    height: 1.25 * 100vw;
+    height: 700upx;
   }
 </style>

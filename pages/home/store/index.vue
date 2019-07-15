@@ -2,9 +2,9 @@
 	<view class="home-container">
 		<!-- picture -->
 		<uni-swiper-dot :info="info" :current="current" field="content">
-			<swiper class="swiper-box" autoplay="true" @change="change" v-if="info.length > 0">
+			<swiper autoplay="true" @change="change" v-if="info.length > 0">
 				<swiper-item v-for="(item, index) in info" :key="index">
-					<view class="swiper-item"><image :src="item" mode="scaleToFill"></image></view>
+					<view class="swiper-item"><image :src="item" mode="aspectFit"></image></view>
 				</swiper-item>
 			</swiper>
 		</uni-swiper-dot>
@@ -451,15 +451,12 @@ export default {
 		color: #80838f;
 	}
 
-	.swiper-box {
-		height: 400upx;
-	}
-
 	.swiper-item {
 		display: flex;
 		justify-content: center;
 		align-items: center;
 		height: 100%;
+		width: 100vw;
 		background: #eee;
 		color: #fff;
 	}

@@ -20,7 +20,7 @@
 
 
 			<view class="uni-flex uni-row user-info">
-				<view class="text" style="flex: 1;">
+				<view class="text" style="flex: 1;" @click="goRecharge">
 					<view>
 						<text style="font-size: 46upx; color: #f8ce5f;margin-right: 10upx;">{{ myUserInfo.wallet }}</text>
 						<text style="font-size: 24upx;color: #f8ce5f;">{{ CURRENCY_SYMBOL }}</text>
@@ -159,6 +159,11 @@ export default {
 			uni.navigateTo({
 				url: '/pages/more/helpCenter/index'
 			});
+		},
+    goRecharge() {
+      uni.navigateTo({
+        url: '/pages/more/recharge/rechargeHome'
+      });
 		},
 		// 充值
 		rechargeClick() {

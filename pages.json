@@ -111,6 +111,18 @@
 			}
 		},
 		{
+			"path": "pages/more/recharge/rechargeHome",
+			"style": {
+				"navigationBarTitleText": "My Wallet"
+			}
+		},
+		{
+			"path": "pages/more/recharge/rechargeHis",
+			"style": {
+				"navigationBarTitleText": "Transaction Details"
+			}
+		},
+		{
 			"path": "pages/more/helpCenter/index",
 			"style": {
 				"navigationBarTitleText": "FAQ"

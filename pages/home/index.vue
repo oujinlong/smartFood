@@ -1,7 +1,7 @@
 <template>
 	<view class="search-main">
-		<scroll-view class="search-list" scroll-y @scrolltolower="loadMore()" upper-threshold="200" @scroll="upperClick">
-			<view class="search-container" v-if="isShowTop">
+		<scroll-view class="search-list" scroll-y @scrolltolower="loadMore()" upper-threshold="150" @scroll="upperClick" @scrolltoupper="upper">
+			<view class="search-container" v-show="isShowTop">
 				<image :src="backgroundImg" style="width: 100%;height: 100%;"></image>
 				<view class="search-button uni-flex uni-row" style="position: absolute;" @click="searchClick()">
 					<image src="../../static/img/searchIcon.png" class="search-icon"></image>
@@ -103,14 +103,13 @@ export default {
 		uni.startPullDownRefresh();
 	},
 	methods: {
+    upper(event) {
+      this.isShowTop = true
+			console.log(event)
+		},
     upperClick(event) {
 			if(event.detail.scrollTop > 150) {
 			  this.isShowTop = false
-        console.log(event)
-        console.log(event.detail.scrollTop)
-      }else {
-        this.isShowTop = true
-        console.log(event.detail.scrollTop)
       }
 		},
     openMaskAndContent() {
@@ -502,6 +501,9 @@ export default {
 			top:0 !important;
 			width: 100vw !important;
 			z-index: 9999;
+			position: -webkit-sticky ;
+			position: sticky;
+
 		}
 		.is-content-top {
 			margin-top: 104upx !important;

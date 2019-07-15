@@ -3,7 +3,7 @@
 		<view class="reservation-detail" v-for="(item, index) in reservationList" :key="index">
 			<view class="order-name border-bottom">
 				{{ i18n.OrderID }}：{{ item.orderNum }}
-				<view class="status-name" :class="'color-' + item.state" style="float:right">{{ item.state | stateFilter(this) }}</view>
+				<view class="status-name" :class="'color-' + item.state" style="float:right">{{ item.stateName || '-' }}</view>
 			</view>
 			<view class="order-content-main border-bottom uni-flex uni-row" @click="queryOrderDetail(item.id)">
 				<view style="display: flex; justify-content: center;align-items: center;"><image :src="item.logo" style="width: 150upx;height: 150upx;border-radius: 50%;"></image></view>
@@ -43,6 +43,35 @@ export default {
 			}
 		}
 	},
+  watch: {
+    reservationList(value) {
+      if(value && value.length > 0) {
+        value.forEach(reservationItem => {
+          switch (reservationItem.state) {
+            case 1:
+              this.$set(reservationItem, 'stateName', this.i18n.reservation.ReservingFilter)
+              break
+            case 2:
+              this.$set(reservationItem, 'stateName', this.i18n.reservation.ReservedFilter)
+              break
+            case 4:
+              this.$set(reservationItem, 'stateName', this.i18n.reservation.CancelledFilter)
+              break
+            case 5:
+              this.$set(reservationItem, 'stateName', this.i18n.reservation.PendingrefundFilter)
+              break
+            case 6:
+              this.$set(reservationItem, 'stateName', this.i18n.reservation.RefundsuccessfulFilter)
+              break
+            case 7:
+              this.$set(reservationItem, 'stateName', this.i18n.reservation.RefundfailedFilter)
+              break
+					}
+
+				})
+			}
+    }
+  },
 	methods: {
 		queryOrderDetail(ydOrderId) {
 			uni.navigateTo({
@@ -176,27 +205,6 @@ export default {
 		...mapGetters({}),
 		i18n() {
 			return this.$t('index');
-		}
-	},
-	filters: {
-		stateFilter(state, _this) {
-		  console.log(state)
-      console.log(_this)
-      if (state === 1) {
-				return 'Reserving';
-			} else if (state === 2) {
-				return 'Reserved';
-			} else if (state === 4) {
-				return 'Cancelled';
-			} else if (state === 5) {
-				return 'Pending refund';
-			} else if (state === 6) {
-				return 'Refund successful';
-			} else if (state === 7) {
-				return 'Refund failed';
-			} else {
-				return '-';
-			}
 		}
 	},
 	components: {}

@@ -3,7 +3,7 @@
 		<view class="order-detail" v-for="(item, index) in selfTakingOrderList" :key="index">
 			<view class="order-name border-bottom">
 				{{ i18n.OrderID }}：{{ item.orderNum }}
-				<view class="status-name" :class="'color-' + item.state" style="float:right">{{ item.state | stateFilter }}</view>
+				<view class="status-name" :class="'color-' + item.state" style="float:right">{{ item.stateName || '-' }}</view>
 			</view>
 			<view class="order-content-main border-bottom uni-flex uni-row" @click="goOrderDetail(item.id)">
 				<view style="display: flex; justify-content: center;align-items: center;"><image :src="item.logo" style="width: 100upx;height: 100upx;border-radius: 50%;"></image></view>
@@ -18,7 +18,7 @@
 					<!-- state 1.待付款 2.等待接单 3.等待送达  4.完成  5.取消订单 6.完成评价 7.待退款 8.退款成功 9.退款失败-->
 					<view class="color-gray" v-if="item.state == 1" @click="cancelOrder(item.id)">{{ i18n.common.Cancel }}</view>
 					<!-- <view class="color-blue" v-if="item.state == 1" @click="goOrderDetail(item.id)">Pay Now</view> -->
-					<view class="color-red" v-if="(item.state == 2 && item.isYue == 2) || (item.state == 3 && item.isYue == 2)" @click="refundClick(item.id)">{{ i18n.reservation.Applyforrefund }}</view>
+					<view class="color-red" v-if="item.state == 2 || item.state == 3" @click="refundClick(item.id)">{{ i18n.reservation.Applyforrefund }}</view>
 					<view class="color-blue" v-if="item.state == 2 || item.state == 3" @click="remindOrder(item.tel)">{{ i18n.selfTaking.Remind }}</view>
 					<view class="color-blue" v-if="item.state == 3" @click="confirmOrder(item.id)">{{ i18n.selfTaking.Confirm }}</view>
 					<view class="color-blue" v-if="item.state == 4" @click="commentOrder(item.storeId,item.id)">{{ i18n.selfTaking.Comment }}</view>
@@ -49,6 +49,44 @@ export default {
 			}
 		}
 	},
+  watch: {
+    selfTakingOrderList(value) {
+      if(value && value.length > 0) {
+        value.forEach(selfTakingItem => {
+          switch (selfTakingItem.state) {
+            case '1':
+              this.$set(selfTakingItem, 'stateName', this.i18n.selfTaking.PendingPaymentFilter)
+              break
+            case '2':
+              this.$set(selfTakingItem, 'stateName', this.i18n.selfTaking.OrderPendingFilter)
+              break
+            case '3':
+              this.$set(selfTakingItem, 'stateName', this.i18n.selfTaking.InDeliveryFilter)
+              break
+            case '4':
+              this.$set(selfTakingItem, 'stateName', this.i18n.selfTaking.FinishedFilter)
+              break
+            case '5':
+              this.$set(selfTakingItem, 'stateName', this.i18n.selfTaking.CancelledFilter)
+              break
+            case '6':
+              this.$set(selfTakingItem, 'stateName', this.i18n.selfTaking.FinishedFilter)
+              break
+            case '7':
+              this.$set(selfTakingItem, 'stateName', this.i18n.selfTaking.PaddingRefundFilter)
+              break
+            case '8':
+              this.$set(selfTakingItem, 'stateName', this.i18n.selfTaking.RefundSuccessfulFilter)
+              break
+            case '9':
+              this.$set(selfTakingItem, 'stateName', this.i18n.selfTaking.RefundFailedFilter)
+              break
+          }
+
+        })
+      }
+    }
+  },
 	methods: {
 		goOrderDetail(orderId) {
 			uni.navigateTo({
@@ -65,17 +103,17 @@ export default {
 			// 确认收货
 			let that = this;
 			wx.showModal({
-				title: 'Notice',
-				content: 'Confirm the order?',
-				cancelText: 'Cancel',
-				confirmText: 'Yes',
+        title: that.i18n.common.Notice,
+        content: that.i18n.selfTaking.Confirmtheorder,
+        cancelText: that.i18n.common.Cancel,
+        confirmText: that.i18n.common.Yes,
 				success(res) {
 					if (res.confirm) {
 						that.$request
 							.post('/entry/wxapp/complete?orderId=' + orderId)
 							.then(res => {
 								wx.showToast({
-									title: 'Successful',
+                  title: that.i18n.common.Successful,
 									icon: 'success',
 									duration: 1000
 								});
@@ -86,7 +124,7 @@ export default {
 							.catch(error => {
 								console.error('error:', error);
 								wx.showToast({
-									title: 'Try again later',
+                  title: that.i18n.Tryagainlater,
 									icon: 'loading',
 									duration: 1000
 								});
@@ -104,7 +142,7 @@ export default {
 		},
 		refundClick(orderId) {
 			//申请退款
-			let that = confirmOrder;
+			let that = this;
 			wx.showModal({
         title: that.i18n.common.Notice,
         content: that.i18n.reservation.Doyouneedtoapplyforarefund,

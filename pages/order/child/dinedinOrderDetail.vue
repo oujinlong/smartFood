@@ -3,8 +3,8 @@
 		<view class="order-header">
 			<image :src="orderInfo.logo" style="width: 150upx;height: 150upx;"></image>
 			<!-- <view class="order-type-name">Dined-In Order</view> -->
-			<view class="order-status">{{ orderInfo.dnState | tipFilter }}</view>
-			<view class="order-status-name">{{ orderInfo.dnState | titleFilter }}</view>
+			<view class="order-status">{{ orderInfo.tipName || '-' }}</view>
+			<view class="order-status-name">{{ orderInfo.titleName || '-'  }}</view>
 			<!-- Dined-In订单状态 dnState：1,待支付，2已完成,3关闭订单 4已评价 -->
 			<!--<view class="uni-flex uni-row" style="justify-content: center;" v-if="orderInfo.dnState === 1">
 				<view class="blue-button" @click="payClick">Pay Now</view>
@@ -105,31 +105,6 @@ export default {
 		};
 	},
 	props: {},
-	filters: {
-		titleFilter(val) {
-			if (val === 1) {
-				return 'Successful Dined-In';
-			} else {
-				return 'Order Fnished';
-			}
-		},
-		tipFilter(val) {
-			if (val === 1) {
-				return 'The merchant is preparing meals, please be patient';
-			} else if (val === 2 || val === 4) {
-				return 'Thank you for your support, welcome to visit us next time.';
-			} else {
-				return 'You have cancelled your order, welcome to visit next time';
-			}
-		},
-		payMethodFilter(val) {
-			if (val === '1') {
-				return 'Balance';
-			} else {
-				return 'WeChat';
-			}
-		}
-	},
 	methods: {
 		queryOrderInfo() {
 			const param = {
@@ -141,7 +116,18 @@ export default {
 				})
 				.then(res => {
 					this.orderInfo = res.orderInfo;
-				})
+          let state = this.orderInfo.dnState
+					if(state === 1) {
+            this.$set(this.orderInfo, 'titleName', this.i18n.selfTaking.titleDineIn1)
+            this.$set(this.orderInfo, 'tipName', this.i18n.selfTaking.tipDineIn1)
+					} else if(state === 2 || state === 4) {
+            this.$set(this.orderInfo, 'titleName', this.i18n.selfTaking.titleDineIn2)
+            this.$set(this.orderInfo, 'tipName', this.i18n.selfTaking.tipDineIn2)
+          } else {
+            this.$set(this.orderInfo, 'titleName', this.i18n.selfTaking.titleDineIn2)
+            this.$set(this.orderInfo, 'tipName', this.i18n.selfTaking.tipDineIn3)
+					}
+        })
 				.catch(error => {
 					console.error('error:', error);
 				});

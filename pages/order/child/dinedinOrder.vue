@@ -3,7 +3,7 @@
 		<view class="order-detail" v-for="(item, index) in orderList" :key="index">
 			<view class="order-name border-bottom">
 				{{ i18n.OrderID }}：{{ item.orderNum }}
-				<view class="status-name" :class="'color-' + item.dnState" style="float:right">{{ item.dnState | stateFilter }}</view>
+				<view class="status-name" :class="'color-' + item.dnState" style="float:right">{{ item.stateName || '-' }}</view>
 			</view>
 			<view class="order-content-main border-bottom uni-flex uni-row" @click="goOrderDetail(item.id)">
 				<view style="display: flex; justify-content: center;align-items: center;"><image :src="item.logo" style="width: 100upx;height: 100upx;border-radius: 50%;"></image></view>
@@ -44,6 +44,30 @@ export default {
 				return [];
 			}
 		}
+	},
+	watch: {
+    orderList(value) {
+      if(value && value.length > 0) {
+        value.forEach(dinnedInItem => {
+          console.log(dinnedInItem.dnState)
+          switch (dinnedInItem.dnState) {
+            case '1':
+              this.$set(dinnedInItem, 'stateName', this.i18n.selfTaking.PendingPaymentFilter)
+              break
+            case '2':
+              this.$set(dinnedInItem, 'stateName', this.i18n.selfTaking.FinishedFilter)
+              break
+            case '3':
+              this.$set(dinnedInItem, 'stateName', this.i18n.selfTaking.CancelledFilter)
+              break
+            case '4':
+              this.$set(dinnedInItem, 'stateName', this.i18n.selfTaking.FinishedFilter)
+              break
+          }
+
+        })
+      }
+    }
 	},
 	methods: {
 		cancelOrder(orderId) {

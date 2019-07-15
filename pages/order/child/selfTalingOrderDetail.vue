@@ -4,15 +4,15 @@
 			<image :src="orderInfo.logo" style="width: 150upx;height: 150upx;"></image>
 			<!-- <view class="order-type-name">Self-taking Order</view> -->
 			<!-- Self-taking订单状态  state：状态 1.待付款 2.等待接单 3.等待送达  4.完成  5.取消订单 6.完成评价 7.待退款 8.退款成功 9.退款失败 -->
-			<view class="order-status">{{ orderInfo.state | tipFilter }}</view>
-			<view class="order-status-name">{{ orderInfo.state | titleFilter }}</view>
+			<view class="order-status">{{ orderInfo.tipName || '-' }}</view>
+			<view class="order-status-name">{{ orderInfo.titleName || '-' }}</view>
 			<view class="uni-flex uni-row" style="justify-content: center;" v-if="orderInfo.state === '1'">
 				<view class="blue-button" @click="cancelPayment">{{ i18n.common.Cancel }}</view>
 				<!-- <view class="red-button" @click="payClick">Pay Now</view> -->
 			</view>
 			<view class="uni-flex uni-row" style="justify-content: center;" v-else-if="orderInfo.state === '2'"><view class="blue-button" @click="contactStore">{{ i18n.selfTaking.Remind }}</view></view>
 			<view class="uni-flex uni-row" style="justify-content: center;" v-else>
-				<view class="blue-button" v-if="orderInfo.state === '3'" @click="confirmOrder">Confirm Receipt</view>
+				<view class="blue-button" v-if="orderInfo.state === '3'" @click="confirmOrder">{{i18n.selfTaking.ConfirmReceipt}}</view>
 				<view class="blue-button" v-if="['4', '5', '6', '7'].indexOf(orderInfo.state) !== -1" @click="anotherOrder">{{ i18n.selfTaking.Anotherorder }}</view>
 				<view class="red-button" v-if="['3', '5', '7'].indexOf(orderInfo.state) !== -1" @click="contactStore">{{ i18n.common.Contactus }}</view>
 				<view class="red-button" v-if="orderInfo.state === '4'" @click="commentOrder">{{ i18n.selfTaking.Comment }}</view>
@@ -105,38 +105,6 @@ export default {
     }
   },
 	props: {},
-	filters: {
-		titleFilter(val) {
-			if (val === '1') {
-				return 'Wait for payment';
-			} else if (val === '2') {
-				return 'Waiting for order';
-			} else if (val === '3') {
-				return 'Merchant production';
-			} else if (val === '4' || val === '6') {
-				return 'Order Fnished';
-			} else if (val === '5') {
-				return 'Order cancelled';
-			} else if (val === '7') {
-				return 'Waiting for review';
-			}
-		},
-		tipFilter(val) {
-			if (val === '1') {
-				return 'If the payment is overdue, the order will be automatically taken';
-			} else if (val === '2') {
-				return 'Merchant pending order';
-			} else if (val === '3') {
-				return 'Being produced, please be patient';
-			} else if (val === '4' || val === '6') {
-				return 'Product has been picked up';
-			} else if (val === '5') {
-				return 'You have cancelled your order, welcome to visit next time';
-			} else if (val === '7') {
-				return 'You have applied for a refund, welcome to visit next time.';
-			}
-		}
-	},
 	methods: {
 		hideHandle() {
 			this.showPay = false;
@@ -160,6 +128,32 @@ export default {
 				.then(res => {
 					this.orderInfo = res.orderInfo;
 					this.totalAllWithTax = res.orderInfo.money;
+					let state = this.orderInfo.state
+					if (state === '1') {
+            this.$set(this.orderInfo, 'titleName', this.i18n.selfTaking.title1)
+            this.$set(this.orderInfo, 'tipName', this.i18n.selfTaking.tip1)
+          }else if (state === '2') {
+            this.$set(this.orderInfo, 'titleName', this.i18n.selfTaking.title2)
+            this.$set(this.orderInfo, 'tipName', this.i18n.selfTaking.tip2)
+          }else if (state === '3') {
+            this.$set(this.orderInfo, 'titleName', this.i18n.selfTaking.title3)
+            this.$set(this.orderInfo, 'tipName', this.i18n.selfTaking.tip3)
+          }else if (state === '4' || state === '6') {
+            this.$set(this.orderInfo, 'titleName', this.i18n.selfTaking.title4)
+            this.$set(this.orderInfo, 'tipName', this.i18n.selfTaking.tip4)
+          }else if (state === '5') {
+            this.$set(this.orderInfo, 'titleName', this.i18n.selfTaking.title5)
+            this.$set(this.orderInfo, 'tipName', this.i18n.selfTaking.tip5)
+          }else if (state === '7') {
+            this.$set(this.orderInfo, 'titleName', this.i18n.selfTaking.title7)
+            this.$set(this.orderInfo, 'tipName', this.i18n.selfTaking.tip7)
+          }else if (state === '8') {
+            this.$set(this.orderInfo, 'titleName', this.i18n.selfTaking.title8)
+            this.$set(this.orderInfo, 'tipName', this.i18n.selfTaking.tip8)
+          }else if (state === '9') {
+            this.$set(this.orderInfo, 'titleName', this.i18n.selfTaking.title9)
+            this.$set(this.orderInfo, 'tipName', this.i18n.selfTaking.tip9)
+          }
 				})
 				.catch(error => {
 					console.error('error:', error);
@@ -219,14 +213,14 @@ export default {
         title: that.i18n.common.Notice,
 				content: that.i18n.selfTaking.Confirmtheorder,
         cancelText: that.i18n.common.Cancel,
-        confirmText: that.i18n.common.Successful,
+        confirmText: that.i18n.common.Yes,
 				success(res) {
 					if (res.confirm) {
 						that.$request
 							.post('/entry/wxapp/complete?orderId=' + that.orderId)
 							.then(res => {
 								wx.showToast({
-									title: that.i18n.common.Yes,
+									title: that.i18n.common.Successful,
 									icon: 'success',
 									duration: 1000
 								});

@@ -295,8 +295,7 @@ export default {
 }
 
 .price-value {
-	width: 120upx;
-	padding-left: 40upx;
+	padding: 0 40upx ;
 	line-height: 60rpx;
 }
 

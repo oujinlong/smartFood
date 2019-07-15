@@ -1,7 +1,7 @@
 <template>
 	<view>
 		<view class="uni-flex uni-row recharge-title">
-			<view class="recharge-name uni-input">{{i18n.more.Rechargeactivity}}</view>
+			<view class="uni-input">{{i18n.more.Rechargeactivity}}</view>
 			<view class="recharge-list">
 				<picker @change="bindPickerChange" :value="rechargeIndex" :range="rechargeArrayLabel">
 					<view class="uni-input">{{ rechargeArrayLabel[rechargeIndex] }}</view>
@@ -123,8 +123,6 @@ export default {
 	margin-top: 20upx;
 	border-bottom: 1upx solid #e3e3e3;
 	background-color: white;
-	.recharge-name {
-	}
 	.recharge-list {
 		text-align: right;
 	}

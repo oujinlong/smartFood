@@ -219,6 +219,12 @@ const lang = {
     point: 'point(s)',
     Submit: 'Submit',
     Giveusyouradvice: 'Give us your advice'
+  },
+  recharge: {
+    MyBalance: 'My Balance',
+    RechargeDetail: 'Recharge Detail',
+    Recharge: 'Recharge',
+    myWallet: 'My Wallet'
   }
 }
 export default lang

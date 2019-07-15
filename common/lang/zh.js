@@ -215,6 +215,12 @@ const lang = {
     point: '积分',
     Submit: '提交',
     Giveusyouradvice: '请填写您的建议'
+  },
+  recharge: {
+    MyBalance: '我的余额',
+    RechargeDetail: '充值明细',
+    Recharge: '充值',
+    myWallet: '我的钱包'
   }
 }
 export default lang

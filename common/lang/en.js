@@ -120,7 +120,9 @@ const lang = {
     RequireCoupon:'Require Coupon',
     Instructions: 'Instructions',
     RequireVoucher: 'Require Voucher',
-    Nocoupons: 'No coupons'
+    Nocoupons: 'No coupons',
+    Recharge: 'Recharge',
+    get: 'get'
   },
 	store: {
 	  SearchStore: 'Search Store',

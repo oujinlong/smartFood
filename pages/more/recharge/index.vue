@@ -1,27 +1,23 @@
 <template>
 	<view>
-		<view class="uni-flex uni-row recharge-title">
-			<view class="uni-input">{{i18n.more.Rechargeactivity}}</view>
-			<view class="recharge-list">
-				<picker @change="bindPickerChange" :value="rechargeIndex" :range="rechargeArrayLabel">
-					<view class="uni-input">{{ rechargeArrayLabel[rechargeIndex] }}</view>
-				</picker>
-			</view>
+		<view class="recharge-title uni-input">{{i18n.more.Rechargeactivity}}</view>
+		<view v-for="(activityItem,activityIndex) in rechargeArray" :key="activityIndex" class="uni-input">
+			{{i18n.more.Recharge}}	<span class="recharge-value">{{activityItem.full}} {{CURRENCY_SYMBOL}}</span> {{i18n.more.get}} <span class="recharge-value">{{activityItem.reduction}} {{CURRENCY_SYMBOL}}</span>
 		</view>
-		<view class="uni-input">{{ rechargeArrayLabel[rechargeIndex] }}</view>
-
 		<view style="margin: 40upx 0;">
 			<view class="uni-flex uni-row">
 				<view class="uni-input" style="width: 200upx;">{{i18n.more.currentBalance}}</view>
-				<view class="uni-input" style="flex: 1;">{{ walletValue }}</view>
+				<view class="uni-input" style="flex: 1;">{{ walletValue }} {{CURRENCY_SYMBOL}}</view>
 			</view>
 			<view class="uni-flex uni-row">
 				<view class="uni-input" style="width: 200upx;">{{i18n.more.rechargeAmount}}</view>
-				<view class="uni-input" style="flex: 1;">{{ rechargeArray[rechargeIndex].full }}</view>
+				<view class="uni-input" style="flex: 1;">
+					<input v-model="rechargeAmount" type="number" focus name="rechargeAmount" @input="maxInput" @confirm="queryGiftAmount"/>
+				</view>
 			</view>
-			<view class="uni-flex uni-row">
+			<view class="uni-flex uni-row" v-if="giftMoney > 0">
 				<view class="uni-input" style="width: 200upx;">{{i18n.more.giftAmount}}</view>
-				<view class="uni-input" style="flex: 1;">{{ rechargeArray[rechargeIndex].reduction }}</view>
+				<view class="uni-input" style="flex: 1;">{{ giftMoney }}</view>
 			</view>
 		</view>
 
@@ -31,34 +27,36 @@
 
 <script>
 import { mapGetters } from 'vuex';
+import CONFIG from '@/utils/config.js';
 export default {
 	name: '',
 	data() {
 		return {
-			rechargeIndex: 0,
+      CURRENCY_SYMBOL: CONFIG.common.CURRENCY_SYMBOL,
+      rechargeIndex: 0,
 			rechargeArray: [],
-			rechargeArrayLabel: [],
-			walletValue: 0
+			walletValue: 0,
+      rechargeAmount: 0,
+      giftMoney: 0
 		};
 	},
 	props: {},
 	methods: {
-		bindPickerChange(e) {
-			this.rechargeIndex = e.target.value;
+    maxInput(event) {
+      console.log('11111')
+      var value = Number(event.target.value);
+      console.log(value)
+      if (value > 1000) {
+        uni.showToast({ title: '最大充值金额1000', icon: 'none' })
+        this.rechargeAmount = 1000;
+      }
 		},
 		czhd() {
-			this.rechargeArrayLabel = [];
 			this.rechargeArray = [];
 			this.$request
 				.get('/entry/wxapp/czhd')
 				.then(res => {
 					this.rechargeArray = res.czhdList;
-					if (res.czhdList && res.czhdList.length > 0) {
-						res.czhdList.forEach(item => {
-							const czhdText = 'Recharge ' + item.full + ' get ' + item.reduction;
-							this.rechargeArrayLabel.push(czhdText);
-						});
-					}
 				})
 				.catch(error => {
 					console.error('error:', error);
@@ -74,9 +72,19 @@ export default {
 					console.error(error);
 				});
 		},
+    queryGiftAmount() {
+      this.$request
+        .get('/entry/wxapp/giftMoney?money=' + this.rechargeAmount)
+        .then(res => {
+          this.giftMoney = res.giftMoney;
+        })
+        .catch(error => {
+          console.error(error);
+        });
+		},
 		submitClick() {
 			this.$request
-				.post('/entry/wxapp/recharge?money=' + this.rechargeArray[this.rechargeIndex].full + '&userId=' + this.userInfo.userId)
+				.post('/entry/wxapp/recharge?money=' + this.rechargeAmount + '&userId=' + this.userInfo.userId)
 				.then(res => {
 					wx.showToast({
 						title: this.i18n.common.Succeed,
@@ -123,9 +131,10 @@ export default {
 	margin-top: 20upx;
 	border-bottom: 1upx solid #e3e3e3;
 	background-color: white;
-	.recharge-list {
-		text-align: right;
-	}
+}
+.recharge-value {
+	color: red;
+	padding: 0upx 15upx;
 }
 .submit-button {
 	font-size: 35upx;

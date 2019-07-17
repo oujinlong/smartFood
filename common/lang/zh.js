@@ -121,7 +121,9 @@ const lang = {
     RequireCoupon:'获取优惠劵',
     Instructions: '说明',
     RequireVoucher: '获取代金券',
-    Nocoupons: '暂无优惠'
+    Nocoupons: '暂无优惠',
+    Recharge: '充值满',
+    get: '立即送'
 	},
   store: {
     SearchStore: '商店搜索',

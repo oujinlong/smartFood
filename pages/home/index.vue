@@ -39,7 +39,7 @@
 							</view>
 						</view>
 					</block>
-					<view class="no_data_container uni-flex uni-column" v-if="storeList.length == 0">
+					<view class="no_data_container uni-flex uni-column nodata-content" v-if="storeList.length == 0">
 						<image src="../../static/img/no-data.png" style="width: 300upx;height: 300upx"></image>
 						<view style="justify-content:center;font-size: 40upx;margin-top: 20upx ">{{ i18n.Nodata }}</view>
 					</view>
@@ -569,5 +569,8 @@ export default {
   	background: #eee;
   	color: #fff;
   }
+}
+.nodata-content {
+	height: calc(100vh - 534upx) !important;
 }
 </style>

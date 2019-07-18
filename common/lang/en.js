@@ -122,7 +122,10 @@ const lang = {
     RequireVoucher: 'Require Voucher',
     Nocoupons: 'No coupons',
     Recharge: 'Recharge',
-    get: 'get'
+    get: 'get',
+    Maximumrechargeamount: 'Maximum recharge amount of 1000',
+    myScore: 'Score',
+    ScoreDetails: 'Score Details'
   },
 	store: {
 	  SearchStore: 'Search Store',

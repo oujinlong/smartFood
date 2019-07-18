@@ -74,8 +74,6 @@ export default {
 	},
 	methods: {
 		alertnum(i, item) {
-			console.log(this.list);
-
 			if (this.i1 != i) {
 				this.$emit('clickTop');
 				this.listchild = [];

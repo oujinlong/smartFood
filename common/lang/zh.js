@@ -123,7 +123,10 @@ const lang = {
     RequireVoucher: '获取代金券',
     Nocoupons: '暂无优惠',
     Recharge: '充值满',
-    get: '立即送'
+    get: '立即送',
+    Maximumrechargeamount: '最大充值金额1000',
+    myScore: '我的积分',
+    ScoreDetails: '积分明细'
 	},
   store: {
     SearchStore: '商店搜索',

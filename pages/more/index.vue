@@ -22,19 +22,19 @@
 			<view class="uni-flex uni-row user-info">
 				<view class="text" style="flex: 1;" @click="goRecharge">
 					<view>
-						<text style="font-size: 46upx; color: #f8ce5f;margin-right: 10upx;">{{ myUserInfo.wallet }}</text>
+						<text style="font-size: 46upx; color: #f8ce5f;margin-right: 10upx;">{{ myUserInfo.wallet || 0 }}</text>
 						<text style="font-size: 24upx;color: #f8ce5f;">{{ CURRENCY_SYMBOL }}</text>
 					</view>
 					<view><text style="font-size: 26upx;">{{ i18n.more.Wallet }}</text></view>
 				</view>
 				<view class="text" style="flex: 1;">
 					<view>
-						<text style="font-size: 46upx; color: #fb7b63;margin-right: 10upx;">{{ myUserInfo.userAllCoupons }}</text>
+						<text style="font-size: 46upx; color: #fb7b63;margin-right: 10upx;">{{ myUserInfo.userAllCoupons || 0 }}</text>
 						<text style="font-size: 24upx;color: #fb7b63;">{{ i18n.more.piece }}</text>
 					</view>
 					<view><text style="font-size: 26upx;">{{ i18n.more.Coupon }}</text></view>
 				</view>
-				<view class="text" style="flex: 1;">
+				<view class="text" style="flex: 1;" @click="goScore">
 					<view>
 						<text style="font-size: 46upx; color: #94d84e;margin-right: 10upx;">{{ myUserInfo.totalScore || 0 }}</text>
 						<text style="font-size: 24upx;color: #94d84e;">{{ i18n.more.point }}</text>
@@ -163,6 +163,11 @@ export default {
     goRecharge() {
       uni.navigateTo({
         url: '/pages/more/recharge/rechargeHome'
+      });
+		},
+    goScore() {
+      uni.navigateTo({
+        url: '/pages/more/score/index?score=' + this.myUserInfo.totalScore
       });
 		},
 		// 充值

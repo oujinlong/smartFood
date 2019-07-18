@@ -15,6 +15,10 @@
         </view>
       </view>
     </scroll-view>
+    <view class="no_data_container uni-flex uni-column" style="height: 100vh;" v-if="rechargeList.length == 0">
+      <image src="../../static/img/no-data.png" style="width: 300upx;height: 300upx"></image>
+      <view style="justify-content:center;font-size: 40upx;margin-top: 20upx ">{{ i18n.Nodata }}</view>
+    </view>
   </view>
 </template>
 

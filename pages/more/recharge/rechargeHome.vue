@@ -2,7 +2,7 @@
   <view>
     <view class="recharge-main">
       <view class="recharge-title">{{i18n.recharge.MyBalance}}</view>
-      <view class="uni-flex uni-row" style="margin-top: 20upx">
+      <view class="uni-flex uni-row" style="margin-top: 40upx">
         <image src="../../../static/img/wallet.png" class="recharge-icon"></image>
         <view class="recharge-value">{{CURRENCY_SYMBOL}} {{walletValue}}</view>
       </view>
@@ -80,9 +80,9 @@
     background-color: white;
     padding: 30upx;
     margin: 20upx 0;
-    border-bottom: 1upx solid #e3e3e3;
     .recharge-title {
       font-size: 30upx;
+      line-height: 30upx;
     }
     .recharge-icon {
       height: 70upx;

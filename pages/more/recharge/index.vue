@@ -12,7 +12,7 @@
 			<view class="uni-flex uni-row">
 				<view class="uni-input" style="width: 200upx;">{{i18n.more.rechargeAmount}}</view>
 				<view class="uni-input" style="flex: 1;">
-					<input v-model="rechargeAmount" type="number" focus name="rechargeAmount" @input="maxInput" @confirm="queryGiftAmount"/>
+					<input v-model="rechargeAmount" type="number" focus @input="maxInput" @confirm="queryGiftAmount"/>
 				</view>
 			</view>
 			<view class="uni-flex uni-row" v-if="giftMoney > 0">
@@ -33,22 +33,19 @@ export default {
 	data() {
 		return {
       CURRENCY_SYMBOL: CONFIG.common.CURRENCY_SYMBOL,
-      rechargeIndex: 0,
 			rechargeArray: [],
 			walletValue: 0,
-      rechargeAmount: 0,
+      rechargeAmount: '',
       giftMoney: 0
 		};
 	},
 	props: {},
 	methods: {
     maxInput(event) {
-      console.log('11111')
-      var value = Number(event.target.value);
-      console.log(value)
-      if (value > 1000) {
-        uni.showToast({ title: '最大充值金额1000', icon: 'none' })
-        this.rechargeAmount = 1000;
+      this.rechargeAmount = Number(event.target.value)
+      if (this.rechargeAmount > 1000) {
+        uni.showToast({ title: this.i18n.more.Maximumrechargeamount, icon: 'none' })
+        setTimeout(() => { this.rechargeAmount = 1000 }, 100)
       }
 		},
 		czhd() {
@@ -74,7 +71,7 @@ export default {
 		},
     queryGiftAmount() {
       this.$request
-        .get('/entry/wxapp/giftMoney?money=' + this.rechargeAmount)
+        .post('/entry/wxapp/giftMoney?money=' + this.rechargeAmount)
         .then(res => {
           this.giftMoney = res.giftMoney;
         })

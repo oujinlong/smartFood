@@ -123,6 +123,12 @@
 			}
 		},
 		{
+			"path": "pages/more/score/index",
+			"style": {
+				"navigationBarTitleText": "Score Details"
+			}
+		},
+		{
 			"path": "pages/more/helpCenter/index",
 			"style": {
 				"navigationBarTitleText": "FAQ"

@@ -88,8 +88,8 @@
 				<view class="uni-flex uni-row">
 					<view class="title-content" style="margin-right: 20upx;">{{ i18n.openHours }}:</view>
 					<view class="title-content">
-						<view class="title-time">{{ i18n.Weekday }} {{ storeInfo.weekdayView || '-' }}</view>
-						<view class="title-time">{{ i18n.Weekend }} {{ storeInfo.weekendView || '-' }}</view>
+						<view class="title-time">{{ i18n.Weekday }} {{ storeInfo.weekday || '-' }}</view>
+						<view class="title-time">{{ i18n.Weekend }} {{ storeInfo.weekend || '-' }}</view>
 					</view>
 				</view>
 			</view>

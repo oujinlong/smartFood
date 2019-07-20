@@ -29,8 +29,8 @@
 									<view class="uni-flex uni-row">
 										<view class="title-time" style="margin-right: 20upx;">{{ i18n.openHours }}:</view>
 										<view style="flex: 1;">
-											<view class="title-time">{{ i18n.Weekday }} {{ item.weekday || '-' }}</view>
-											<view class="title-time">{{ i18n.Weekend }} {{ item.weekend || '-' }}</view>
+											<view class="title-time">{{ i18n.Weekday }} {{ item.weekdayView || '-' }}</view>
+											<view class="title-time">{{ i18n.Weekend }} {{ item.weekendView || '-' }}</view>
 										</view>
 									</view>
 									<view class="title-time">{{ i18n.RestaurantCategory }}: {{ item.categoryDesc }}</view>
